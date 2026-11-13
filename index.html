@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C.O.R.E. Dashboard</title>
+<!--
+  C.O.R.E. Dashboard – EINE Datei (HTML + CSS + JavaScript), keine Fremd-Ressourcen.
+  Einstellen: nur der Block "CONFIG" ganz oben im <script>. Anleitung: ANLEITUNG.md, Abschnitt "Webseite & Aktivität".
+-->
+<style>
+:root{--bg:#0f1220;--panel:#171b2e;--panel2:#1e2340;--line:#2a3157;--text:#e8ebff;--muted:#9aa3d0;--acc:#5865f2;--acc2:#7d89ff;--ok:#3ecf8e;--bad:#ff6b6b;--warn:#ffc857}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--acc2)}button,input,select,textarea{font:inherit;color:inherit}
+header{display:flex;align-items:center;gap:12px;padding:12px 18px;background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+header .logo{font-weight:800;letter-spacing:.5px}header .logo b{color:var(--acc2)}header .sp{flex:1}
+.chip{display:flex;align-items:center;gap:8px;background:var(--panel2);border:1px solid var(--line);padding:4px 10px;border-radius:999px;font-size:13px}
+.chip img{width:22px;height:22px;border-radius:50%}
+main{max-width:1180px;margin:0 auto;padding:18px}
+.btn{background:var(--acc);border:0;color:#fff;padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:600}
+.btn:hover{background:var(--acc2)}.btn.sec{background:var(--panel2);border:1px solid var(--line)}.btn.bad{background:#c0392b}.btn.sm{padding:4px 10px;font-size:13px}
+.btn:disabled{opacity:.5;cursor:default}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.card h3{margin:0 0 4px;font-size:16px}.card h4{margin:14px 0 4px;font-size:14px;color:var(--acc2)}.card p.d{margin:0 0 10px;color:var(--muted);font-size:13px}
+.gcard{display:flex;gap:12px;align-items:center}.gcard img,.gcard .ph{width:48px;height:48px;border-radius:12px;background:var(--panel2);display:flex;align-items:center;justify-content:center;font-weight:700}
+.layout{display:grid;grid-template-columns:210px 1fr;gap:16px}
+nav.tabs{display:flex;flex-direction:column;gap:4px;position:sticky;top:64px;align-self:start}
+nav.tabs button{text-align:left;background:transparent;border:0;padding:9px 12px;border-radius:8px;cursor:pointer;color:var(--muted)}
+nav.tabs button.on,nav.tabs button:hover{background:var(--panel2);color:var(--text)}
+.bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:14px}
+.bar label{display:flex;gap:6px;align-items:center;font-size:13px;color:var(--muted)}
+label.f{display:block;margin:8px 0 2px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+input[type=text],input[type=number],input[type=url],select,textarea{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+select[multiple]{min-height:110px}textarea{min-height:90px;resize:vertical}input[type=color]{width:56px;height:34px;border:0;background:none;padding:0}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hint{font-size:12px;color:var(--muted);margin-top:4px}.ok{color:var(--ok)}.bad{color:var(--bad)}.warn{color:var(--warn)}
+.stack{display:flex;flex-direction:column;gap:14px}
+#log{margin-top:18px}.entry{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--acc);border-radius:10px;padding:10px 12px;margin-bottom:10px}
+.entry.err{border-left-color:var(--bad)}.entry .p{font-family:ui-monospace,Consolas,monospace;font-size:12px;color:var(--muted);word-break:break-all}
+.msg{margin-top:8px;white-space:pre-wrap;word-break:break-word}.msg code{background:var(--panel2);padding:1px 5px;border-radius:4px}
+.emb{margin-top:8px;border-left:4px solid var(--acc);background:var(--panel2);border-radius:6px;padding:8px 10px}.emb b.t{display:block}
+.preview{background:#313338;border-radius:10px;padding:12px;margin-top:10px}.preview .emb{background:#2b2d31}
+table{width:100%/*cite: 3*/;border-collapse:collapse}td,th{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;font-size:14px}
+#toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);display:flex;flex-direction:column;gap:8px;z-index:20}
+#toast div{background:var(--panel2);border:1px solid var(--line);padding:9px 14px;border-radius:10px;box-shadow:0 6px 24px #0008}
+.center{text-align:center;padding:48px 12px}.big{font-size:28px;font-weight:800;margin:0 0 8px}
+.pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;background:var(--panel2);border:1px solid var(--line)}
+@media(max-width:760px){.layout{grid-template-columns:1fr}nav.tabs{flex-direction:row;overflow:auto;position:static}.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="logo">C.O.R.E. <b>Dashboard</b></div><div class="sp"></div><div id="who"></div></header>
+<main id="app"></main>
+<div id="toast"></div>
+<script>
+"use strict";
+/* ===================== CONFIG – nur hier etwas ändern ===================== */
+const CONFIG = {
+  API_BASE: "",   // "" = die Adresse, von der diese Seite kommt (der Bot liefert sie selbst aus).
+                  // Liegt die Seite woanders (eigener Webspace): hier die Adresse der Bot-API, z. B. "https://bot.deine-domain.de"
+  CLIENT_ID: "",  // leer = der Bot nennt sie selbst (Anwendungs-ID aus dem Discord Developer Portal)
+  SDK_URL: "/npm/@discord/embedded-app-sdk@2/+esm"   // nur für die Discord-Aktivität (der Bot reicht die Datei von jsDelivr durch)
+};
+/* ========================================================================== */
+const qs = new URLSearchParams(location.search);
+const IN_ACTIVITY = qs.has("frame_id");
+const API = IN_ACTIVITY ? "/.proxy" : String(CONFIG.API_BASE || "").replace(/\/+$/, "");
+const S = { token: null, user: null, guilds: [], gid: null, guild: null, tab: "overview", work: "", confirm: false, log: [], cfg: {}, clientId: CONFIG.CLIENT_ID, activity: null, templates: null };
+
+/* ---------- kleine Helfer ---------- */
+function h(tag, attrs, ...kids) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v == null || v === false) continue;
+    if (k === "class") el.className = v;
+    else if (k.slice(0, 2) === "on") el.addEventListener(k.slice(2), v);
+    else if (k === "value") el.value = v;
+    else if (k === "checked") el.checked = !!v;
+    else el.setAttribute(k, v === true ? "" : v);
+  }
+  for (const kid of kids.flat()) { if (kid == null || kid === false) continue; el.append(kid.nodeType ? kid : document.createTextNode(String(kid))); }
+  return el;
+}
+function toast(text, bad) {
+  const box = document.getElementById("toast"); const t = h("div", { class: bad ? "bad" : "" }, text); box.append(t);
+  setTimeout(() => t.remove(), 4500);
+}
+function md(text) {  // einfaches Markdown (**fett**, `code`) – ohne innerHTML
+  const frag = document.createDocumentFragment();
+  String(text || "").split(/(\*\*[^*]+\*\*|`[^`]+`)/).forEach(part => {
+    if (!part) return;
+    if (part.startsWith("**") && part.endsWith("**") && part.length > 4) frag.append(h("b", {}, part.slice(2, -2)));
+    else if (part.startsWith("`") && part.endsWith("`") && part.length > 2) frag.append(h("code", {}, part.slice(1, -1)));
+    else frag.append(document.createTextNode(part));
+  });
+  return frag;
+}
+const vals = el => Array.from(el.selectedOptions || []).map(o => o.value).filter(Boolean);
+const isId = s => /^\d{15,22}$/.test(String(s || "").trim());
+const ago = d => d.toLocaleTimeString("de-DE");
+
+/* ---------- API ---------- */
+async function api(path, opt) {
+  opt = opt || {};
+  const headers = { "Content-Type": "application/json" };
+  if (!opt.noAuth && S.token) headers["X-Discord-Token"] = S.token;
+  let r, data;
+  try {
+    r = await fetch(API + path, { method: opt.method || "GET", headers, body: opt.body ? JSON.stringify(opt.body) : undefined });
+    data = await r.json();
+  } catch (e) { return { ok: false, status: 0, error: "Bot nicht erreichbar (" + (e && e.message ? e.message : e) + ")" }; }
+  if (r.status === 401 && !opt.noAuth && S.token) { logout(true); }
+  data.status = r.status; return data;
+}
+
+/* ---------- Anmeldung ---------- */
+function authUrl(clientId) {
+  const state = Array.from(crypto.getRandomValues(new Uint32Array(4))).join("-");
+  sessionStorage.setItem("jarvis_state", state);
+  return "https://discord.com/oauth2/authorize?" + new URLSearchParams({
+    client_id: clientId, response_type: "token", scope: "identify guilds", redirect_uri: location.origin + location.pathname, state }).toString();
+}
+function inviteUrl(clientId, guildId) {
+  return "https://discord.com/oauth2/authorize?client_id=" + clientId + "&scope=bot%20applications.commands&permissions=8" +
+    (guildId ? "&guild_id=" + guildId + "&disable_guild_select=true" : "");
+}
+function userInstallUrl(clientId) { return "https://discord.com/oauth2/authorize?client_id=" + clientId + "&integration_type=1&scope=applications.commands"; }
+function takeTokenFromHash() {
+  if (location.hash.indexOf("access_token") < 0) return false;
+  const p = new URLSearchParams(location.hash.slice(1));
+  const ok = p.get("state") && p.get("state") === sessionStorage.getItem("jarvis_state");
+  history.replaceState(null, "", location.pathname + location.search);
+  if (!ok) { toast("Anmeldung abgelehnt (Sicherheitsprüfung fehlgeschlagen) – bitte erneut versuchen.", true); return false; }
+  sessionStorage.setItem("jarvis_token", p.get("access_token"));
+  sessionStorage.setItem("jarvis_exp", String(Date.now() + (parseInt(p.get("expires_in"), 10) || 3600) * 1000));
+  return true;
+}
+function logout(expired) {
+  sessionStorage.removeItem("jarvis_token"); S.token = null; S.user = null; S.gid = null; S.guild = null; S.guilds = [];
+  if (expired) toast("Anmeldung abgelaufen – bitte neu anmelden.", true);
+  render();
+}
+async function afterLogin() {
+  const me = await api("/api/me");
+  if (!me.ok) { logout(true); return; }
+  S.user = me.user; S.clientId = S.clientId || me.client_id;
+  const g = await api("/api/me/guilds");
+  if (!g.ok) { toast(g.error || "Serverliste nicht ladbar", true); } else { S.guilds = g.guilds; S.clientId = S.clientId || g.client_id; }
+  if (S.activity && S.activity.guildId && S.guilds.some(x => x.id === S.activity.guildId && x.bot_present)) { await openGuild(S.activity.guildId); return; }
+  render();
+}
+
+/* ---------- Discord-Aktivität (Embedded App SDK, mit kleinem Ersatz-Client) ---------- */
+class MiniSDK {  // nur falls das offizielle SDK nicht geladen werden kann (experimentell)
+  constructor(clientId) {
+    this.clientId = clientId; this.pending = new Map(); const p = new URLSearchParams(location.search);
+    this.frameId = p.get("frame_id"); this.guildId = p.get("guild_id"); this.channelId = p.get("channel_id");
+    this.source = window.parent.opener || window.parent;
+    this.readyP = new Promise(res => { this._ready = res; });
+    window.addEventListener("message", e => this.onMsg(e));
+    this.commands = { authorize: a => this.cmd("AUTHORIZE", a), authenticate: a => this.cmd("AUTHENTICATE", a) };
+  }
+  post(op, data) { this.source.postMessage([op, data], "*"); }
+  async ready() {
+    this.post(0, { v: 1, encoding: "json", client_id: this.clientId, frame_id: this.frameId });
+    await Promise.race([this.readyP, new Promise((_, rej) => setTimeout(() => rej(new Error("Discord antwortet nicht")), 8000))]);
+  }
+  onMsg(e) {
+    if (!Array.isArray(e.data)) return; const op = e.data[0], d = e.data[1] || {};
+    if (op !== 1) return;
+    if (d.cmd === "DISPATCH" && d.evt === "READY") this._ready();
+    const p = this.pending.get(d.nonce); if (!p) return; this.pending.delete(d.nonce);
+    if (d.evt === "ERROR") p.rej(new Error((d.data && d.data.message) || "RPC-Fehler")); else p.res(d.data);
+  }
+  cmd(cmd, args) {
+    const nonce = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2));
+    return new Promise((res, rej) => { this.pending.set(nonce, { res, rej }); this.post(1, { cmd, args, nonce }); setTimeout(() => rej(new Error("Zeitüberschreitung")), 15000); });
+  }
+}
+async function activityBoot() {
+  try {
+    let sdk;
+    try { const m = await import(API + CONFIG.SDK_URL); sdk = new m.DiscordSDK(S.clientId); await sdk.ready(); }
+    catch (e) { console.warn("SDK nicht ladbar, nutze Ersatz-Client:", e); sdk = new MiniSDK(S.clientId); await sdk.ready(); }
+    const auth = await sdk.commands.authorize({ client_id: S.clientId, response_type: "code", state: "", prompt: "none", scope: ["identify", "guilds"] });
+    const t = await api("/api/token", { method: "POST", body: { code: auth.code }, noAuth: true });
+    if (!t.ok) throw new Error(t.error || "Token-Austausch fehlgeschlagen");
+    S.token = t.access_token; await sdk.commands.authenticate({ access_token: S.token });
+    S.activity = { guildId: sdk.guildId, channelId: sdk.channelId };
+    await afterLogin();
+  } catch (e) { render(h("div", { class: "center" }, h("p", { class: "big" }, "Aktivität konnte nicht starten"), h("p", { class: "bad" }, String(e && e.message || e)),
+      h("p", { class: "hint" }, "Prüfe im Developer Portal: Aktivitäten aktiviert, URL-Mapping „/“ auf die Bot-Adresse, DISCORD_CLIENT_SECRET in der .env."))); }
+}
+
+/* ---------- Befehle ausführen ---------- */
+const P = {  // baut die Text-Befehle, die der Bot versteht (identisch zu /jarvis ...)
+  ticket: (cat, roles, log) => `ticket system kategorie ID ${cat} support rollen ID ${roles.join(" ID ")}` + (log ? ` log kanal ID ${log}` : ""),
+  verify: (ch, add, rem) => `verifikation system kanal ID ${ch} rolle hinzufügen ID ${add.join(" ID ")}` + (rem.length ? ` rolle wegnehmen ID ${rem.join(" ID ")}` : ""),
+  support: (vc, roles, notify) => `support warteraum ID ${vc} team ping rollen ID ${roles.join(" ID ")}` + (notify ? ` meldungs kanal ID ${notify}` : ""),
+  welcome: (ch, msg, roles, leave) => `willkommen kanal ID ${ch}` + (msg ? ` "${msg.replace(/"/g, "'")}"` : "") + (roles.length ? ` auto rollen ID ${roles.join(" ID ")}` : "") + (leave ? ` abschieds kanal ID ${leave}` : ""),
+  jtc: (vc, cat) => `join to create ID ${vc}` + (cat ? ` kategorie ID ${cat}` : ""),
+  apply: (review, accept, reviewers) => `bewerbung kanal ID ${review}` + (accept.length ? ` rollen ID ${accept.join(" ID ")}` : "") + (reviewers.length ? ` prüfrollen ID ${reviewers.join(" ID ")}` : ""),
+  questions: list => `bewerbung fragen setzen: ${list.join(" | ")}`,
+  wlAdd: id => `whitelist die rolle <@&${id}>`, wlDel: id => `entferne die rolle <@&${id}> von der whitelist`,
+  scan: on => `virenscan ${on ? "an" : "aus"}`, nuke: on => `antinuke ${on ? "an" : "aus"}`,
+  split: s => String(s).split(/[,\n]/).map(x => x.trim()).filter(Boolean).join(", ")
+};
+function hasOkFlag(prompt) { return /^(antinuke|virenscan|speichere|lade|lösche|kick|ban|unban|timeout|warne)/i.test(prompt); }
+async function run(prompt, extra) {
+  if (!S.gid) { toast("Erst einen Server wählen.", true); return null; }
+  const entry = { t: new Date(), prompt, pending: true, messages: [] }; S.log.unshift(entry); S.log = S.log.slice(0, 25); renderLog();
+  const r = await api("/api/jarvis", { method: "POST", body: Object.assign({ guild_id: S.gid, channel_id: S.work || undefined, prompt, confirm: S.confirm }, extra || {}) });
+  entry.pending = false;
+  if (r.ok) entry.messages = r.messages || []; else { entry.error = r.error || ("Fehler " + r.status); entry.messages = r.messages || []; }
+  renderLog();
+  if (r.ok && hasOkFlag(prompt) || /ID \d/.test(prompt)) refreshGuild();
+  return r;
+}
+async function refreshGuild() { if (!S.gid) return; const g = await api("/api/guilds/" + S.gid); if (g.ok) { S.guild = g; if (S.tab === "overview") render(); } }
+function fileToB64(file) {
+  return new Promise((res, rej) => { const fr = new FileReader(); fr.onload = () => res(String(fr.result).split(",")[1] || ""); fr.onerror = () => rej(fr.error); fr.readAsDataURL(file); });
+}
+
+/* ---------- Bausteine ---------- */
+const TEXTISH = ["TextChannel", "NewsChannel"], VOICEISH = ["VoiceChannel", "StageChannel"];
+function chSel(types, empty) {
+  return h("select", {}, h("option", { value: "" }, empty || "— wählen —"),
+    S.guild.channels.filter(c => types.includes(c.type)).map(c => h("option", { value: c.id }, (VOICEISH.includes(c.type) ? "🔊 " : "# ") + c.name)));
+}
+function catSel(empty) { return h("select", {}, h("option", { value: "" }, empty || "— keine —"), S.guild.categories.map(c => h("option", { value: c.id }, c.name))); }
+function roleSel(multiple, empty) {
+  const roles = S.guild.roles.filter(r => r.id !== S.guild.id && !r.managed).sort((a, b) => b.position - a.position);
+  return h("select", { multiple: multiple ? true : null, size: multiple ? 6 : null }, multiple ? null : h("option", { value: "" }, empty || "— wählen —"), roles.map(r => h("option", { value: r.id }, r.name)));
+}
+const lab = (t, el, hint) => h("div", {}, h("label", { class: "f" }, t), el, hint ? h("div", { class: "hint" }, hint) : null);
+function card(title, desc, ...rest) { return h("div", { class: "card" }, h("h3", {}, title), desc ? h("p", { class: "d" }, desc) : null, rest); }
+function need(cond, msg) { if (!cond) { toast(msg, true); return false; } return true; }
+const btn = (text, fn, cls) => h("button", { class: "btn " + (cls || ""), onclick: fn }, text);
+
+/* ---------- Legal links ---------- */
+function tabLegal() {
+  return h("div", { class: "stack" },
+    h("div", { class: "card" },
+      h("h3", {}, "Nutzungsbedingungen (Terms of Service)"),
+      h("p", { class: "d" }, "Die Nutzungsbedingungen sind auf einer eigenen Seite verfügbar."),
+      h("a", { href: "terms.html" }, "Nutzungsbedingungen öffnen →")
+    ),
+    h("div", { class: "card" },
+      h("h3", {}, "Datenschutzerklärung & Inhalt (Privacy Policy)"),
+      h("p", { class: "d" }, "Die Datenschutzerklärung ist auf einer eigenen Seite verfügbar."),
+      h("a", { href: "privacy.html" }, "Datenschutzerklärung öffnen →")
+    )
+  );
+}
+
+/* ---------- Tabs ---------- */
+function tabOverview() {
+  const g = S.guild, s = g.settings || {};
+  const row = (name, on, extra) => h("tr", {}, h("td", {}, name), h("td", { class: on ? "ok" : "muted" }, on ? "✅ aktiv" : "— nicht eingerichtet"), h("td", { class: "hint" }, extra || ""));
+  return h("div", { class: "stack" },
+    card(g.name, g.members + " Mitglieder · " + g.channels.length + " Kanäle · " + g.roles.length + " Rollen"),
+    card("Systeme", null, h("table", {},
+      row("Ticket-System", !!s.ticket), row("Verifikation", !!s.verify), row("Support-Warteraum", !!s.support), row("Willkommen/Abschied", !!s.welcome),
+      row("Join-to-Create", !!s.tempcall), row("Bewerbungen", !!s.apply), row("Fraktionen", !!s.factions && Object.keys(s.factions).length > 0),
+      row("Anti-Nuke", g.antinuke.enabled, "nur der Server-Inhaber kann ihn schalten"), row("Virenscan (Uploads)", g.virenscan))),
+    card("Tipp", "Oben bei „Kanal für Panels“ wählst du, wohin Panels (Tickets, Verifikation, Bewerbungen …) gesendet werden. Gefährliche Aktionen brauchen den Haken „Bestätigen“."));
+}
+function tabSystems() {
+  // Tickets
+  const tCat = catSel("— Kategorie wählen —"), tRoles = roleSel(true), tLog = chSel(TEXTISH, "— kein Log —");
+  // Verifikation
+  const vCh = chSel(TEXTISH), vAdd = roleSel(true), vRem = roleSel(true);
+  // Support
+  const sVc = chSel(VOICEISH, "— Warteraum wählen —"), sRoles = roleSel(true), sNot = chSel(TEXTISH, "— Kanal für Meldungen (sonst Panel-Kanal) —");
+  // Willkommen
+  const wCh = chSel(TEXTISH), wMsg = h("textarea", { placeholder: "👋 Willkommen {user} auf **{server}**! Mitglied Nr. {count}" }), wRoles = roleSel(true), wLeave = chSel(TEXTISH, "— kein Abschiedskanal —");
+  // Join-to-Create
+  const jVc = chSel(VOICEISH, "— Auslöser-Sprachkanal —"), jCat = catSel("— Kategorie der neuen Calls —");
+  // Bewerbungen
+  const aCh = chSel(TEXTISH, "— Kanal für Bewerbungen (Prüfung) —"), aAcc = roleSel(true), aRev = roleSel(true);
+  const aQ = h("textarea", { placeholder: "Eine Frage pro Zeile (bis zu 5)" });
+  return h("div", { class: "stack" },
+    card("🎫 Ticket-System", "Sendet ein Ticket-Panel in den „Kanal für Panels“. Mitglieder öffnen per Knopf private Ticket-Kanäle.",
+      lab("Kategorie für Tickets", tCat), lab("Support-Rollen (Mehrfachauswahl: Strg/Cmd)", tRoles), lab("Log-/Transkript-Kanal (optional)", tLog),
+      h("div", { class: "row" }, btn("Einrichten & Panel senden", () => { const r = vals(tRoles); if (need(tCat.value && r.length, "Kategorie und mindestens eine Support-Rolle wählen.")) run(P.ticket(tCat.value, r, tLog.value)); }))),
+    card("✅ Verifikation", "Rechenaufgabe per Knopf; richtige Antwort vergibt/entzieht Rollen.",
+      lab("Kanal für das Verifikations-Panel", vCh), h("div", { class: "two" }, lab("Rollen, die man bekommt", vAdd), lab("Rollen, die man verliert", vRem)),
+      h("div", { class: "row" }, btn("Einrichten & Panel senden", () => { const a = vals(vAdd); if (need(vCh.value && a.length, "Kanal und mindestens eine Rolle zum Hinzufügen wählen.")) run(P.verify(vCh.value, a, vals(vRem))); }))),
+    card("🎧 Support-Warteraum", "Betritt jemand den Warteraum, werden die Team-Rollen gepingt und Jarvis begrüßt im Call.",
+      lab("Warteraum (Sprachkanal)", sVc), lab("Team-Rollen", sRoles), lab("Meldungs-Kanal", sNot),
+      h("div", { class: "row" }, btn("Speichern", () => { const r = vals(sRoles); if (need(sVc.value && r.length, "Warteraum und mindestens eine Team-Rolle wählen.")) run(P.support(sVc.value, r, sNot.value)); }))),
+    card("👋 Willkommen & Abschied", "Platzhalter: {user} {name} {server} {count}",
+      lab("Willkommens-Kanal", wCh), lab("Text (leer = Standard)", wMsg), lab("Auto-Rollen für Neue", wRoles), lab("Abschieds-Kanal", wLeave),
+      h("div", { class: "row" }, btn("Speichern", () => { if (need(wCh.value, "Willkommens-Kanal wählen.")) run(P.welcome(wCh.value, wMsg.value.trim().replace(/\n+/g, " "), vals(wRoles), wLeave.value)); }),
+        btn("Test-Nachricht", () => run("willkommen test"), "sec"))),
+    card("➕ Join-to-Create", "Wer den Auslöser-Kanal betritt, bekommt einen eigenen Call mit Jarvis-Panel; leer = wird gelöscht.",
+      lab("Auslöser-Sprachkanal", jVc), lab("Kategorie", jCat),
+      h("div", { class: "row" }, btn("Speichern", () => { if (need(jVc.value, "Auslöser-Kanal wählen.")) run(P.jtc(jVc.value, jCat.value)); }))),
+    card("📝 Bewerbungen", "Bewerbungsformular mit eigenen Fragen; Team prüft im Prüf-Kanal (annehmen/ablehnen).",
+      lab("Prüf-Kanal", aCh), h("div", { class: "two" }, lab("Rollen bei Annahme", aAcc), lab("Prüf-Rollen (dürfen entscheiden)", aRev)),
+      h("div", { class: "row" }, btn("Einrichten & Panel senden", () => { if (need(aCh.value, "Prüf-Kanal wählen.")) run(P.apply(aCh.value, vals(aAcc), vals(aRev))); }),
+        btn("CSV-Export", () => run("bewerbung export"), "sec")),
+      lab("Fragen ändern", aQ), h("div", { class: "row" }, btn("Fragen speichern", () => { const q = aQ.value.split("\n").map(x => x.trim()).filter(Boolean); if (need(q.length, "Mindestens eine Frage.")) run(P.questions(q)); }), btn("Fragen anzeigen", () => run("bewerbung fragen"), "sec"))));
+}
+function tabSecurity() {
+  const wl = roleSel(false, "— Rolle wählen —");
+  return h("div", { class: "stack" },
+    card("🛡️ Anti-Nuke", "Schützt vor Massen-Löschen/-Bannen. Nur der Server-Inhaber darf ihn schalten (Discord-Regel von Jarvis).",
+      h("p", {}, "Zurzeit: ", h("span", { class: S.guild.antinuke.enabled ? "ok" : "bad" }, S.guild.antinuke.enabled ? "AN" : "AUS")),
+      h("div", { class: "row" }, btn("Einschalten", () => run(P.nuke(true))), btn("Ausschalten", () => run(P.nuke(false)), "sec"))),
+    card("Whitelist-Rollen", "Mitglieder dieser Rollen dürfen trotz Anti-Nuke verwalten.",
+      lab("Rolle", wl), h("div", { class: "row" }, btn("Auf Whitelist", () => { if (need(wl.value, "Rolle wählen.")) run(P.wlAdd(wl.value)); }), btn("Von Whitelist", () => { if (need(wl.value, "Rolle wählen.")) run(P.wlDel(wl.value)); }, "sec")),
+      h("div", { class: "hint" }, "Aktuell: " + (S.guild.antinuke.whitelist_roles.map(id => (S.guild.roles.find(r => r.id === id) || { name: id }).name).join(", ") || "keine"))),
+    card("🦠 Virenscan für Uploads", "Prüft Datei-Uploads in diesem Server.",
+      h("p", {}, "Zurzeit: ", h("span", { class: S.guild.virenscan ? "ok" : "bad" }, S.guild.virenscan ? "AN" : "AUS")),
+      h("div", { class: "row" }, btn("An", () => run(P.scan(true))), btn("Aus", () => run(P.scan(false)), "sec"))));
+}
+function tabTemplates() {
+  const name = h("input", { type: "text", placeholder: "z. B. polizei" });
+  if (S.templates === null) { api("/api/users/" + S.user.id + "/templates").then(r => { S.templates = r.ok ? r.templates : []; if (S.tab === "templates") render(); }); }
+  const rows = (S.templates || []).map(t => h("tr", {}, h("td", {}, t.name), h("td", { class: "hint" }, (t.roles != null ? t.roles + " Rollen · " : "") + (t.channels != null ? t.channels + " Kanäle" : "")),
+    h("td", {}, btn("Laden", () => { if (confirmBox("Vorlage „" + t.name + "“ auf DIESEN Server anwenden?")) run("lade vorlage " + t.name); }, "sm"), " ", btn("Löschen", () => { if (confirmBox("Vorlage „" + t.name + "“ löschen?")) { run("lösche vorlage " + t.name).then(() => { S.templates = null; render(); }); } }, "sm bad"))));
+  return h("div", { class: "stack" },
+    card("💾 Aktuellen Server als Vorlage speichern", "Speichert Rollen, Kategorien, Kanäle und Rechte. Jede Vorlage gehört DIR und ist auf jedem Server von dir ladbar.",
+      lab("Name", name), h("div", { class: "row" }, btn("Speichern", () => { if (need(/^[\w\-]{1,40}$/.test(name.value.trim()), "Name: Buchstaben, Zahlen, _ oder -.")) run("speichere vorlage " + name.value.trim()).then(() => { S.templates = null; render(); }); }))),
+    card("📂 Deine Vorlagen", "Laden/Löschen verlangt Administrator-Rechte auf dem Server.", S.templates === null ? h("p", { class: "hint" }, "lädt …") : (rows.length ? h("table", {}, rows) : h("p", { class: "hint" }, "Noch keine Vorlagen."))));
+}
+function confirmBox(text) { return typeof window.confirm === "function" ? window.confirm(text) : true; }
+function userInput(ph) { return h("input", { type: "text", placeholder: ph || "Discord-Nutzer-ID (Rechtsklick → ID kopieren)" }); }
+function tabServer() {
+  const names = h("textarea", { placeholder: "Namen, durch Komma oder Zeilen getrennt" }); const kind = h("select", {}, h("option", { value: "kanäle" }, "Textkanäle"), h("option", { value: "sprachkanäle" }, "Sprachkanäle"), h("option", { value: "kategorien" }, "Kategorien"), h("option", { value: "rollen" }, "Rollen"));
+  const delCh = chSel(TEXTISH.concat(VOICEISH), "— Kanal löschen —"), delRole = roleSel(false, "— Rolle löschen —");
+  const gu = userInput(), gr = roleSel(false, "— Rolle —");
+  const pTitle = h("input", { type: "text", placeholder: "Titel, z. B. Spiele" }), pRoles = h("input", { type: "text", placeholder: "Rollennamen, durch Komma getrennt" });
+  const fName = h("input", { type: "text", placeholder: "Fraktionsname" }), fUser = userInput(), fRank = h("input", { type: "text", placeholder: "Rangname" });
+  return h("div", { class: "stack" },
+    card("➕ Erstellen", "Mehrere Namen auf einmal – wird parallel und Rate-Limit-sicher erledigt.", h("div", { class: "two" }, lab("Was?", kind), lab("Namen", names)),
+      h("div", { class: "row" }, btn("Erstellen", () => { const l = P.split(names.value); if (need(l, "Namen eingeben.")) run("erstelle " + kind.value + " " + l); }))),
+    card("🗑️ Löschen", null, h("div", { class: "two" }, lab("Kanal", delCh), lab("Rolle", delRole)),
+      h("div", { class: "row" }, btn("Kanal löschen", () => { if (need(delCh.value, "Kanal wählen.") && confirmBox("Kanal wirklich löschen?")) run("lösche kanal <#" + delCh.value + ">"); }, "bad"),
+        btn("Rolle löschen", () => { if (need(delRole.value, "Rolle wählen.") && confirmBox("Rolle wirklich löschen?")) run("lösche rolle <@&" + delRole.value + ">"); }, "bad"))),
+    card("🎭 Rollen vergeben", null, h("div", { class: "two" }, lab("Mitglied (ID)", gu), lab("Rolle", gr)),
+      h("div", { class: "row" }, btn("Geben", () => { if (need(isId(gu.value) && gr.value, "Nutzer-ID und Rolle angeben.")) run(`gib <@${gu.value.trim()}> die rolle <@&${gr.value}>`); }),
+        btn("Nehmen", () => { if (need(isId(gu.value) && gr.value, "Nutzer-ID und Rolle angeben.")) run(`entferne <@${gu.value.trim()}> die rolle <@&${gr.value}>`); }, "sec"))),
+    card("🎛️ Rollen-Dropdown-Panel", "Mitglieder wählen ihre Rollen selbst (im „Kanal für Panels“).", h("div", { class: "two" }, lab("Titel", pTitle), lab("Rollen (Namen)", pRoles)),
+      h("div", { class: "row" }, btn("Panel senden", () => { if (need(pTitle.value.trim() && pRoles.value.trim(), "Titel und Rollen angeben.")) run(`erstelle rollenpanel "${pTitle.value.trim().replace(/"/g, "'")}" rollen ${pRoles.value.trim()}`); }))),
+    card("🏴 Fraktionen", "Rolle + Ränge je Fraktion.", h("div", { class: "two" }, lab("Fraktion", fName), lab("Mitglied (ID)", fUser)), lab("Rang", fRank),
+      h("div", { class: "row" },
+        btn("Fraktion erstellen", () => { if (need(fName.value.trim(), "Name angeben.")) run(`erstelle fraktion "${fName.value.trim()}"` + (isId(fUser.value) ? ` leitung <@${fUser.value.trim()}>` : "")); }),
+        btn("Mitglied hinzufügen", () => { if (need(fName.value.trim() && isId(fUser.value), "Fraktion und Nutzer-ID angeben.")) run(`fraktion "${fName.value.trim()}" mitglied hinzufügen <@${fUser.value.trim()}>`); }, "sec"),
+        btn("Mitglied entfernen", () => { if (need(fName.value.trim() && isId(fUser.value), "Fraktion und Nutzer-ID angeben.")) run(`fraktion "${fName.value.trim()}" mitglied entfernen <@${fUser.value.trim()}>`); }, "sec"),
+        btn("Rang erstellen", () => { if (need(fName.value.trim() && fRank.value.trim(), "Fraktion und Rang angeben.")) run(`fraktion "${fName.value.trim()}" rang erstellen ${fRank.value.trim()}`); }, "sec"),
+        btn("Rang setzen", () => { if (need(fName.value.trim() && fRank.value.trim() && isId(fUser.value), "Fraktion, Rang und Nutzer-ID angeben.")) run(`fraktion "${fName.value.trim()}" rang setzen <@${fUser.value.trim()}> ${fRank.value.trim()}`); }, "sec"),
+        btn("Liste", () => { if (need(fName.value.trim(), "Fraktion angeben.")) run(`fraktion "${fName.value.trim()}" liste`); }, "sec"),
+        btn("Löschen", () => { if (need(fName.value.trim(), "Fraktion angeben.") && confirmBox("Fraktion löschen?")) run(`lösche fraktion "${fName.value.trim()}"`); }, "bad"))));
+}
+function tabModeration() {
+  const u = userInput(), why = h("input", { type: "text", placeholder: "Grund (für Verwarnung)" }), mins = h("input", { type: "number", value: "10", min: "1", max: "40320" });
+  const n = h("input", { type: "number", value: "20", min: "1", max: "500" }), slow = h("input", { type: "number", value: "10", min: "0", max: "21600" });
+  const U = () => (isId(u.value) ? u.value.trim() : null);
+  return h("div", { class: "stack" },
+    card("👤 Mitglied", "Es gelten die echten Discord-Rechte und die Rollen-Hierarchie.", h("div", { class: "two" }, lab("Nutzer-ID", u), lab("Grund", why)), lab("Timeout-Minuten", mins),
+      h("div", { class: "row" },
+        btn("Verwarnen", () => { if (need(U() && why.value.trim(), "Nutzer-ID und Grund angeben.")) run(`warne <@${U()}> wegen ${why.value.trim()}`); }),
+        btn("Warnungen zeigen", () => { if (need(U(), "Nutzer-ID angeben.")) run(`zeige warnungen <@${U()}>`); }, "sec"),
+        btn("Warnungen löschen", () => { if (need(U(), "Nutzer-ID angeben.")) run(`lösche warnungen <@${U()}>`); }, "sec"),
+        btn("Timeout", () => { if (need(U(), "Nutzer-ID angeben.")) run(`timeout <@${U()}> für ${parseInt(mins.value, 10) || 10} min`); }, "sec"),
+        btn("Kick", () => { if (need(U(), "Nutzer-ID angeben.") && confirmBox("Wirklich kicken?")) run(`kick <@${U()}>`); }, "bad"),
+        btn("Ban", () => { if (need(U(), "Nutzer-ID angeben.") && confirmBox("Wirklich bannen?")) run(`ban <@${U()}>`); }, "bad"),
+        btn("Unban", () => { if (need(U(), "Nutzer-ID angeben.")) run(`unban <@${U()}>`); }, "sec"))),
+    card("🧹 Im Kanal für Panels", "Wirkt auf den oben gewählten Kanal.", h("div", { class: "two" }, lab("Nachrichten löschen (Anzahl)", n), lab("Slowmode (Sekunden, 0 = aus)", slow)),
+      h("div", { class: "row" }, btn("Löschen", () => run(`lösche ${parseInt(n.value, 10) || 1} nachrichten`)), btn("Slowmode setzen", () => run(`slowmode ${parseInt(slow.value, 10) || 0}`), "sec"),
+        btn("Kanal sperren", () => run("sperre kanal"), "sec"), btn("Kanal entsperren", () => run("entsperre kanal"), "sec"))));
+}
+/* ---------- Als Bot schreiben ---------- */
+const EMB = { fields: [] };
+function tabSend() {
+  const ch = chSel(TEXTISH.concat(VOICEISH), "— Kanal wählen —"), content = h("textarea", { placeholder: "Nachricht (bis 2000 Zeichen)" });
+  const eOn = h("input", { type: "checkbox" }), eTitle = h("input", { type: "text", placeholder: "Titel" }), eDesc = h("textarea", { placeholder: "Beschreibung (Markdown)" });
+  const eColor = h("input", { type: "color", value: "#5865f2" }), eFoot = h("input", { type: "text", placeholder: "Fußzeile" }), eAuth = h("input", { type: "text", placeholder: "Autor-Zeile" });
+  const eThumb = h("input", { type: "url", placeholder: "Thumbnail-URL (https://…)" }), eImg = h("input", { type: "url", placeholder: "Bild-URL (https://…)" });
+  const reply = h("input", { type: "text", placeholder: "Nachrichten-ID zum Antworten (optional)" }), pings = h("input", { type: "checkbox" });
+  const fieldsBox = h("div", {}), prev = h("div", { class: "preview" });
+  const fields = [];
+  const addField = () => {
+    if (fields.length >= 10) return toast("Maximal 10 Felder.", true);
+    const f = { name: h("input", { type: "text", placeholder: "Feldname" }), value: h("input", { type: "text", placeholder: "Feldtext" }), inline: h("input", { type: "checkbox" }) };
+    f.name.addEventListener("input", draw); f.value.addEventListener("input", draw); f.inline.addEventListener("change", draw); fields.push(f);
+    fieldsBox.append(h("div", { class: "row" }, f.name, f.value, h("label", {}, f.inline, " nebeneinander")));
+  };
+  const payload = () => {
+    const p = { channel_id: ch.value, content: content.value, pings: pings.checked };
+    if (reply.value.trim()) p.reply_to = reply.value.trim();
+    if (eOn.checked) p.embed = { title: eTitle.value, description: eDesc.value, color: eColor.value, footer: eFoot.value, author_name: eAuth.value, thumbnail_url: eThumb.value, image_url: eImg.value,
+      fields: fields.filter(f => f.name.value && f.value.value).map(f => ({ name: f.name.value, value: f.value.value, inline: f.inline.checked })) };
+    return p;
+  };
+  function draw() {
+    prev.replaceChildren(h("div", { class: "msg" }, md(content.value || (eOn.checked ? "" : "(leer)"))));
+    if (eOn.checked) { const e = h("div", { class: "emb" }); e.style.borderLeftColor = eColor.value;
+      if (eAuth.value) e.append(h("div", { class: "hint" }, eAuth.value)); if (eTitle.value) e.append(h("b", { class: "t" }, eTitle.value));
+      e.append(h("div", { class: "msg" }, md(eDesc.value)));
+      fields.filter(f => f.name.value && f.value.value).forEach(f => e.append(h("div", {}, h("b", {}, f.name.value + ": "), f.value.value)));
+      if (eFoot.value) e.append(h("div", { class: "hint" }, eFoot.value)); prev.append(e); }
+  }
+  [content, eOn, eTitle, eDesc, eColor, eFoot, eAuth].forEach(el => { el.addEventListener("input", draw); el.addEventListener("change", draw); });
+  addField(); draw();
+  const send = async () => {
+    const p = payload(); if (!need(p.channel_id, "Kanal wählen.")) return; if (!need(p.content.trim() || p.embed, "Nachricht oder Embed ausfüllen.")) return;
+    const r = await api("/api/guilds/" + S.gid + "/send", { method: "POST", body: p });
+    if (r.ok) toast("✅ Als Bot gesendet."); else toast(r.error || "Senden fehlgeschlagen", true);
+  };
+  return h("div", { class: "stack" },
+    card("✉️ Als Bot schreiben", "Die Nachricht kommt vom Bot-Account. Du brauchst dafür „Nachrichten verwalten“ oder „Server verwalten“ auf dem Server.",
+      lab("Kanal", ch), lab("Nachricht", content),
+      h("div", { class: "row" }, h("label", {}, eOn, " Embed (Karte) hinzufügen")),
+      lab("Embed-Titel", eTitle), lab("Embed-Beschreibung", eDesc), h("div", { class: "two" }, lab("Autor", eAuth), lab("Fußzeile", eFoot)), h("div", { class: "two" }, lab("Thumbnail", eThumb), lab("Bild", eImg)),
+      lab("Farbe", eColor), lab("Felder", fieldsBox), h("div", { class: "row" }, btn("+ Feld", addField, "sec sm")),
+      h("div", { class: "two" }, lab("Antworten auf (Nachrichten-ID)", reply), h("div", {}, h("label", { class: "f" }, "Erwähnungen"), h("label", {}, pings, " @Rollen/@Nutzer dürfen gepingt werden (nur Administratoren)"))),
+      h("div", { class: "row" }, btn("Senden", send)), h("label", { class: "f" }, "Vorschau"), prev));
+}
+function tabConsole() {
+  const cmd = h("textarea", { placeholder: "z. B.  erstelle kanäle regeln, news, chat   ·   hilfe   ·   Frage an die KI" }), file = h("input", { type: "file" });
+  const go = async () => {
+    if (!need(cmd.value.trim(), "Befehl eingeben.")) return; let extra = null;
+    if (file.files && file.files[0]) { if (file.files[0].size > 6 * 1024 * 1024) return toast("Datei max. 6 MB.", true); extra = { file: { name: file.files[0].name, data_base64: await fileToB64(file.files[0]) } }; }
+    run(cmd.value.trim(), extra);
+  };
+  return h("div", { class: "stack" }, card("⌨️ Befehls-Konsole", "Alles, was du in Discord mit /jarvis tippst, geht auch hier – inkl. Fragen an die KI und Dateien (PDF/Word/Excel erstellen oder umschreiben).",
+    lab("Befehl", cmd), lab("Datei anhängen (optional)", file), h("div", { class: "row" }, btn("Ausführen", go), btn("Hilfe", () => run("hilfe"), "sec"), btn("Status", () => run("status"), "sec"),
+      btn("Jarvis in meinen Call", () => run("join"), "sec"), btn("Call verlassen", () => run("leave"), "sec")),
+    h("div", { class: "hint" }, "„Jarvis in meinen Call“ klappt nur, wenn du gerade in einem Sprachkanal bist.")));
+}
+const TABS = [["overview", "📊 Übersicht", tabOverview], ["systems", "🧩 Systeme", tabSystems], ["security", "🛡️ Sicherheit", tabSecurity], ["templates", "💾 Vorlagen", tabTemplates],
+  ["server", "🛠️ Server", tabServer], ["moderation", "⚠️ Moderation", tabModeration], ["send", "✉️ Als Bot schreiben", tabSend], ["console", "⌨️ Konsole", tabConsole], ["legal", "📄 AGB & Datenschutz", tabLegal]];
+
+/* ---------- Ausgabe-Protokoll ---------- */
+function renderMessages(msgs) {
+  return (msgs || []).map(m => h("div", {},
+    m.content ? h("div", { class: "msg" }, md(m.content)) : null,
+    (m.embeds || []).map(e => h("div", { class: "emb" }, e.title ? h("b", { class: "t" }, e.title) : null, h("div", { class: "msg" }, md(e.description || "")), (e.fields || []).map(f => h("div", {}, h("b", {}, f.name + ": "), f.value)))),
+    (m.files || []).map(f => f.data_base64 ? h("div", {}, "📎 ", h("a", { href: "data:application/octet-stream;base64," + f.data_base64, download: f.name }, f.name + " (" + Math.round(f.size / 1024 * 10) / 10 + " KB)")) : h("div", { class: "hint" }, "📎 " + f.name + " (zu groß für die Vorschau)")),
+    m.needs_discord ? h("div", { class: "hint warn" }, "Dieser Schritt braucht Knöpfe/Dropdowns – bitte in Discord ausführen.") : null));
+}
+function renderLog() {
+  const box = document.getElementById("log"); if (!box) return;
+  box.replaceChildren(S.log.map(e => h("div", { class: "entry" + (e.error ? " err" : "") }, h("div", { class: "p" }, ago(e.t) + " · " + e.prompt),
+    e.pending ? h("div", { class: "hint" }, "⏳ läuft …") : null, e.error ? h("div", { class: "bad" }, "❌ " + e.error) : null, renderMessages(e.messages))));
+}
+
+/* ---------- Seiten ---------- */
+async function openGuild(id) {
+  S.gid = id; S.guild = null; S.templates = null; render();
+  const r = await api("/api/guilds/" + id);
+  if (!r.ok) { toast(r.error || "Server nicht ladbar", true); S.gid = null; render(); return; }
+  S.guild = r; const act = S.activity && S.activity.channelId;
+  S.work = (act && r.channels.some(c => c.id === act)) ? act : ((r.channels.find(c => c.type === "TextChannel") || {}).id || "");
+  render();
+}
+function pageLogin() {
+  const cid = S.clientId;
+  return h("div", { class: "stack" },
+    h("div", { class: "center" }, h("p", { class: "big" }, "C.O.R.E. Dashboard"),
+      h("p", { class: "hint" }, "Melde dich mit Discord an und verwalte deine Server zentral mit C.O.R.E. – Tickets, Sicherheit, Support, Vorlagen und mehr."),
+      cid ? h("p", {}, h("a", { class: "btn", href: authUrl(cid) }, "Mit Discord anmelden")) : h("p", { class: "bad" }, "C.O.R.E.-Backend nicht erreichbar oder Client-ID fehlt. Prüfe CONFIG.API_BASE bzw. ob dein Bot-Backend läuft (WEB_PORT)."),
+      cid ? h("p", { class: "hint" }, "Wir bekommen nur deinen Namen und die Liste deiner Server (Scopes: identify, guilds). Dein Token bleibt in diesem Browser-Tab.") : null,
+      cid ? h("p", {}, h("a", { href: userInstallUrl(cid), target: "_blank", rel: "noopener" }, "Bot zu meinem Account hinzufügen (für Aktivitäten in Calls)")) : null,
+      h("p", { style: "margin-top:20px;" },
+        h("a", { href: "terms.html" }, "Nutzungsbedingungen (Terms of Service)"),
+        " | ",
+        h("a", { href: "privacy.html" }, "Datenschutzerklärung (Privacy Policy)")
+      )
+    )
+  );
+}
+function pageGuilds() {
+  if (!S.guilds.length) return h("div", { class: "center" }, h("p", { class: "big" }, "Keine Server gefunden"), h("p", { class: "hint" }, "Du brauchst auf einem Server „Server verwalten“ oder Administrator."));
+  return h("div", {}, h("h2", {}, "Deine Server"), h("div", { class: "grid" }, S.guilds.map(g => {
+    const icon = g.icon ? h("img", { src: "https://cdn.discordapp.com/icons/" + g.id + "/" + g.icon + ".png?size=96", alt: "" }) : h("div", { class: "ph" }, (g.name || "?").slice(0, 2).toUpperCase());
+    return h("div", { class: "card gcard" }, icon, h("div", { style: "flex:1;min-width:0" }, h("h3", {}, g.name), h("span", { class: "pill" }, g.bot_present ? "Bot ist da" : "Bot fehlt")),
+      g.bot_present ? btn("Verwalten", () => openGuild(g.id)) : h("a", { class: "btn sec", href: inviteUrl(S.clientId, g.id), target: "_blank", rel: "noopener" }, "Bot hinzufügen"));
+  })));
+}
+function pageGuild() {
+  if (!S.guild) return h("div", { class: "center" }, "lädt …");
+  const tab = TABS.find(t => t[0] === S.tab) || TABS[0];
+  const work = chSel(TEXTISH.concat(VOICEISH), "— kein Kanal —"); setTimeout(() => { work.value = S.work || ""; }, 0); work.addEventListener("change", () => { S.work = work.value; });
+  const conf = h("input", { type: "checkbox", checked: S.confirm }); conf.addEventListener("change", () => { S.confirm = conf.checked; });
+  return h("div", {},
+    h("div", { class: "bar" }, btn("← Server", () => { S.gid = null; S.guild = null; render(); }, "sec sm"), h("b", {}, S.guild.name), h("div", { style: "flex:1" }),
+      h("label", {}, "Kanal für Panels:", work), h("label", {}, conf, " Gefährliche Aktionen bestätigen")),
+    h("div", { class: "layout" }, h("nav", { class: "tabs" }, TABS.map(t => h("button", { class: t[0] === S.tab ? "on" : "", onclick: () => { S.tab = t[0]; render(); } }, t[1]))), h("div", {}, tab[2](), h("div", { id: "log" }))));
+}
+function render(custom) {
+  const app = document.getElementById("app"), who = document.getElementById("who");
+  who.replaceChildren(S.user ? h("div", { class: "chip" }, S.user.avatar ? h("img", { src: "https://cdn.discordapp.com/avatars/" + S.user.id + "/" + S.user.avatar + ".png?size=64", alt: "" }) : null, S.user.username, " ", IN_ACTIVITY ? null : btn("Abmelden", () => logout(false), "sec sm")) : "");
+  if (custom && custom.nodeType) { app.replaceChildren(custom); return; }
+  app.replaceChildren(typeof custom === "string" ? h("div", { class: "center" }, custom) : (!S.token ? pageLogin() : (S.gid ? pageGuild() : pageGuilds())));
+  renderLog();
+}
+async function boot() {
+  render("lädt …");
+  const cfg = await api("/api/config", { noAuth: true }); S.cfg = cfg; S.clientId = CONFIG.CLIENT_ID || cfg.client_id || "";
+  if (IN_ACTIVITY) { render("Verbinde mit Discord …"); return activityBoot(); }
+  takeTokenFromHash();
+  const t = sessionStorage.getItem("jarvis_token");
+  if (t && Date.now() < Number(sessionStorage.getItem("jarvis_exp") || 0)) { S.token = t; render("lädt …"); await afterLogin(); } else render();
+}
+window.JarvisUI = { P, md, authUrl, inviteUrl, takeTokenFromHash, run, api, S, h, TABS, openGuild, afterLogin, boot, MiniSDK };
+boot();
+</script>
+</body>
+</html>
