@@ -6,14 +6,14 @@
   <meta name="color-scheme" content="dark">
   <title>Datenschutzerklärung – C.O.R.E.</title>
   <style>
-    :root { color-scheme: dark; --bg: #0f1220; --panel: #171b2e; --line: #2a3157; --text: #e8ebff; --muted: #9aa3d0; --accent: #7d89ff; }
+    :root { color-scheme: dark; --bg: #0b0e1a; --panel: rgba(23,27,46,.92); --line: #343b65; --text: #e8ebff; --muted: #a9b0d1; --accent: #929bff; }
     * { box-sizing: border-box; }
-    body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.7 system-ui, -apple-system, "Segoe UI", sans-serif; }
-    header { padding: 14px 22px; background: var(--panel); border-bottom: 1px solid var(--line); }
+    body { min-height: 100vh; margin: 0; background: radial-gradient(ellipse at 12% 0%,rgba(88,101,242,.21),transparent 42%),radial-gradient(ellipse at 88% 18%,rgba(66,105,171,.14),transparent 38%),linear-gradient(160deg,#101426 0%,#0b0e1a 56%,#101522 100%); background-attachment: fixed; color: var(--text); font: 16px/1.7 system-ui, -apple-system, "Segoe UI", sans-serif; }
+    header { padding: 14px 22px; background: var(--panel); border-bottom: 1px solid var(--line); backdrop-filter: blur(16px); }
     header a { color: var(--text); font-weight: 750; text-decoration: none; }
     header b { color: var(--accent); }
     main { width: min(100% - 36px, 760px); margin: 42px auto; }
-    article { padding: clamp(22px, 5vw, 40px); background: var(--panel); border: 1px solid var(--line); border-radius: 14px; }
+    article { padding: clamp(22px, 5vw, 40px); background: var(--panel); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 18px 50px rgba(0,0,0,.18); backdrop-filter: blur(10px); }
     h1 { margin: 0 0 6px; font-size: clamp(25px, 5vw, 34px); line-height: 1.2; }
     .date { margin: 0 0 26px; color: var(--muted); font-size: 14px; }
     h2 { margin: 26px 0 6px; font-size: 18px; }
@@ -48,7 +48,7 @@
       <p>Bitte übermittle keine vertraulichen oder besonders schützenswerten Daten, wenn dies für die jeweilige Funktion nicht erforderlich ist.</p>
 
       <h2>3. Discord-Anmeldung und Dashboard</h2>
-      <p>Für die Anmeldung verwendet das Dashboard Discord OAuth mit den Berechtigungsumfängen „identify“ und „guilds“. Dadurch kann es grundlegende Kontoinformationen und die Liste der Server abrufen, auf die dein Konto Zugriff hat. Nach erfolgreicher Anmeldung wird ein Zugriffstoken für die Sitzung im Sitzungsspeicher deines Browsers gehalten und für authentifizierte Dashboard-Anfragen an das C.O.R.E.-Backend übermittelt. Melde dich auf gemeinsam genutzten Geräten ab und schließe die Sitzung, wenn du fertig bist.</p>
+      <p>Für die Anmeldung verwendet das Dashboard Discord OAuth mit den Berechtigungsumfängen „identify“ und „guilds“. Dadurch kann es grundlegende Kontoinformationen und die Liste der Server abrufen, auf die dein Konto Zugriff hat. Nach erfolgreicher Anmeldung hält die Seite das Discord-Zugriffstoken nur im Arbeitsspeicher und sendet es für authentifizierte Dashboard-Anfragen im HTTP-Header an das C.O.R.E.-Backend. Es wird nicht in Cookies, localStorage oder sessionStorage gespeichert. Schließen oder Neuladen der Seite beendet diese lokale Sitzung.</p>
       <p>Discord verarbeitet Daten nach den eigenen Datenschutzbestimmungen. Die Anmeldung und Nutzung des Bots setzen außerdem die jeweils geltenden Discord-Bedingungen voraus.</p>
 
       <h2>4. Zwecke und Rechtsgrundlagen</h2>
@@ -80,7 +80,22 @@
       <h2>11. Änderungen dieser Erklärung</h2>
       <p>Diese Erklärung kann angepasst werden, wenn sich Funktionen, Dienstleister oder rechtliche Anforderungen ändern. Die aktuelle Fassung wird auf dieser Seite veröffentlicht. Das Datum oben sollte bei jeder inhaltlichen Aktualisierung angepasst werden.</p>
 
-      <p class="notice"><strong>Hinweis zur Vollständigkeit:</strong> Diese Erklärung ist ein allgemeiner Entwurf und keine Rechtsberatung. Für eine rechtlich vollständige Fassung muss der Betreiber noch Name und Anschrift, direkte Kontaktadresse, tatsächlich eingesetzte Dienstleister, konkrete Speicherdauern und die jeweils geltenden Rechtsgrundlagen ergänzen und prüfen.</p>
+      <h2>12. Cookies und Browser-Speicher</h2>
+      <p>Die Dashboard-Seite setzt selbst keine Tracking- oder Werbe-Cookies. Für die Anmeldung wird ein kurzlebiger CSRF-Statuswert in sessionStorage abgelegt; das Zugriffstoken selbst bleibt nur im Arbeitsspeicher. Die Datenschutzeinstellungen für externe Discord-Bilder werden für die aktuelle Browser-Sitzung in sessionStorage gemerkt. Diese Werte werden beim Schließen der Sitzung vom Browser gelöscht.</p>
+      <p>Das ist derzeit kein serverseitiges HttpOnly-Session-Cookie: Solange ein Zugriffstoken aktiv im Browser-Arbeitsspeicher liegt, kann es grundsätzlich von anderem JavaScript derselben Seite ausgelesen werden. Ein HttpOnly-Cookie erfordert einen passenden Backend-OAuth-Code-Flow und einen korrekt konfigurierten, erreichbaren Backend-Host. Bis dahin wird der Login bei fehlender Backend-Adresse vor dem Weiterleiten gestoppt.</p>
+      <p>Discord kann eigene Cookies oder vergleichbare Technologien verwenden, sobald du nach einem Klick zur Anmeldung auf die Discord-Seite wechselst. Für diese Verarbeitung gelten Discords eigene Datenschutzinformationen. Die C.O.R.E.-Seite erhält keinen Zugriff auf Discord-Cookies.</p>
+
+      <h2>13. Externe Ressourcen und Einwilligung</h2>
+      <p>Die Website verwendet lokale Systemschriften und bindet keine externen Schriftarten, Analyse-Pixel, Werbeskripte oder automatisch startenden Videos ein. Discord-Profil- und Serverbilder von cdn.discordapp.com sind standardmäßig blockiert. Du kannst sie unten über „Datenschutz-Einstellungen“ aktivieren. Erst dann werden diese Bilddateien direkt von Discord geladen; dabei wird insbesondere deine IP-Adresse an Discord übermittelt.</p>
+      <p>Die Anmeldung verbindet dich erst nach einem Klick mit Discord und prüft das C.O.R.E.-Backend. Für den eigentlichen Betrieb werden die erforderlichen API-Anfragen an den Backend-Host gesendet. Die konkrete Adresse und die dort verarbeiteten Protokolldaten muss der Betreiber hier ergänzen. Externe Links, etwa zum Support-Discord, öffnen sich nur, wenn du sie selbst anklickst.</p>
+
+      <h2>14. Schutz von Medien und Community-Inhalten</h2>
+      <p>Bitte übermittle nur Bilder, Texte, Grafiken, Videos und andere Inhalte, für die du die erforderlichen Rechte besitzt. Tickets, Bewerbungen, Moderationsangaben und Community-Nachrichten können für die jeweils aktivierte Serverfunktion verarbeitet werden. Serverbetreiber sollten ihre Mitglieder über eigene Regeln, Moderation, Altersvorgaben und die Verwendung solcher Inhalte informieren.</p>
+
+      <h2>15. Discord-Marken</h2>
+      <p>Discord, das Discord-Logo, Nutzer-Avatare und Serverbilder sind Discord bzw. den jeweiligen Rechteinhabern zugeordnet. Ihre Verwendung auf dieser Website dient nur der Funktion und Identifikation. C.O.R.E. ist unabhängig und wird von Discord Inc. weder betrieben noch unterstützt.</p>
+
+      <p class="notice"><strong>Hinweis zur Vollständigkeit:</strong> Diese Erklärung ist ein allgemeiner Entwurf und keine Rechtsberatung oder Zusicherung rechtlicher Konformität. Für eine vollständige Fassung muss der Betreiber noch Name und Anschrift, direkte Kontaktadresse, Backend-Host und dessen Protokollierung, tatsächlich eingesetzte Dienstleister, konkrete Speicherdauern und die jeweils geltenden Rechtsgrundlagen ergänzen und prüfen. Auch der technische Betrieb und die Verträge mit Hosting- und Drittanbietern müssen dazu passen.</p>
     </article>
   </main>
 </body>

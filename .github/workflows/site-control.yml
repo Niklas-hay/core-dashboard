@@ -1,0 +1,57 @@
+name: Website-Steuerung
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: Website-Status
+        type: choice
+        required: true
+        options:
+          - online
+          - offline
+
+permissions:
+  pages: write
+
+concurrency:
+  group: github-pages-control
+  cancel-in-progress: false
+
+jobs:
+  control:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Nur den Betreiber zulassen
+        if: github.actor != 'Niklas-hay'
+        run: |
+          echo "Dieses Steuerpanel ist nur für den Repository-Betreiber freigegeben."
+          exit 1
+
+      - name: GitHub-Pages-Status ändern
+        if: github.actor == 'Niklas-hay'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+          ACTION: ${{ inputs.action }}
+        run: |
+          if [ "$ACTION" = "offline" ]; then
+            if gh api "repos/$REPOSITORY/pages" >/dev/null 2>&1; then
+              gh api --method DELETE "repos/$REPOSITORY/pages"
+              echo "GitHub Pages wurde deaktiviert."
+            else
+              echo "GitHub Pages ist bereits deaktiviert."
+            fi
+          elif [ "$ACTION" = "online" ]; then
+            if gh api "repos/$REPOSITORY/pages" >/dev/null 2>&1; then
+              echo "GitHub Pages ist bereits aktiviert."
+            else
+              gh api --method POST "repos/$REPOSITORY/pages" \
+                --field "source[branch]=main" \
+                --field "source[path]=/"
+              echo "GitHub Pages wurde aktiviert."
+            fi
+          else
+            echo "Unbekannte Aktion."
+            exit 1
+          fi

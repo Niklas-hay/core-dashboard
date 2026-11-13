@@ -11,17 +11,21 @@
 <style>
 :root{--bg:#0f1220;--panel:#171b2e;--panel2:#1e2340;--line:#2a3157;--text:#e8ebff;--muted:#9aa3d0;--acc:#5865f2;--acc2:#7d89ff;--ok:#3ecf8e;--bad:#ff6b6b;--warn:#ffc857}
 *{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+html{min-height:100%;background:#0b0e1a}
+body{min-height:100vh;background:radial-gradient(ellipse at 12% 0%,rgba(88,101,242,.21),transparent 42%),radial-gradient(ellipse at 88% 18%,rgba(66,105,171,.14),transparent 38%),linear-gradient(160deg,#101426 0%,#0b0e1a 56%,#101522 100%);background-attachment:fixed}
 a{color:var(--acc2)}button,input,select,textarea{font:inherit;color:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--acc2);outline-offset:3px}
 header{display:flex;align-items:center;gap:12px;padding:12px 18px;background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
 header .logo{font-weight:800;letter-spacing:.5px}header .logo b{color:var(--acc2)}header .sp{flex:1}
 .chip{display:flex;align-items:center;gap:8px;background:var(--panel2);border:1px solid var(--line);padding:4px 10px;border-radius:999px;font-size:13px}
-.chip img{width:22px;height:22px;border-radius:50%}
+.chip img,.chip-avatar{width:22px;height:22px;border-radius:50%}
+.chip-avatar{display:grid;place-items:center;background:var(--panel);color:var(--muted);font-size:9px;font-weight:700}
 main{max-width:1180px;margin:0 auto;padding:18px}
 .btn{background:var(--acc);border:0;color:#fff;padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:600}
 .btn:hover{background:var(--acc2)}.btn.sec{background:var(--panel2);border:1px solid var(--line)}.btn.bad{background:#c0392b}.btn.sm{padding:4px 10px;font-size:13px}
 .btn:disabled{opacity:.5;cursor:default}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;box-shadow:0 12px 34px rgba(0,0,0,.12);backdrop-filter:blur(10px)}
 .card h3{margin:0 0 4px;font-size:16px}.card h4{margin:14px 0 4px;font-size:14px;color:var(--acc2)}.card p.d{margin:0 0 10px;color:var(--muted);font-size:13px}
 .gcard{display:flex;gap:12px;align-items:center}.gcard img,.gcard .ph{width:48px;height:48px;border-radius:12px;background:var(--panel2);display:flex;align-items:center;justify-content:center;font-weight:700}
 .layout{display:grid;grid-template-columns:210px 1fr;gap:16px}
@@ -46,12 +50,55 @@ table{width:100%/*cite: 3*/;border-collapse:collapse}td,th{padding:7px 8px;borde
 #toast div{background:var(--panel2);border:1px solid var(--line);padding:9px 14px;border-radius:10px;box-shadow:0 6px 24px #0008}
 .center{text-align:center;padding:48px 12px}.big{font-size:28px;font-weight:800;margin:0 0 8px}
 .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;background:var(--panel2);border:1px solid var(--line)}
+.site-footer{max-width:1180px;margin:48px auto 0;padding:24px 18px 34px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+.footer-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px}
+.footer-links{display:flex;flex-wrap:wrap;gap:10px 20px}
+.footer-links a,.footer-links button{color:var(--muted);text-decoration:none}
+.footer-links a:hover,.footer-links button:hover{color:var(--text)}
+.footer-links button{padding:0;border:0;background:none;cursor:pointer}
+.footer-note{margin:14px 0 0;font-size:12px}
+.consent-banner{position:fixed;z-index:30;right:18px;bottom:18px;width:min(460px,calc(100vw - 36px));padding:18px;background:#171b2e;border:1px solid #444d7e;border-radius:14px;box-shadow:0 18px 60px #0009}
+.consent-banner h2{margin:0 0 7px;font-size:17px}
+.consent-banner p{margin:0 0 12px;color:var(--muted);font-size:13px;line-height:1.55}
+.consent-options{margin:12px 0;padding:12px;border:1px solid var(--line);border-radius:9px}
+.consent-options label{display:flex;align-items:center;gap:9px;font-size:13px}
+.consent-actions{display:flex;flex-wrap:wrap;gap:8px}
+.consent-actions .btn{font-size:13px}
+.consent-actions .btn.sec{color:var(--text)}
+.external-image-placeholder{width:48px;height:48px;flex:0 0 48px;display:grid;place-items:center;border-radius:12px;background:var(--panel2);color:var(--muted);font-weight:700}
 @media(max-width:760px){.layout{grid-template-columns:1fr}nav.tabs{flex-direction:row;overflow:auto;position:static}.two{grid-template-columns:1fr}}
+@media(max-width:560px){.site-footer{margin-top:32px}.footer-row{align-items:flex-start;flex-direction:column}.consent-banner{right:10px;bottom:10px;width:calc(100vw - 20px)}}
 </style>
 </head>
 <body>
 <header><div class="logo">C.O.R.E. <b>Dashboard</b></div><div class="sp"></div><div id="who"></div></header>
 <main id="app"></main>
+<footer class="site-footer">
+  <div class="footer-row">
+    <strong>C.O.R.E. · Rechtliches &amp; Support</strong>
+    <nav class="footer-links" aria-label="Rechtliche Hinweise und Support">
+      <a href="impressum.html">Impressum</a>
+      <a href="privacy.html">Datenschutz</a>
+      <a href="terms.html">Nutzungsbedingungen</a>
+      <a href="https://discord.gg/HRfPGDudmu" target="_blank" rel="noopener noreferrer">Support-Discord ↗</a>
+      <button type="button" id="open-consent">Datenschutz-Einstellungen</button>
+    </nav>
+  </div>
+  <p class="footer-note">Discord ist eine Marke von Discord Inc. C.O.R.E. ist ein unabhängiges Projekt und wird von Discord weder betrieben noch unterstützt.</p>
+</footer>
+<section class="consent-banner" id="consent-banner" role="dialog" aria-labelledby="consent-title" aria-describedby="consent-description" hidden>
+  <h2 id="consent-title">Datenschutz-Einstellungen</h2>
+  <p id="consent-description">Wir laden keine Analyse- oder Werbedienste. Externe Discord-Profil- und Serverbilder bleiben zunächst blockiert. Die Anmeldung verbindet dich erst nach einem Klick mit Discord und dem C.O.R.E.-Backend.</p>
+  <div class="consent-options" id="consent-options" hidden>
+    <label><input id="consent-discord-images" type="checkbox"> Externe Discord-Bilder von cdn.discordapp.com laden</label>
+    <p>Bei Aktivierung wird deine IP-Adresse beim Laden der Bilder an Discord übermittelt. Die Auswahl gilt nur für diese Browser-Sitzung.</p>
+  </div>
+  <div class="consent-actions">
+    <button class="btn sec" id="consent-essential" type="button">Nur notwendige</button>
+    <button class="btn sec" id="consent-customize" type="button">Einstellungen</button>
+    <button class="btn" id="consent-save" type="button" hidden>Auswahl speichern</button>
+  </div>
+</section>
 <div id="toast"></div>
 <script>
 "use strict";
@@ -66,7 +113,8 @@ const CONFIG = {
 const qs = new URLSearchParams(location.search);
 const IN_ACTIVITY = qs.has("frame_id");
 const API = IN_ACTIVITY ? "/.proxy" : String(CONFIG.API_BASE || "").replace(/\/+$/, "");
-const S = { token: null, user: null, guilds: [], gid: null, guild: null, tab: "overview", work: "", confirm: false, log: [], cfg: {}, clientId: CONFIG.CLIENT_ID, activity: null, templates: null };
+const HOSTED_WITHOUT_API = !IN_ACTIVITY && !CONFIG.API_BASE && location.hostname.endsWith(".github.io");
+const S = { token: null, tokenExpiresAt: 0, user: null, guilds: [], gid: null, guild: null, tab: "overview", work: "", confirm: false, log: [], cfg: {}, clientId: CONFIG.CLIENT_ID, activity: null, templates: null };
 
 /* ---------- kleine Helfer ---------- */
 function h(tag, attrs, ...kids) {
@@ -103,11 +151,19 @@ const ago = d => d.toLocaleTimeString("de-DE");
 /* ---------- API ---------- */
 async function api(path, opt) {
   opt = opt || {};
+  if (HOSTED_WITHOUT_API) return { ok: false, status: 0, error: "Die Discord-Anmeldung ist noch nicht verbunden: In CONFIG.API_BASE fehlt die öffentliche HTTPS-Adresse des C.O.R.E.-Backends." };
+  if (!opt.noAuth && S.token && S.tokenExpiresAt && Date.now() >= S.tokenExpiresAt) {
+    logout(true);
+    return { ok: false, status: 401, error: "Discord-Anmeldung abgelaufen – bitte neu anmelden." };
+  }
   const headers = { "Content-Type": "application/json" };
   if (!opt.noAuth && S.token) headers["X-Discord-Token"] = S.token;
   let r, data;
   try {
     r = await fetch(API + path, { method: opt.method || "GET", headers, body: opt.body ? JSON.stringify(opt.body) : undefined });
+    if (!(r.headers.get("content-type") || "").toLowerCase().includes("application/json")) {
+      return { ok: false, status: r.status, error: "Der Backend-Endpunkt hat keine JSON-Antwort geliefert. Prüfe API_BASE und den freigegebenen Web-Port." };
+    }
     data = await r.json();
   } catch (e) { return { ok: false, status: 0, error: "Bot nicht erreichbar (" + (e && e.message ? e.message : e) + ")" }; }
   if (r.status === 401 && !opt.noAuth && S.token) { logout(true); }
@@ -122,29 +178,53 @@ function authUrl(clientId) {
   return "https://discord.com/oauth2/authorize?" + new URLSearchParams({
     client_id: clientId, response_type: "token", scope: "identify guilds", redirect_uri: redirectUri, state }).toString();
 }
+async function beginLogin(button) {
+  const label = button.textContent;
+  button.disabled = true;
+  button.textContent = "Backend wird geprüft …";
+  const health = await api("/api/health", { noAuth: true });
+  if (!health.ok) {
+    toast(health.error || "Das C.O.R.E.-Backend ist nicht erreichbar.", true);
+    button.disabled = false;
+    button.textContent = label;
+    return;
+  }
+  location.assign(authUrl(S.clientId));
+}
 function inviteUrl(clientId, guildId) {
   return "https://discord.com/oauth2/authorize?client_id=" + clientId + "&scope=bot%20applications.commands&permissions=8" +
     (guildId ? "&guild_id=" + guildId + "&disable_guild_select=true" : "");
 }
 function userInstallUrl(clientId) { return "https://discord.com/oauth2/authorize?client_id=" + clientId + "&integration_type=1&scope=applications.commands"; }
 function takeTokenFromHash() {
-  if (location.hash.indexOf("access_token") < 0) return false;
+  if (!location.hash) return false;
   const p = new URLSearchParams(location.hash.slice(1));
+  if (p.has("error")) {
+    history.replaceState(null, "", location.pathname + location.search);
+    toast(p.get("error_description") || "Discord hat die Anmeldung abgelehnt. Bitte prüfe die OAuth2-Einstellungen.", true);
+    return false;
+  }
+  if (!p.has("access_token")) return false;
   const ok = p.get("state") && p.get("state") === sessionStorage.getItem("jarvis_state");
   history.replaceState(null, "", location.pathname + location.search);
+  sessionStorage.removeItem("jarvis_state");
   if (!ok) { toast("Anmeldung abgelehnt (Sicherheitsprüfung fehlgeschlagen) – bitte erneut versuchen.", true); return false; }
-  sessionStorage.setItem("jarvis_token", p.get("access_token"));
-  sessionStorage.setItem("jarvis_exp", String(Date.now() + (parseInt(p.get("expires_in"), 10) || 3600) * 1000));
+  S.token = p.get("access_token");
+  S.tokenExpiresAt = Date.now() + (parseInt(p.get("expires_in"), 10) || 3600) * 1000;
   return true;
 }
 function logout(expired) {
-  sessionStorage.removeItem("jarvis_token"); S.token = null; S.user = null; S.gid = null; S.guild = null; S.guilds = [];
+  S.token = null; S.tokenExpiresAt = 0; S.user = null; S.gid = null; S.guild = null; S.guilds = [];
   if (expired) toast("Anmeldung abgelaufen – bitte neu anmelden.", true);
   render();
 }
 async function afterLogin() {
   const me = await api("/api/me");
-  if (!me.ok) { logout(true); return; }
+  if (!me.ok) {
+    logout(me.status === 401);
+    if (me.status !== 401) toast(me.error || "Anmeldung beim C.O.R.E.-Backend fehlgeschlagen.", true);
+    return;
+  }
   S.user = me.user; S.clientId = S.clientId || me.client_id;
   const g = await api("/api/me/guilds");
   if (!g.ok) { toast(g.error || "Serverliste nicht ladbar", true); } else { S.guilds = g.guilds; S.clientId = S.clientId || g.client_id; }
@@ -464,21 +544,24 @@ function pageLogin() {
   return h("div", { class: "stack" },
     h("div", { class: "center" }, h("p", { class: "big" }, "C.O.R.E. Dashboard"),
       h("p", { class: "hint" }, "Melde dich mit Discord an und verwalte deine Server zentral mit C.O.R.E. – Tickets, Sicherheit, Support, Vorlagen und mehr."),
-      cid ? h("p", {}, h("a", { class: "btn", href: authUrl(cid) }, "Mit Discord anmelden")) : h("p", { class: "bad" }, "C.O.R.E.-Backend nicht erreichbar oder Client-ID fehlt. Prüfe CONFIG.API_BASE bzw. ob dein Bot-Backend läuft (WEB_PORT)."),
-      cid ? h("p", { class: "hint" }, "Wir bekommen nur deinen Namen und die Liste deiner Server (Scopes: identify, guilds). Dein Token bleibt in diesem Browser-Tab.") : null,
+      cid ? h("p", {}, btn("Mit Discord anmelden", event => beginLogin(event.currentTarget))) : h("p", { class: "bad" }, "Die Discord-Anwendungs-ID fehlt in der Website-Konfiguration."),
+      cid ? h("p", { class: "hint" }, "Vor dem Weiterleiten wird das C.O.R.E.-Backend geprüft. Discord-Zugriffstoken bleiben nur bis zum Schließen oder Neuladen dieser Seite im Arbeitsspeicher.") : null,
       cid ? h("p", {}, h("a", { href: userInstallUrl(cid), target: "_blank", rel: "noopener" }, "Bot zu meinem Account hinzufügen (für Aktivitäten in Calls)")) : null,
-      h("p", { style: "margin-top:20px;" },
-        h("a", { href: "terms.html" }, "Nutzungsbedingungen (Terms of Service)"),
-        " | ",
-        h("a", { href: "privacy.html" }, "Datenschutzerklärung (Privacy Policy)")
-      )
+      h("p", { class: "hint" }, "Die Anmeldung öffnet Discord erst nach deiner Aktion. Ohne erreichbares Backend kann keine Sitzung erstellt werden.")
     )
   );
+}
+function discordImagesAllowed() {
+  return sessionStorage.getItem("core-consent-discord-images") === "yes";
+}
+function discordImage(url, alt, label, compact) {
+  if (discordImagesAllowed()) return h("img", { src: url, alt, loading: "lazy", referrerpolicy: "no-referrer" });
+  return h("span", { class: compact ? "chip-avatar" : "ph", "aria-label": label }, label.slice(0, 2).toUpperCase());
 }
 function pageGuilds() {
   if (!S.guilds.length) return h("div", { class: "center" }, h("p", { class: "big" }, "Keine Server gefunden"), h("p", { class: "hint" }, "Du brauchst auf einem Server „Server verwalten“ oder Administrator."));
   return h("div", {}, h("h2", {}, "Deine Server"), h("div", { class: "grid" }, S.guilds.map(g => {
-    const icon = g.icon ? h("img", { src: "https://cdn.discordapp.com/icons/" + g.id + "/" + g.icon + ".png?size=96", alt: "" }) : h("div", { class: "ph" }, (g.name || "?").slice(0, 2).toUpperCase());
+    const icon = g.icon ? discordImage("https://cdn.discordapp.com/icons/" + g.id + "/" + g.icon + ".png?size=96", "", g.name || "?", false) : h("div", { class: "ph" }, (g.name || "?").slice(0, 2).toUpperCase());
     return h("div", { class: "card gcard" }, icon, h("div", { style: "flex:1;min-width:0" }, h("h3", {}, g.name), h("span", { class: "pill" }, g.bot_present ? "Bot ist da" : "Bot fehlt")),
       g.bot_present ? btn("Verwalten", () => openGuild(g.id)) : h("a", { class: "btn sec", href: inviteUrl(S.clientId, g.id), target: "_blank", rel: "noopener" }, "Bot hinzufügen"));
   })));
@@ -495,18 +578,38 @@ function pageGuild() {
 }
 function render(custom) {
   const app = document.getElementById("app"), who = document.getElementById("who");
-  who.replaceChildren(S.user ? h("div", { class: "chip" }, S.user.avatar ? h("img", { src: "https://cdn.discordapp.com/avatars/" + S.user.id + "/" + S.user.avatar + ".png?size=64", alt: "" }) : null, S.user.username, " ", IN_ACTIVITY ? null : btn("Abmelden", () => logout(false), "sec sm")) : "");
+  who.replaceChildren(S.user ? h("div", { class: "chip" }, S.user.avatar ? discordImage("https://cdn.discordapp.com/avatars/" + S.user.id + "/" + S.user.avatar + ".png?size=64", "", S.user.username || "?", true) : null, S.user.username, " ", IN_ACTIVITY ? null : btn("Abmelden", () => logout(false), "sec sm")) : "");
   if (custom && custom.nodeType) { app.replaceChildren(custom); return; }
   app.replaceChildren(typeof custom === "string" ? h("div", { class: "center" }, custom) : (!S.token ? pageLogin() : (S.gid ? pageGuild() : pageGuilds())));
   renderLog();
 }
+function initializeConsent() {
+  const banner = document.getElementById("consent-banner");
+  const options = document.getElementById("consent-options");
+  const checkbox = document.getElementById("consent-discord-images");
+  const saveButton = document.getElementById("consent-save");
+  const saveChoice = allowImages => {
+    sessionStorage.setItem("core-consent-choice", "saved");
+    sessionStorage.setItem("core-consent-discord-images", allowImages ? "yes" : "no");
+    banner.hidden = true;
+    render();
+  };
+  checkbox.checked = discordImagesAllowed();
+  banner.hidden = sessionStorage.getItem("core-consent-choice") === "saved";
+  document.getElementById("consent-essential").addEventListener("click", () => saveChoice(false));
+  document.getElementById("consent-customize").addEventListener("click", () => {
+    options.hidden = false;
+    saveButton.hidden = false;
+  });
+  saveButton.addEventListener("click", () => saveChoice(checkbox.checked));
+  document.getElementById("open-consent").addEventListener("click", () => { banner.hidden = false; });
+}
 async function boot() {
-  render("lädt …");
-  const cfg = await api("/api/config", { noAuth: true }); S.cfg = cfg; S.clientId = CONFIG.CLIENT_ID || cfg.client_id || "";
+  S.clientId = CONFIG.CLIENT_ID;
   if (IN_ACTIVITY) { render("Verbinde mit Discord …"); return activityBoot(); }
   takeTokenFromHash();
-  const t = sessionStorage.getItem("jarvis_token");
-  if (t && Date.now() < Number(sessionStorage.getItem("jarvis_exp") || 0)) { S.token = t; render("lädt …"); await afterLogin(); } else render();
+  if (S.token) { await afterLogin(); } else render();
+  initializeConsent();
 }
 window.JarvisUI = { P, md, authUrl, inviteUrl, takeTokenFromHash, run, api, S, h, TABS, openGuild, afterLogin, boot, MiniSDK };
 boot();

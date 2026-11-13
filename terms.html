@@ -6,14 +6,14 @@
   <meta name="color-scheme" content="dark">
   <title>Nutzungsbedingungen – C.O.R.E.</title>
   <style>
-    :root { color-scheme: dark; --bg: #0f1220; --panel: #171b2e; --line: #2a3157; --text: #e8ebff; --muted: #9aa3d0; --accent: #7d89ff; }
+    :root { color-scheme: dark; --bg: #0b0e1a; --panel: rgba(23,27,46,.92); --line: #343b65; --text: #e8ebff; --muted: #a9b0d1; --accent: #929bff; }
     * { box-sizing: border-box; }
-    body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.7 system-ui, -apple-system, "Segoe UI", sans-serif; }
-    header { padding: 14px 22px; background: var(--panel); border-bottom: 1px solid var(--line); }
+    body { min-height: 100vh; margin: 0; background: radial-gradient(ellipse at 12% 0%,rgba(88,101,242,.21),transparent 42%),radial-gradient(ellipse at 88% 18%,rgba(66,105,171,.14),transparent 38%),linear-gradient(160deg,#101426 0%,#0b0e1a 56%,#101522 100%); background-attachment: fixed; color: var(--text); font: 16px/1.7 system-ui, -apple-system, "Segoe UI", sans-serif; }
+    header { padding: 14px 22px; background: var(--panel); border-bottom: 1px solid var(--line); backdrop-filter: blur(16px); }
     header a { color: var(--text); font-weight: 750; text-decoration: none; }
     header b { color: var(--accent); }
     main { width: min(100% - 36px, 760px); margin: 42px auto; }
-    article { padding: clamp(22px, 5vw, 40px); background: var(--panel); border: 1px solid var(--line); border-radius: 14px; }
+    article { padding: clamp(22px, 5vw, 40px); background: var(--panel); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 18px 50px rgba(0,0,0,.18); backdrop-filter: blur(10px); }
     h1 { margin: 0 0 6px; font-size: clamp(25px, 5vw, 34px); line-height: 1.2; }
     .date { margin: 0 0 26px; color: var(--muted); font-size: 14px; }
     h2 { margin: 26px 0 6px; font-size: 18px; }
@@ -72,6 +72,20 @@
 
       <h2>12. Support &amp; Kontakt</h2>
       <p>Bei Fragen oder Problemen erreichst du das C.O.R.E.-Team über den offiziellen Support-Server, der im Bot-Profil verlinkt ist. Für eine vollständige Anbieterkennzeichnung sollte der Betreiber zusätzlich eine geeignete direkte Kontaktmöglichkeit angeben.</p>
+
+      <h2>13. Urheberrecht und Medien</h2>
+      <p>Texte, Grafiken, Videos, Marken und sonstige Inhalte können urheber- oder kennzeichenrechtlich geschützt sein. Du darfst Inhalte anderer nur hochladen, verwenden oder verbreiten, wenn du dafür die erforderlichen Rechte oder Erlaubnisse hast. Durch eine Übermittlung erhält C.O.R.E. keine Eigentumsrechte; die zur angeforderten Verarbeitung nötigen technischen Nutzungsrechte bleiben davon unberührt.</p>
+      <p>Discord-Namen, Logos, Avatare und Serverbilder bleiben ihren jeweiligen Rechteinhabern zugeordnet. Ihre Darstellung im Dashboard dient ausschließlich der Identifikation und stellt keine Empfehlung oder Partnerschaft dar.</p>
+
+      <h2>14. Jugendschutz und Community-Inhalte</h2>
+      <p>Der Dienst darf nicht verwendet werden, um rechtswidrige, sexualisierte, gewaltverherrlichende, diskriminierende oder anderweitig schädliche Inhalte zu verbreiten oder Nutzer zu belästigen. Für servereigene Ticket-, Bewerbungs-, Moderations- und Community-Inhalte sind die jeweiligen Serverbetreiber und Nutzer verantwortlich.</p>
+      <p>Serverbetreiber müssen eigene Community-Regeln, Altersanforderungen und Moderationsabläufe festlegen und durchsetzen. Der Bot ersetzt keine Moderation und garantiert nicht, dass unangemessene Inhalte erkannt oder verhindert werden.</p>
+
+      <h2>15. Discord-Marken und Unabhängigkeit</h2>
+      <p>Discord, das Discord-Logo und damit verbundene Kennzeichen sind Marken von Discord Inc. C.O.R.E. ist ein unabhängiges Projekt und wird von Discord weder betrieben noch gesponsert noch unterstützt. Für Discord gelten zusätzlich die Nutzungsbedingungen und Markenrichtlinien von Discord.</p>
+
+      <h2>16. Externe Dienste und Datenschutz</h2>
+      <p>Verbindungen zu Discord, dem C.O.R.E.-Backend oder ausdrücklich freigegebenen Medien können Daten wie IP-Adresse, Geräteinformationen oder angeforderte Inhalte an den jeweiligen Dienst übermitteln. Einzelheiten und die tatsächlichen Anbieter müssen der Datenschutzerklärung entnommen werden. Externe Dienste werden nur im Umfang der jeweiligen Funktion verwendet.</p>
     </article>
   </main>
 </body>
