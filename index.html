@@ -118,8 +118,9 @@ async function api(path, opt) {
 function authUrl(clientId) {
   const state = Array.from(crypto.getRandomValues(new Uint32Array(4))).join("-");
   sessionStorage.setItem("jarvis_state", state);
+  const redirectUri = new URL(".", location.href).href;
   return "https://discord.com/oauth2/authorize?" + new URLSearchParams({
-    client_id: clientId, response_type: "token", scope: "identify guilds", redirect_uri: location.origin + location.pathname, state }).toString();
+    client_id: clientId, response_type: "token", scope: "identify guilds", redirect_uri: redirectUri, state }).toString();
 }
 function inviteUrl(clientId, guildId) {
   return "https://discord.com/oauth2/authorize?client_id=" + clientId + "&scope=bot%20applications.commands&permissions=8" +
