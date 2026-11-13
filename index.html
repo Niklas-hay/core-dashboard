@@ -210,7 +210,7 @@ function hasOkFlag(prompt) { return /^(antinuke|virenscan|speichere|lade|lösche
 async function run(prompt, extra) {
   if (!S.gid) { toast("Erst einen Server wählen.", true); return null; }
   const entry = { t: new Date(), prompt, pending: true, messages: [] }; S.log.unshift(entry); S.log = S.log.slice(0, 25); renderLog();
-  const r = await api("/api/jarvis", { method: "POST", body: Object.assign({ guild_id: S.gid, channel_id: S.work || undefined, prompt, confirm: S.confirm }, extra || {}) });
+  const r = await api("/api/core", { method: "POST", body: Object.assign({ guild_id: S.gid, channel_id: S.work || undefined, prompt, confirm: S.confirm }, extra || {}) });
   entry.pending = false;
   if (r.ok) entry.messages = r.messages || []; else { entry.error = r.error || ("Fehler " + r.status); entry.messages = r.messages || []; }
   renderLog();
