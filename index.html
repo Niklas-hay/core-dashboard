@@ -540,14 +540,16 @@ async function openGuild(id) {
   render();
 }
 function pageLogin() {
-  const cid = S.clientId;
   return h("div", { class: "stack" },
     h("div", { class: "center" }, h("p", { class: "big" }, "C.O.R.E. Dashboard"),
-      h("p", { class: "hint" }, "Melde dich mit Discord an und verwalte deine Server zentral mit C.O.R.E. – Tickets, Sicherheit, Support, Vorlagen und mehr."),
-      cid ? h("p", {}, btn("Mit Discord anmelden", event => beginLogin(event.currentTarget))) : h("p", { class: "bad" }, "Die Discord-Anwendungs-ID fehlt in der Website-Konfiguration."),
-      cid ? h("p", { class: "hint" }, "Vor dem Weiterleiten wird das C.O.R.E.-Backend geprüft. Discord-Zugriffstoken bleiben nur bis zum Schließen oder Neuladen dieser Seite im Arbeitsspeicher.") : null,
-      cid ? h("p", {}, h("a", { href: userInstallUrl(cid), target: "_blank", rel: "noopener" }, "Bot zu meinem Account hinzufügen (für Aktivitäten in Calls)")) : null,
-      h("p", { class: "hint" }, "Die Anmeldung öffnet Discord erst nach deiner Aktion. Ohne erreichbares Backend kann keine Sitzung erstellt werden.")
+      h("p", { class: "hint" }, "Lade C.O.R.E. auf deinen Discord-Server ein, um Funktionen wie Tickets, Sicherheit, Support und Vorlagen zu nutzen."),
+      h("p", {}, h("a", {
+        class: "btn",
+        href: "https://discord.com/oauth2/authorize?client_id=1560019510499483799&permissions=8&integration_type=0&scope=bot",
+        target: "_blank",
+        rel: "noopener noreferrer"
+      }, "Bot Einladen")),
+      h("p", { class: "hint" }, "Der Einladungslink fordert Administratorrechte an und öffnet Discord in einem neuen Tab.")
     )
   );
 }
