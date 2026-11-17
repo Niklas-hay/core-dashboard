@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Befehle &amp; Dokumentation – C.O.R.E. Discord-Bot</title>
+<meta name="description" content="Alle Befehle des Discord-Bots C.O.R.E. mit Beispielen: Moderation, Tickets, Verifizierung, Als Bot schreiben, Level, Spiele, Events, Team-Werkzeuge. Alles über /core.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#5865f2">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%235865f2'/%3E%3Ctext x='32' y='46' font-size='38' font-family='Arial,sans-serif' font-weight='700' text-anchor='middle' fill='white'%3EC%3C/text%3E%3C/svg%3E">
+<link rel="canonical" href="https://niklas-hay.github.io/core-dashboard/befehle.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="C.O.R.E.">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" content="Befehle &amp; Dokumentation – C.O.R.E.">
+<meta property="og:description" content="Alle Befehle des Discord-Bots C.O.R.E. mit Beispielen – alles über /core.">
+<meta property="og:url" content="https://niklas-hay.github.io/core-dashboard/befehle.html">
+<style>
+:root{--bg:#0f1220;--panel:#171b2e;--panel2:#1e2340;--line:#2a3157;--text:#e8ebff;--muted:#9aa3d0;--acc:#5865f2;--acc2:#7d89ff}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--acc2)}
+header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 18px;background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+header .logo{font-weight:800;letter-spacing:.5px}header .logo b{color:var(--acc2)}header .sp{flex:1}
+header nav{display:flex;gap:6px;flex-wrap:wrap}header nav a{color:var(--text);text-decoration:none;padding:6px 10px;border-radius:8px;font-size:14px}
+header nav a:hover,header nav a[aria-current]{background:var(--panel2)}
+main{max-width:920px;margin:0 auto;padding:22px 18px 8px}
+h1{font-size:28px;margin:0 0 8px}h2{font-size:20px;margin:30px 0 4px}.lead,.sub{color:var(--muted);margin:0 0 12px}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:14px 0}
+.box h3{margin:0 0 6px;font-size:16px}.box ul{margin:6px 0 0;padding-left:20px}.box li{margin:3px 0}
+code{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font:13.5px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;word-break:break-word}
+.cmds{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.cmds li{display:flex;gap:12px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.cmds .ic{font-size:20px;line-height:1.4;min-width:26px;text-align:center}.cmds li div{flex:1;min-width:0}
+.find{width:100%;margin:6px 0 4px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font:inherit}
+.find[hidden]{display:none}.none{color:var(--muted);display:none}
+details.box summary{cursor:pointer;font-weight:600}details.box[open] summary{margin-bottom:8px}details.box p,details.box ol{margin:0}details.box ol{padding-left:20px}
+footer{max-width:920px;margin:26px auto 28px;padding:14px 18px 0;display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted);border-top:1px solid var(--line)}
+footer a{color:var(--muted)}footer a:hover{color:var(--text)}
+@media(max-width:600px){h1{font-size:24px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">C.O.R.E. <b>Dokumentation</b></div>
+  <nav aria-label="Hauptmenü"><a href="./">🏠 Startseite &amp; Dashboard</a><a href="befehle.html" aria-current="page">📖 Befehle</a><a href="https://discord.gg/HRfPGDudmu" rel="noopener">💬 Support</a></nav>
+  <div class="sp"></div>
+</header>
+<main>
+  <h1>Befehle &amp; Dokumentation</h1>
+  <p class="sub">C.O.R.E. ist ein deutscher Discord-Bot. Statt vieler Slash-Befehle gibt es <b>einen</b>: <code>/core</code> – du schreibst einfach, was du willst. Dazu fünf Kurzbefehle.</p>
+
+  <div class="box">
+    <h3>So funktioniert es</h3>
+    <ul>
+      <li><code>/core</code> + dein Text, z. B. <code>/core erstelle kanal willkommen, regeln</code> oder <code>/core als bot schreiben: Hallo liebe Freunde</code>.</li>
+      <li>Dateien (Bilder, PDFs, Texte) kannst du an <code>/core</code> anhängen – z. B. zum Umschreiben oder Zusammenfassen.</li>
+      <li>Kurzbefehle: <code>/core-hilfe</code> (diese Liste als Nachricht im Chat, zum Blättern) · <code>/core-status</code> · <code>/core-join</code> · <code>/core-leave</code> · <code>/core-spiele</code>.</li>
+      <li>Verwaltende Befehle (Kanäle, Rollen, Moderation, Systeme) dürfen nur Server-Verwalter nutzen. Gefährliche Aktionen fragen vorher nach einer Bestätigung.</li>
+      <li>Das Dashboard (Startseite) bedient dieselben Funktionen im Browser – Anmeldung über Discord, sobald es mit dem Bot verbunden ist. Über „Bot Einladen“ auf der Startseite holst du C.O.R.E. auf deinen Server.</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h3>Datenschutz in Kürze</h3>
+    <ul>
+      <li>Gespräche mit C.O.R.E. werden <b>nicht gespeichert</b>. Der Bot merkt sich den Verlauf nicht für spätere Antworten (jede Anfrage steht für sich).</li>
+      <li>Damit die KI antworten kann, wird der Text einer Anfrage an einen KI-Anbieter gesendet. Schreibe darum keine Passwörter oder privaten Daten in <code>/core</code>.</li>
+      <li>Details: <a href="privacy.html">Datenschutzerklärung</a> · <a href="impressum.html">Impressum</a> · <a href="terms.html">Nutzungsbedingungen</a>.</li>
+    </ul>
+  </div>
+
+  <input class="find" id="find" type="search" placeholder="Befehle durchsuchen … (z. B. ticket, level, ban)" aria-label="Befehle durchsuchen" hidden>
+  <p class="none" id="none">Nichts gefunden – versuche ein anderes Stichwort.</p>
+
+  <section>
+    <h2>Grundlagen, Verwaltung &amp; Sicherheit</h2>
+    <p class="lead">Alles beginnt mit <code>/core</code> – danach schreibst du auf Deutsch, was du möchtest. Beispiele zum Kopieren:</p>
+    <ul class="cmds">
+      <li><span class="ic" aria-hidden="true">🎙️</span><div><code>join</code> · <code>leave</code> · <code>status</code> · <code>zuhören an|aus|status</code> · <code>sag Hallo</code></div></li>
+      <li><span class="ic" aria-hidden="true">🧩</span><div><code>erstelle kanal|kanäle|kategorien|rollen a, b, c</code> · <code>lösche kanal #x</code> · <code>lösche alle kanäle außer #x</code> · <code>gib @U die rolle X</code></div></li>
+      <li><span class="ic" aria-hidden="true">💾</span><div><code>speichere vorlage Name</code> · <code>lade vorlage</code> (Dropdown) · <code>zeige vorlagen</code> · <code>lösche vorlage Name</code> · <code>backup status|jetzt|wiederherstellen</code></div></li>
+      <li><span class="ic" aria-hidden="true">🛡️</span><div><code>antinuke an|aus</code> · <code>whitelist die rolle X</code> · <code>virenscan an|aus</code> · <code>kick @U</code> · <code>ban @U</code> · <code>timeout @U für 10 min</code></div></li>
+      <li><span class="ic" aria-hidden="true">⚠️</span><div><code>warne @U wegen Grund</code> · <code>zeige warnungen @U</code> · <code>lösche 20 nachrichten</code> · <code>slowmode 10</code> · <code>sperre kanal</code> · <code>entsperre kanal</code></div></li>
+      <li><span class="ic" aria-hidden="true">✍️</span><div><strong>Als Bot schreiben:</strong> <code>als bot schreiben: Hallo liebe Freunde</code> (in diesem Kanal) · <code>als bot schreiben #kanal: Text</code> · <code>als bot embed #kanal: Titel | Text</code> · <code>\n</code> = neue Zeile · oder als Auswahlfeld: <code>/core als_bot_schreiben: Hallo liebe Freunde</code></div></li>
+      <li><span class="ic" aria-hidden="true">💬</span><div><code>sende nachricht in #kanal: Text</code> · <code>erstelle rollenpanel "Titel" rollen A, B, C</code></div></li>
+      <li><span class="ic" aria-hidden="true">🎫</span><div><code>ticket system in der kategorie ID … support rolle ID …</code> · <code>verifikation system kanal ID … rolle hinzufügen ID … rolle wegnehmen ID …</code></div></li>
+      <li><span class="ic" aria-hidden="true">🎧</span><div><code>support warteraum ID … team ping rollen ID …</code> · <code>willkommen kanal ID …</code> · <code>join to create ID … kategorie ID …</code></div></li>
+      <li><span class="ic" aria-hidden="true">🎨</span><div><strong>Aussehen:</strong> <code>willkommen bild https://…</code> · <code>abschied bild https://…</code> · <code>verifikation bild https://…</code> · <code>ticket bild https://…</code> (+ <code>… bild entfernen</code>) · <code>willkommen text "Hallo {user}!"</code> · <code>abschied text …</code> · <code>ticket bereiche Support, Bewerbung, Report</code> · <code>ticket limit 30</code> (Platzhalter: <code>{user}</code> <code>{name}</code> <code>{server}</code> <code>{count}</code>)</div></li>
+      <li><span class="ic" aria-hidden="true">📝</span><div>Bewerbungs-Formulare: <code>erstelle bewerbung Server Team</code> · <code>bewerbung liste</code> · <code>bewerbung "Server Team" kanal #prüfkanal</code> · <code>… rollen @Rolle</code> · <code>… prüfrollen @Rolle</code> · <code>… fragen setzen: F1 | F2</code> · <code>… frage hinzufügen: …</code> · <code>… umbenennen Neu</code> · <code>… panel</code> · <code>… export</code> · <code>lösche bewerbung Server Team</code></div></li>
+      <li><span class="ic" aria-hidden="true">📜</span><div><code>botlog kanal #logs</code> · <code>botlog kategorien mitglieder moderation rollen kanäle nachrichten sprache|alle</code> · <code>botlog test</code> · <code>botlog aus</code></div></li>
+      <li><span class="ic" aria-hidden="true">🏴</span><div><code>erstelle fraktion Name</code> · <code>fraktion Name mitglied hinzufügen @U</code> · <code>fraktion Name rang erstellen Streife</code> · <code>fraktion Name rang setzen @U Streife</code> · <code>fraktion Name liste</code> · <code>lösche fraktion Name</code></div></li>
+      <li><span class="ic" aria-hidden="true">🏛️</span><div><code>erstelle rp server</code> · 🌍 <code>übersetze …</code> · 🔎 <code>suche im web nach …</code> · 🎨 <code>erstelle ein bild von …</code> · 📄 <code>erstelle eine pdf …</code> (+ Datei anhängen zum Umschreiben)</div></li>
+    </ul>
+  </section>
+  <section>
+    <h2>Erweiterung: Spiele, Level, Events, Team &amp; mehr</h2>
+    <p class="lead">Nichts davon speichert Gespräche. Spiele findest du auch über <code>/core-spiele</code>.</p>
+    <ul class="cmds">
+      <li><span class="ic" aria-hidden="true">🎮</span><div><code>spiele</code> · <code>blackjack 50</code> · <code>slots 20</code> · <code>schere 10</code> · <code>wordle</code> · <code>galgen</code> · <code>zahlenraten</code> · <code>trivia</code> · <code>rätsel</code> · <code>schätzspiel</code> · <code>stadt-land-fluss</code> · <code>duell @U 50</code> · <code>quizduell @U</code> · <code>würfel 2d6</code> · <code>münzwurf</code> · <code>8ball Frage</code> · <code>entscheide A oder B</code></div></li>
+      <li><span class="ic" aria-hidden="true">💰</span><div><code>kontostand</code> · <code>daily</code> · <code>work</code> · <code>überweise @U 50</code> · <code>shop</code> · <code>kaufe Name</code> · <code>inventar</code> · <code>karte ziehen</code> · <code>sammlung</code> · <code>shop hinzufügen "Name" 500 @Rolle</code> · <code>münzregen an</code></div></li>
+      <li><span class="ic" aria-hidden="true">⭐</span><div><code>level</code> · <code>top [level|münzen|nachrichten|voice|siege|saison]</code> · <code>level nachricht …</code> · <code>level rolle 5 @R</code> · <code>xp multiplikator @R 2</code> · <code>saison [beenden]</code> · <code>mission starten 1000 200 Titel</code></div></li>
+      <li><span class="ic" aria-hidden="true">🎨</span><div><code>profil [@U]</code> · <code>profil bio|titel|rahmen|farbe …</code> · <code>freund hinzufügen @U</code> · <code>erfolge</code> · <code>quests</code></div></li>
+      <li><span class="ic" aria-hidden="true">🗳️</span><div><code>umfrage Frage | A | B | dauer 2h</code> · <code>team umfrage …</code> · <code>umfrage beenden</code> · <code>vorschlag …</code> · <code>wunsch …</code> · <code>vorschlag kanal #x</code> · <code>erinnere mich in 10 minuten an …</code> · <code>erinnerungen</code> · <code>afk Grund</code></div></li>
+      <li><span class="ic" aria-hidden="true">📅</span><div><code>event erstellen "Titel" 24.12. 20:00 [wiederkehrend 7]</code> · <code>events</code> · <code>event teilnehmer 3</code> · <code>events export</code> · <code>eventstatistik</code> · <code>teamkalender</code> · <code>geburtstag 24.12.</code> · <code>geburtstage</code> · <code>geburtstag|tagesplan|rätsel|tagesfrage|bericht|event kanal #x</code> · <code>regel-erinnerung #x alle 24 stunden: Text</code></div></li>
+      <li><span class="ic" aria-hidden="true">🛡️</span><div><code>automod an|aus|status</code> · <code>automod wort hinzufügen X</code> · <code>sicherheit status|raid an|alter 7|kanal #log|nickname verbiete X</code> · <code>sicherheitswert</code> · <code>rechte-scan</code> · <code>rechte-test</code></div></li>
+      <li><span class="ic" aria-hidden="true">📊</span><div><code>statistik heatmap|aktivität|kanäle|mitglieder|wochenvergleich|befehle</code> · <code>tagesbericht</code> · <code>monatsbericht</code> · <code>nutzer-statistik @U</code> · <code>serverinfo</code> · <code>userinfo @U</code> · <code>avatar @U</code> · <code>banner @U</code> · <code>sprache erkennen: Text</code></div></li>
+      <li><span class="ic" aria-hidden="true">📚</span><div><code>wiki hinzufügen Stichwort: Text</code> · <code>wiki Stichwort</code> · <code>wiki frage …</code> · <code>wiki liste</code> · <code>befehl erstellen name Antwort</code> · <code>eigene befehle</code> · <code>tutorial setzen A | B | C</code> · <code>tutorial auto an</code></div></li>
+      <li><span class="ic" aria-hidden="true">👥</span><div><code>team rolle @R</code> · <code>aufgabe erstellen|auto Text [bis 24.12.] [für @U]</code> · <code>aufgaben</code> · <code>aufgabe übernehmen|fertig 3</code> · <code>notiz hinzufügen …</code> · <code>fall erstellen @U Grund</code> · <code>fälle</code> · <code>schicht Mo 18-22</code> · <code>schichtplan</code> · <code>teamrang @U Rang</code> · <code>team übersicht</code></div></li>
+      <li><span class="ic" aria-hidden="true">📡</span><div><code>feed hinzufügen rss|github|youtube Ziel #kanal</code> · <code>feeds</code> · <code>überwache https://… #kanal</code> · <code>minecraft server.de</code></div></li>
+      <li><span class="ic" aria-hidden="true">🤖</span><div><code>ki erkläre|ideen|code|verbessere|konflikt|admin|kategorisiere|willkommen|rollenspiel …</code> · <code>fasse 50 nachrichten zusammen</code> · <code>ki stil pirat</code> · <code>ki charakter witzig</code> · <code>ki stile</code></div></li>
+      <li><span class="ic" aria-hidden="true">🧩</span><div><code>modul [name an|aus]</code> · <code>selbstdiagnose</code> · <code>ressourcen</code> · <code>fehlerbericht</code> · <code>änderungsverlauf</code> · <code>konfig vergleichen &lt;Server-ID&gt;</code> · <code>datenbank optimieren</code> (Besitzer) · <code>regel erstellen wenn mitglied beitritt dann nachricht #kanal: Hallo {user}!</code> · <code>regeln</code></div></li>
+    </ul>
+  </section>
+
+  <section id="faq">
+    <h2>Häufige Fragen</h2>
+    <details class="box"><summary>Wie fange ich an?</summary>
+      <ol>
+        <li>Schreibe in Discord <code>/core hilfe</code> oder <code>/core-hilfe</code> – du bekommst die Befehlsliste als Nachricht im Chat.</li>
+        <li>Probiere eine Frage: <code>/core wie spät ist es</code> oder <code>/core erkläre mir Slowmode</code>.</li>
+        <li>Zum Einrichten (z. B. Tickets, Willkommensnachricht) brauchst du die passende Server-Berechtigung (z. B. „Server verwalten“) – Beispiele stehen oben auf dieser Seite.</li>
+      </ol></details>
+    <details class="box"><summary>Der Bot antwortet nicht – was kann ich tun?</summary>
+      <p>Prüfe mit <code>/core-status</code>, ob C.O.R.E. online ist. Nach einem Neustart kann es einige Minuten dauern, bis Discord neue Befehle anzeigt. Außerdem braucht der Bot im Kanal die Rechte „Kanal ansehen“ und „Nachrichten senden“. Hilft das nicht, frag im <a href="https://discord.gg/HRfPGDudmu" rel="noopener">Support-Server</a>.</p></details>
+    <details class="box"><summary>Wie schreibe ich als Bot eine Nachricht?</summary>
+      <p>Mit <code>/core</code> und dem Feld <code>als_bot_schreiben</code> – dort nur den Text eintragen (<code>prompt</code> leer lassen). Alternativ: <code>/core als bot schreiben: Hallo liebe Freunde</code>. Lange Texte teilt C.O.R.E. automatisch auf mehrere Nachrichten auf. Du brauchst dafür das Recht „Nachrichten verwalten“.</p></details>
+    <details class="box"><summary>Werden meine Gespräche gespeichert?</summary>
+      <p>Nein. C.O.R.E. speichert keine Gespräche und merkt sich den Verlauf nicht für spätere Antworten. Damit die KI antworten kann, wird der Text einer Anfrage an einen KI-Anbieter gesendet – schreibe deshalb keine Passwörter oder privaten Daten in <code>/core</code>. Mehr dazu in der <a href="privacy.html">Datenschutzerklärung</a>.</p></details>
+    <details class="box"><summary>Wie benutze ich das Dashboard?</summary>
+      <p>Auf der <a href="./">Startseite</a> erscheint „Mit Discord anmelden“, sobald das Dashboard mit dem Bot verbunden ist. Danach Server auswählen – dort stehen dieselben Funktionen als Knöpfe und Formulare bereit. Server-Einstellungen darf nur ändern, wer auf dem Server die nötigen Rechte hat. Bilder von Discord (Profil- und Serverbilder) lädt die Seite erst, wenn du im Datenschutz-Banner zustimmst.</p></details>
+    <details class="box"><summary>Warum gibt es so wenige Slash-Befehle?</summary>
+      <p>C.O.R.E. hat bewusst nur sechs: <code>/core</code>, <code>/core-hilfe</code>, <code>/core-status</code>, <code>/core-join</code>, <code>/core-leave</code> und <code>/core-spiele</code>. Alles andere schreibst du als normalen Text hinter <code>/core</code> – so musst du keine langen Befehlslisten auswendig kennen.</p></details>
+  </section>
+
+  <div class="box">
+    <h3>Hilfe nötig?</h3>
+    <p style="margin:0">Schreibe <code>/core-hilfe</code> in Discord oder komm auf den <a href="https://discord.gg/HRfPGDudmu" rel="noopener">Support-Server</a>.</p>
+  </div>
+</main>
+<footer>
+  <a href="./">Startseite &amp; Dashboard</a>
+  <a href="befehle.html">Befehle &amp; Dokumentation</a>
+  <a href="impressum.html">Impressum</a>
+  <a href="privacy.html">Datenschutz</a>
+  <a href="terms.html">Nutzungsbedingungen</a>
+  <a href="https://discord.gg/HRfPGDudmu" rel="noopener">Support-Server</a>
+</footer>
+<script>
+(function () {   // Suchfeld: nur eine Bequemlichkeit – die Seite ist auch ohne JavaScript vollständig
+  var f = document.getElementById("find"), none = document.getElementById("none");
+  if (!f) return; f.hidden = false;
+  var rows = [].slice.call(document.querySelectorAll(".cmds li"));
+  f.addEventListener("input", function () {
+    var q = f.value.trim().toLowerCase(), n = 0;
+    rows.forEach(function (li) { var ok = !q || li.textContent.toLowerCase().indexOf(q) >= 0; li.style.display = ok ? "" : "none"; if (ok) n++; });
+    none.style.display = (q && !n) ? "block" : "none";
+  });
+})();
+</script>
+</body>
+</html>

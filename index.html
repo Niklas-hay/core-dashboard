@@ -3,7 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>C.O.R.E. Dashboard</title>
+<title>C.O.R.E. – Discord-Bot für Moderation, Tickets &amp; Spiele</title>
+<meta name="description" content="C.O.R.E. ist ein deutscher Discord-Bot: alles über einen Befehl – /core. Moderation, Tickets, Level, Spiele, Voice und ein Dashboard. Ohne Gesprächsspeicherung.">
+<meta name="keywords" content="Discord Bot, Deutsch, Moderation, Tickets, Verifizierung, Level, Spiele, Dashboard, C.O.R.E.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#5865f2">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%235865f2'/%3E%3Ctext x='32' y='46' font-size='38' font-family='Arial,sans-serif' font-weight='700' text-anchor='middle' fill='white'%3EC%3C/text%3E%3C/svg%3E">
+<link rel="canonical" href="https://niklas-hay.github.io/core-dashboard/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="C.O.R.E.">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" content="C.O.R.E. – Discord-Bot für Moderation, Tickets &amp; Spiele">
+<meta property="og:description" content="Alles über einen Befehl: /core. Moderation, Tickets, Level, Spiele, Voice und ein Dashboard im Browser. Gespräche werden nicht gespeichert.">
+<meta property="og:url" content="https://niklas-hay.github.io/core-dashboard/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C.O.R.E. – Discord-Bot">
+<meta name="twitter:description" content="Alles über einen Befehl: /core. Moderation, Tickets, Level, Spiele, Voice und Dashboard.">
 <!--
   C.O.R.E. Dashboard – EINE Datei (HTML + CSS + JavaScript), keine Fremd-Ressourcen.
   Einstellen: nur der Block "CONFIG" ganz oben im <script>. Anleitung: ANLEITUNG.md, Abschnitt "Webseite & Aktivität".
@@ -14,7 +29,7 @@
 html{min-height:100%;background:#090e1b}
 body{min-height:100vh;background:radial-gradient(ellipse at 18% 12%,rgba(52,211,235,.16),transparent 34%),radial-gradient(ellipse at 82% 24%,rgba(108,84,255,.18),transparent 38%),radial-gradient(ellipse at 52% 100%,rgba(14,165,233,.10),transparent 45%),linear-gradient(135deg,#0b1020 0%,#11132a 52%,#07131d 100%);background-attachment:fixed}
 a{color:var(--acc2)}button,input,select,textarea{font:inherit;color:inherit}
-button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--acc2);outline-offset:3px}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--acc2);outline-offset:3px}
 header{display:flex;align-items:center;gap:12px;padding:12px 18px;background:var(--panel);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
 header .logo{font-weight:800;letter-spacing:.5px}header .logo b{color:var(--acc2)}header .sp{flex:1}
 .chip{display:flex;align-items:center;gap:8px;background:var(--panel2);border:1px solid var(--line);padding:4px 10px;border-radius:999px;font-size:13px}
@@ -24,6 +39,7 @@ main{max-width:1180px;margin:0 auto;padding:18px}
 .btn{background:var(--acc);border:0;color:#fff;padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:600}
 .btn:hover{background:var(--acc2)}.btn.sec{background:var(--panel2);border:1px solid var(--line)}.btn.bad{background:#c0392b}.btn.sm{padding:4px 10px;font-size:13px}
 .btn:disabled{opacity:.5;cursor:default}
+a.btn{text-decoration:none;display:inline-block}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;box-shadow:0 12px 34px rgba(0,0,0,.12);backdrop-filter:blur(10px)}
 .card h3{margin:0 0 4px;font-size:16px}.card h4{margin:14px 0 4px;font-size:14px;color:var(--acc2)}.card p.d{margin:0 0 10px;color:var(--muted);font-size:13px}
@@ -45,11 +61,8 @@ select[multiple]{min-height:110px}textarea{min-height:90px;resize:vertical}input
 .msg{margin-top:8px;white-space:pre-wrap;word-break:break-word}.msg code{background:var(--panel2);padding:1px 5px;border-radius:4px}
 .emb{margin-top:8px;border-left:4px solid var(--acc);background:var(--panel2);border-radius:6px;padding:8px 10px}.emb b.t{display:block}
 .preview{background:#313338;border-radius:10px;padding:12px;margin-top:10px}.preview .emb{background:#2b2d31}
-table{width:100%/*cite: 3*/;border-collapse:collapse}td,th{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;font-size:14px}
+table{width:100%;border-collapse:collapse}td,th{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;font-size:14px}
 #toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);display:flex;flex-direction:column;gap:8px;z-index:20}
-#toast div{background:var(--panel2);border:1px solid var(--line);padding:9px 14px;border-radius:10px;box-shadow:0 6px 24px #0008}
-.center{text-align:center;padding:48px 12px}.big{font-size:28px;font-weight:800;margin:0 0 8px}
-.pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;background:var(--panel2);border:1px solid var(--line)}
 .site-footer{max-width:1180px;margin:48px auto 0;padding:24px 18px 34px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
 .footer-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px}
 .footer-links{display:flex;flex-wrap:wrap;gap:10px 20px}
@@ -65,27 +78,72 @@ table{width:100%/*cite: 3*/;border-collapse:collapse}td,th{padding:7px 8px;borde
 .consent-actions{display:flex;flex-wrap:wrap;gap:8px}
 .consent-actions .btn{font-size:13px}
 .consent-actions .btn.sec{color:var(--text)}
-.external-image-placeholder{width:48px;height:48px;flex:0 0 48px;display:grid;place-items:center;border-radius:12px;background:var(--panel2);color:var(--muted);font-weight:700}
+header nav.top{display:flex;gap:6px;flex-wrap:wrap}header nav.top a{color:var(--text);text-decoration:none;padding:6px 10px;border-radius:8px;font-size:14px}
+header nav.top a:hover{background:var(--panel2)}
+.intro{max-width:760px;margin:0 auto}.intro h1{font-size:26px;margin:0 0 8px}.intro p{color:var(--muted)}
+#toast div{background:var(--panel2);border:1px solid var(--line);padding:9px 14px;border-radius:10px;box-shadow:0 6px 24px #0008}
+.center{text-align:center;padding:48px 12px}.big{font-size:28px;font-weight:800;margin:0 0 8px}
+.pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;background:var(--panel2);border:1px solid var(--line)}
+.public-home{display:grid;gap:24px;padding-top:20px}
+.home-hero,.home-section{padding:clamp(20px,4vw,36px);border:1px solid var(--line);border-radius:20px;background:linear-gradient(130deg,rgba(88,101,242,.18),rgba(17,21,39,.88) 65%)}
+.home-hero h1{font-size:clamp(30px,5vw,52px);line-height:1.08;margin:14px 0 8px}
+.home-hero p,.home-section-head p{color:var(--muted)}
+.home-kicker,.status-pill{display:inline-flex;align-items:center;gap:7px;padding:5px 10px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:12px}
+.home-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.home-actions a{text-decoration:none}
+.home-section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.home-section-head h2{margin:0}.home-section-head p{margin:4px 0}
+.status-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.status-card,.feature-card{padding:15px;border:1px solid var(--line);border-radius:14px;background:var(--panel2)}
+.status-card-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.status-symbol{font-size:20px}.status-dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.status-card[data-state=online] .status-dot{background:var(--ok);box-shadow:0 0 10px var(--ok)}
+.status-card[data-state=offline] .status-dot{background:var(--bad)}
+.status-card h3{margin:13px 0 4px}.status-meta,.feature-card span{font-size:12px;color:var(--muted)}
+.status-refresh{border:0;background:none;color:var(--acc2);cursor:pointer}
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.feature-card strong{display:block;margin-bottom:5px}.maintenance-note{padding:13px;border:1px solid var(--warn);border-radius:12px;color:var(--warn)}
+.team-backdrop{position:fixed;inset:0;z-index:30;display:grid;place-items:center;padding:18px;background:rgba(3,6,16,.78);backdrop-filter:blur(8px)}
+.team-panel{width:min(760px,100%);max-height:88vh;overflow:auto;padding:20px;background:#171b2e;border:1px solid #444d7e;border-radius:16px;box-shadow:0 18px 60px #0009}
+.team-panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.team-panel-head h2{margin:0}.team-panel-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.team-panel fieldset{margin:14px 0;padding:12px;border:1px solid var(--line);border-radius:10px}
+.team-panel legend{padding:0 6px;color:var(--acc2);font-weight:700}
+.team-panel .check-row{display:flex;gap:10px;align-items:center;margin:8px 0}
+.team-panel .btn-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.team-error{color:var(--bad);font-size:13px}
 @media(max-width:760px){.layout{grid-template-columns:1fr}nav.tabs{flex-direction:row;overflow:auto;position:static}.two{grid-template-columns:1fr}}
-@media(max-width:560px){.site-footer{margin-top:32px}.footer-row{align-items:flex-start;flex-direction:column}.consent-banner{right:10px;bottom:10px;width:calc(100vw - 20px)}}
+@media(max-width:760px){.status-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.site-footer{margin-top:32px}.footer-row{align-items:flex-start;flex-direction:column}.consent-banner{right:10px;bottom:10px;width:calc(100vw - 20px)}.status-grid,.team-panel-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header><div class="logo">C.O.R.E. <b>Dashboard</b></div><div class="sp"></div><div id="who"></div></header>
-<main id="app"></main>
+<header><div class="logo" id="site-brand">C.O.R.E. <b>Dashboard</b></div>
+  <nav class="top" aria-label="Hauptmenü"><a href="befehle.html">📖 Befehle &amp; Dokumentation</a><a href="https://discord.gg/HRfPGDudmu" rel="noopener">💬 Support</a></nav>
+  <div class="sp"></div><div id="who"></div></header>
+<main id="app">
+  <div class="intro">
+    <h1>C.O.R.E. – dein Discord-Bot für alles</h1>
+    <p>C.O.R.E. ist ein deutscher Discord-Bot, der über <b>einen einzigen Befehl</b> bedient wird: <code>/core</code>. Moderation, Tickets, Verifizierung, Willkommensnachrichten, Level &amp; Münzen, Spiele, Sprachkanal-Funktionen und „Als Bot schreiben“ – ohne dutzende Slash-Befehle. Gespräche werden nicht gespeichert.</p>
+    <p>Alle Befehle findest du unter <a href="befehle.html">Befehle &amp; Dokumentation</a>. Zum Verwalten deines Servers meldest du dich mit Discord an – das Dashboard lädt, sobald JavaScript aktiv ist.</p>
+    <noscript><p>Für das Dashboard wird JavaScript benötigt. Die <a href="befehle.html">Befehlsliste</a>, <a href="impressum.html">Impressum</a> und <a href="privacy.html">Datenschutzerklärung</a> funktionieren auch ohne.</p></noscript>
+  </div>
+</main>
 <footer class="site-footer">
   <div class="footer-row">
     <strong>C.O.R.E. · Rechtliches &amp; Support</strong>
-    <nav class="footer-links" aria-label="Rechtliche Hinweise und Support">
+    <nav class="footer-links" aria-label="Dokumentation, rechtliche Hinweise und Support">
+      <a href="befehle.html">Befehle &amp; Dokumentation</a>
       <a href="impressum.html">Impressum</a>
       <a href="privacy.html">Datenschutz</a>
       <a href="terms.html">Nutzungsbedingungen</a>
       <a href="https://discord.gg/HRfPGDudmu" target="_blank" rel="noopener noreferrer">Support-Discord ↗</a>
       <button type="button" id="open-consent">Datenschutz-Einstellungen</button>
+      <button type="button" id="open-team-panel">🔒 TEAM</button>
     </nav>
   </div>
   <p class="footer-note">Discord ist eine Marke von Discord Inc. C.O.R.E. ist ein unabhängiges Projekt und wird von Discord weder betrieben noch unterstützt.</p>
 </footer>
+<div id="team-root"></div>
 <section class="consent-banner" id="consent-banner" role="dialog" aria-labelledby="consent-title" aria-describedby="consent-description" hidden>
   <h2 id="consent-title">Datenschutz-Einstellungen</h2>
   <p id="consent-description">Wir laden keine Analyse- oder Werbedienste. Externe Discord-Profil- und Serverbilder bleiben zunächst blockiert. Die Anmeldung verbindet dich erst nach einem Klick mit Discord und dem C.O.R.E.-Backend.</p>
@@ -104,17 +162,40 @@ table{width:100%/*cite: 3*/;border-collapse:collapse}td,th{padding:7px 8px;borde
 "use strict";
 /* ===================== CONFIG – nur hier etwas ändern ===================== */
 const CONFIG = {
-  API_BASE: "",   // "" = die Adresse, von der diese Seite kommt (der Bot liefert sie selbst aus).
-                  // Liegt die Seite woanders (eigener Webspace): hier die Adresse der Bot-API, z. B. "https://bot.deine-domain.de"
-  CLIENT_ID: "1560019510499483799",  // öffentliche Anwendungs-ID aus der Bot-Konfiguration
+  API_BASE: "",   // Hier die öffentliche Cloudflare-Worker-HTTPS-URL eintragen.
+  CLIENT_ID: "1560019510499483799",  // öffentliche Anwendungs-ID aus der Bot-Konfiguration (leer = der Bot nennt sie selbst)
+  SITE_URL: "https://niklas-hay.github.io/core-dashboard/",   // Adresse der statischen Seiten (Befehle, Impressum, Datenschutz …) – wird für Links genutzt, wenn der Bot diese Seite selbst ausliefert
   SDK_URL: "/npm/@discord/embedded-app-sdk@2/+esm"   // nur für die Discord-Aktivität (der Bot reicht die Datei von jsDelivr durch)
 };
 /* ========================================================================== */
 const qs = new URLSearchParams(location.search);
 const IN_ACTIVITY = qs.has("frame_id");
 const API = IN_ACTIVITY ? "/.proxy" : String(CONFIG.API_BASE || "").replace(/\/+$/, "");
-const HOSTED_WITHOUT_API = !IN_ACTIVITY && !CONFIG.API_BASE && location.hostname.endsWith(".github.io");
-const S = { token: null, tokenExpiresAt: 0, user: null, guilds: [], gid: null, guild: null, tab: "overview", work: "", confirm: false, log: [], cfg: {}, clientId: CONFIG.CLIENT_ID, activity: null, templates: null };
+const HOSTED_WITHOUT_API = !IN_ACTIVITY && !CONFIG.API_BASE && location.hostname.endsWith(".github.io");   // reine Webseite ohne Bot-Anbindung
+const ON_STATIC_SITE = location.protocol === "file:" || location.hostname.endsWith(".github.io");   // dort liegen befehle.html, impressum.html … direkt neben dieser Seite
+function pageUrl(name) { return ON_STATIC_SITE || !CONFIG.SITE_URL ? name : String(CONFIG.SITE_URL).replace(/\/*$/, "/") + name; }   // vom Bot ausgeliefert: Links zeigen auf die Seite bei GitHub Pages
+document.querySelectorAll('a[href$=".html"]').forEach(a => { const v = a.getAttribute("href"); if (!/^[a-z][a-z0-9+.-]*:/i.test(v)) a.setAttribute("href", pageUrl(v)); });
+const DEFAULT_PUBLIC_CONFIG = {
+  brandName: "C.O.R.E.", headline: "Dein Discord-Server, besser organisiert.",
+  description: "Tickets, Moderation, Schutz und praktische Werkzeuge – an einem Ort.",
+  inviteUrl: "https://discord.com/oauth2/authorize?client_id=1560019510499483799&permissions=8&integration_type=0&scope=bot",
+  inviteLabel: "Bot Einladen", accentColor: "#5865F2", backgroundTheme: "midnight",
+  siteOnline: true, showBots: true, showFeatures: true,
+  features: ["Tickets, Bewerbungen und Verifizierung", "Moderation und Sicherheitsfunktionen", "KI-Werkzeuge und Servervorlagen", "Hilfreiche Sprachkanal-Funktionen"], buttons: []
+};
+const BOT_ROWS = [
+  { id: "core", name: "C.O.R.E.", icon: "🛡️" },
+  { id: "beta", name: "C.O.R.E. Beta", icon: "🧪" },
+  { id: "test", name: "C.O.R.E. Test", icon: "🔧" },
+  { id: "backup", name: "C.O.R.E. Backup Bot", icon: "💾" }
+];
+const THEME_BACKGROUNDS = {
+  midnight: "radial-gradient(ellipse at 18% 12%,rgba(52,211,235,.16),transparent 34%),radial-gradient(ellipse at 82% 24%,rgba(108,84,255,.18),transparent 38%),linear-gradient(135deg,#0b1020 0%,#11132a 52%,#07131d 100%)",
+  ocean: "radial-gradient(ellipse at 20% 5%,rgba(14,165,233,.26),transparent 40%),linear-gradient(135deg,#081a2b 0%,#0b2637 55%,#07131d 100%)",
+  sunset: "radial-gradient(ellipse at 78% 12%,rgba(249,115,22,.20),transparent 42%),linear-gradient(135deg,#1d1020 0%,#24152b 55%,#101425 100%)",
+  forest: "radial-gradient(ellipse at 20% 10%,rgba(34,197,94,.20),transparent 40%),linear-gradient(135deg,#091b18 0%,#12251e 55%,#07131d 100%)"
+};
+const S = { token: null, tokenExpiresAt: 0, user: null, guilds: [], gid: null, guild: null, tab: "overview", work: "", confirm: false, log: [], cfg: {}, clientId: CONFIG.CLIENT_ID, activity: null, templates: null, siteConfig: DEFAULT_PUBLIC_CONFIG, publicStatus: null, publicUpdatedAt: null, teamToken: null };
 
 /* ---------- kleine Helfer ---------- */
 function h(tag, attrs, ...kids) {
@@ -149,6 +230,9 @@ const isId = s => /^\d{15,22}$/.test(String(s || "").trim());
 const ago = d => d.toLocaleTimeString("de-DE");
 
 /* ---------- API ---------- */
+function ssGet(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } }   // der Browser-Speicher kann gesperrt sein (privates Fenster, Iframe) – dann geht es ohne
+function ssSet(k, v) { try { sessionStorage.setItem(k, v); return true; } catch (e) { return false; } }
+function ssDel(k) { try { sessionStorage.removeItem(k); } catch (e) { /* egal */ } }
 async function api(path, opt) {
   opt = opt || {};
   if (HOSTED_WITHOUT_API) return { ok: false, status: 0, error: "Die Discord-Anmeldung ist noch nicht verbunden: In CONFIG.API_BASE fehlt die öffentliche HTTPS-Adresse des C.O.R.E.-Backends." };
@@ -173,7 +257,7 @@ async function api(path, opt) {
 /* ---------- Anmeldung ---------- */
 function authUrl(clientId) {
   const state = Array.from(crypto.getRandomValues(new Uint32Array(4))).join("-");
-  sessionStorage.setItem("jarvis_state", state);
+  ssSet("core_state", state);
   const redirectUri = new URL(".", location.href).href;
   return "https://discord.com/oauth2/authorize?" + new URLSearchParams({
     client_id: clientId, response_type: "token", scope: "identify guilds", redirect_uri: redirectUri, state }).toString();
@@ -205,9 +289,9 @@ function takeTokenFromHash() {
     return false;
   }
   if (!p.has("access_token")) return false;
-  const ok = p.get("state") && p.get("state") === sessionStorage.getItem("jarvis_state");
+  const ok = p.get("state") && p.get("state") === ssGet("core_state");
   history.replaceState(null, "", location.pathname + location.search);
-  sessionStorage.removeItem("jarvis_state");
+  ssDel("core_state");
   if (!ok) { toast("Anmeldung abgelehnt (Sicherheitsprüfung fehlgeschlagen) – bitte erneut versuchen.", true); return false; }
   S.token = p.get("access_token");
   S.tokenExpiresAt = Date.now() + (parseInt(p.get("expires_in"), 10) || 3600) * 1000;
@@ -275,7 +359,7 @@ async function activityBoot() {
 }
 
 /* ---------- Befehle ausführen ---------- */
-const P = {  // baut die Text-Befehle, die der Bot versteht (identisch zu /jarvis ...)
+const P = {  // baut die Text-Befehle, die der Bot versteht (identisch zu /core ...)
   ticket: (cat, roles, log) => `ticket system kategorie ID ${cat} support rollen ID ${roles.join(" ID ")}` + (log ? ` log kanal ID ${log}` : ""),
   verify: (ch, add, rem) => `verifikation system kanal ID ${ch} rolle hinzufügen ID ${add.join(" ID ")}` + (rem.length ? ` rolle wegnehmen ID ${rem.join(" ID ")}` : ""),
   support: (vc, roles, notify) => `support warteraum ID ${vc} team ping rollen ID ${roles.join(" ID ")}` + (notify ? ` meldungs kanal ID ${notify}` : ""),
@@ -284,6 +368,8 @@ const P = {  // baut die Text-Befehle, die der Bot versteht (identisch zu /jarvi
   apply: (review, accept, reviewers) => `bewerbung kanal ID ${review}` + (accept.length ? ` rollen ID ${accept.join(" ID ")}` : "") + (reviewers.length ? ` prüfrollen ID ${reviewers.join(" ID ")}` : ""),
   questions: list => `bewerbung fragen setzen: ${list.join(" | ")}`,
   wlAdd: id => `whitelist die rolle <@&${id}>`, wlDel: id => `entferne die rolle <@&${id}> von der whitelist`,
+  topics: list => `ticket bereiche ${list.join(", ")}`, max: n => `ticket limit ${n}`,
+  img: (system, url) => `${system} bild ${url}`, text: (system, t) => `${system} text "${t.replace(/"/g, "'")}"`,
   scan: on => `virenscan ${on ? "an" : "aus"}`, nuke: on => `antinuke ${on ? "an" : "aus"}`,
   split: s => String(s).split(/[,\n]/).map(x => x.trim()).filter(Boolean).join(", ")
 };
@@ -296,6 +382,7 @@ async function run(prompt, extra) {
   if (r.ok) entry.messages = r.messages || []; else { entry.error = r.error || ("Fehler " + r.status); entry.messages = r.messages || []; }
   renderLog();
   if (r.ok && hasOkFlag(prompt) || /ID \d/.test(prompt)) refreshGuild();
+  if (r.ok) { S.stale = true; if (XTABS.includes(S.tab)) loadExtra(); }   // Übersichtsdaten der Erweiterung neu holen
   return r;
 }
 async function refreshGuild() { if (!S.gid) return; const g = await api("/api/guilds/" + S.gid); if (g.ok) { S.guild = g; if (S.tab === "overview") render(); } }
@@ -319,18 +406,23 @@ function card(title, desc, ...rest) { return h("div", { class: "card" }, h("h3",
 function need(cond, msg) { if (!cond) { toast(msg, true); return false; } return true; }
 const btn = (text, fn, cls) => h("button", { class: "btn " + (cls || ""), onclick: fn }, text);
 
-/* ---------- Legal links ---------- */
+/* ---------- Rechtliches ---------- */
 function tabLegal() {
   return h("div", { class: "stack" },
     h("div", { class: "card" },
       h("h3", {}, "Nutzungsbedingungen (Terms of Service)"),
       h("p", { class: "d" }, "Die Nutzungsbedingungen sind auf einer eigenen Seite verfügbar."),
-      h("a", { href: "terms.html" }, "Nutzungsbedingungen öffnen →")
+      h("a", { href: pageUrl("terms.html") }, "Nutzungsbedingungen öffnen →")
     ),
     h("div", { class: "card" },
       h("h3", {}, "Datenschutzerklärung & Inhalt (Privacy Policy)"),
       h("p", { class: "d" }, "Die Datenschutzerklärung ist auf einer eigenen Seite verfügbar."),
-      h("a", { href: "privacy.html" }, "Datenschutzerklärung öffnen →")
+      h("a", { href: pageUrl("privacy.html") }, "Datenschutzerklärung öffnen →")
+    ),
+    h("div", { class: "card" },
+      h("h3", {}, "Befehle & Dokumentation"),
+      h("p", { class: "d" }, "Alle Befehle, Hilfe und häufige Fragen."),
+      h("a", { href: pageUrl("befehle.html") }, "Befehle & Dokumentation öffnen →")
     )
   );
 }
@@ -347,15 +439,20 @@ function tabOverview() {
       row("Anti-Nuke", g.antinuke.enabled, "nur der Server-Inhaber kann ihn schalten"), row("Virenscan (Uploads)", g.virenscan))),
     card("Tipp", "Oben bei „Kanal für Panels“ wählst du, wohin Panels (Tickets, Verifikation, Bewerbungen …) gesendet werden. Gefährliche Aktionen brauchen den Haken „Bestätigen“."));
 }
-function tabSystems() {
+function tabSystemsBase() {
   // Tickets
   const tCat = catSel("— Kategorie wählen —"), tRoles = roleSel(true), tLog = chSel(TEXTISH, "— kein Log —");
+  const tTopics = h("input", { type: "text", placeholder: "Allgemeiner Support, Bewerbung, Report / Meldung, Sonstiges" }), tMax = h("input", { type: "number", min: "1", max: "200", placeholder: "30" });
+  const tImg = h("input", { type: "url", placeholder: "https://… (Bild unter dem Panel, optional)" });
   // Verifikation
   const vCh = chSel(TEXTISH), vAdd = roleSel(true), vRem = roleSel(true);
+  const vImg = h("input", { type: "url", placeholder: "https://… (Bild im Verifizierungs-Panel, optional)" });
   // Support
   const sVc = chSel(VOICEISH, "— Warteraum wählen —"), sRoles = roleSel(true), sNot = chSel(TEXTISH, "— Kanal für Meldungen (sonst Panel-Kanal) —");
   // Willkommen
-  const wCh = chSel(TEXTISH), wMsg = h("textarea", { placeholder: "👋 Willkommen {user} auf **{server}**! Mitglied Nr. {count}" }), wRoles = roleSel(true), wLeave = chSel(TEXTISH, "— kein Abschiedskanal —");
+  const wCh = chSel(TEXTISH), wMsg = h("textarea", { placeholder: "Herzlich willkommen {user}! Schön, dass du auf {server} bist – du bist Mitglied Nr. {count}." }), wRoles = roleSel(true), wLeave = chSel(TEXTISH, "— kein Abschiedskanal —");
+  const wImg = h("input", { type: "url", placeholder: "https://… (Banner unter dem Willkommens-Text, optional)" }), wLeaveImg = h("input", { type: "url", placeholder: "https://… (Bild im Abschieds-Embed, optional)" });
+  const wLeaveMsg = h("textarea", { placeholder: "Schade, dass du uns verlässt. 💙 Mach's gut, {name}!" });
   // Join-to-Create
   const jVc = chSel(VOICEISH, "— Auslöser-Sprachkanal —"), jCat = catSel("— Kategorie der neuen Calls —");
   // Bewerbungen
@@ -364,18 +461,35 @@ function tabSystems() {
   return h("div", { class: "stack" },
     card("🎫 Ticket-System", "Sendet ein Ticket-Panel in den „Kanal für Panels“. Mitglieder öffnen per Knopf private Ticket-Kanäle.",
       lab("Kategorie für Tickets", tCat), lab("Support-Rollen (Mehrfachauswahl: Strg/Cmd)", tRoles), lab("Log-/Transkript-Kanal (optional)", tLog),
-      h("div", { class: "row" }, btn("Einrichten & Panel senden", () => { const r = vals(tRoles); if (need(tCat.value && r.length, "Kategorie und mindestens eine Support-Rolle wählen.")) run(P.ticket(tCat.value, r, tLog.value)); }))),
+      lab("Ticket-Bereiche im Auswahlmenü (Komma-getrennt, leer = Standard)", tTopics), h("div", { class: "two" }, lab("Max. offene Tickets pro Bereich", tMax), lab("Bild unter dem Panel", tImg)),
+      h("div", { class: "row" }, btn("Einrichten & Panel senden", async () => {
+        const r = vals(tRoles), topics = tTopics.value.split(/[,;|]+/).map(x => x.trim()).filter(Boolean), mx = parseInt(tMax.value, 10), img = tImg.value.trim();
+        if (!need(tCat.value && r.length, "Kategorie und mindestens eine Support-Rolle wählen.")) return;
+        if (topics.length) await run(P.topics(topics)); if (mx > 0) await run(P.max(mx)); if (img) await run(P.img("ticket", img));
+        await run(P.ticket(tCat.value, r, tLog.value));
+      }))),
     card("✅ Verifikation", "Rechenaufgabe per Knopf; richtige Antwort vergibt/entzieht Rollen.",
-      lab("Kanal für das Verifikations-Panel", vCh), h("div", { class: "two" }, lab("Rollen, die man bekommt", vAdd), lab("Rollen, die man verliert", vRem)),
-      h("div", { class: "row" }, btn("Einrichten & Panel senden", () => { const a = vals(vAdd); if (need(vCh.value && a.length, "Kanal und mindestens eine Rolle zum Hinzufügen wählen.")) run(P.verify(vCh.value, a, vals(vRem))); }))),
-    card("🎧 Support-Warteraum", "Betritt jemand den Warteraum, werden die Team-Rollen gepingt und Jarvis begrüßt im Call.",
+      lab("Kanal für das Verifikations-Panel", vCh), h("div", { class: "two" }, lab("Rollen, die man bekommt", vAdd), lab("Rollen, die man verliert", vRem)), lab("Bild im Panel", vImg),
+      h("div", { class: "row" }, btn("Einrichten & Panel senden", async () => {
+        const a = vals(vAdd), img = vImg.value.trim();
+        if (!need(vCh.value && a.length, "Kanal und mindestens eine Rolle zum Hinzufügen wählen.")) return;
+        if (img) await run(P.img("verifikation", img));
+        await run(P.verify(vCh.value, a, vals(vRem)));
+      }))),
+    card("🎧 Support-Warteraum", "Betritt jemand den Warteraum, werden die Team-Rollen gepingt und C.O.R.E. begrüßt im Call.",
       lab("Warteraum (Sprachkanal)", sVc), lab("Team-Rollen", sRoles), lab("Meldungs-Kanal", sNot),
       h("div", { class: "row" }, btn("Speichern", () => { const r = vals(sRoles); if (need(sVc.value && r.length, "Warteraum und mindestens eine Team-Rolle wählen.")) run(P.support(sVc.value, r, sNot.value)); }))),
     card("👋 Willkommen & Abschied", "Platzhalter: {user} {name} {server} {count}",
-      lab("Willkommens-Kanal", wCh), lab("Text (leer = Standard)", wMsg), lab("Auto-Rollen für Neue", wRoles), lab("Abschieds-Kanal", wLeave),
-      h("div", { class: "row" }, btn("Speichern", () => { if (need(wCh.value, "Willkommens-Kanal wählen.")) run(P.welcome(wCh.value, wMsg.value.trim().replace(/\n+/g, " "), vals(wRoles), wLeave.value)); }),
+      lab("Willkommens-Kanal", wCh), lab("Text (leer = schöner Standard-Text)", wMsg), lab("Banner-Bild", wImg), lab("Auto-Rollen für Neue", wRoles), lab("Abschieds-Kanal", wLeave),
+      lab("Abschieds-Text (leer = Standard)", wLeaveMsg), lab("Abschieds-Bild", wLeaveImg),
+      h("div", { class: "row" }, btn("Speichern", async () => {
+        if (!need(wCh.value, "Willkommens-Kanal wählen.")) return;
+        const img = wImg.value.trim(), limg = wLeaveImg.value.trim(), lmsg = wLeaveMsg.value.trim().replace(/\n+/g, " ");
+        await run(P.welcome(wCh.value, wMsg.value.trim().replace(/\n+/g, " "), vals(wRoles), wLeave.value));
+        if (img) await run(P.img("willkommen", img)); if (limg) await run(P.img("abschied", limg)); if (lmsg) await run(P.text("abschied", lmsg));
+      }),
         btn("Test-Nachricht", () => run("willkommen test"), "sec"))),
-    card("➕ Join-to-Create", "Wer den Auslöser-Kanal betritt, bekommt einen eigenen Call mit Jarvis-Panel; leer = wird gelöscht.",
+    card("➕ Join-to-Create", "Wer den Auslöser-Kanal betritt, bekommt einen eigenen Call mit C.O.R.E.-Panel; leer = wird gelöscht.",
       lab("Auslöser-Sprachkanal", jVc), lab("Kategorie", jCat),
       h("div", { class: "row" }, btn("Speichern", () => { if (need(jVc.value, "Auslöser-Kanal wählen.")) run(P.jtc(jVc.value, jCat.value)); }))),
     card("📝 Bewerbungen", "Bewerbungsformular mit eigenen Fragen; Team prüft im Prüf-Kanal (annehmen/ablehnen).",
@@ -384,10 +498,44 @@ function tabSystems() {
         btn("CSV-Export", () => run("bewerbung export"), "sec")),
       lab("Fragen ändern", aQ), h("div", { class: "row" }, btn("Fragen speichern", () => { const q = aQ.value.split("\n").map(x => x.trim()).filter(Boolean); if (need(q.length, "Mindestens eine Frage.")) run(P.questions(q)); }), btn("Fragen anzeigen", () => run("bewerbung fragen"), "sec"))));
 }
+const LOGCATS = [["members", "mitglieder", "Mitglieder"], ["moderation", "moderation", "Moderation"], ["roles", "rollen", "Rollen"], ["channels", "kanäle", "Kanäle"], ["messages", "nachrichten", "Nachrichten"], ["voice", "sprache", "Sprache"]];
+P.botlog = ch => `botlog kanal <#${ch}>`;
+P.botlogCats = picked => "botlog kategorien " + (picked.length === LOGCATS.length || !picked.length ? "alle" : picked.join(" "));
+P.formCreate = n => `erstelle bewerbung "${n.replace(/"/g, "'")}"`;
+P.formCmd = (n, rest) => `bewerbung "${n.replace(/"/g, "'")}" ${rest}`;
+function tabBotLog() {
+  const ch = chSel(TEXTISH, "— Log-Kanal wählen —"), boxes = LOGCATS.map(c => ({ word: c[1], label: c[2], cb: h("input", { type: "checkbox", checked: true }) }));
+  const on = async () => {
+    if (!need(ch.value, "Log-Kanal wählen.")) return;
+    await run(P.botlog(ch.value)); await run(P.botlogCats(boxes.filter(b => b.cb.checked).map(b => b.word)));
+  };
+  return card("📜 Bot-Log", "Alles, was auf dem Server passiert, wird in einen Kanal geschrieben: Beitritte/Austritte mit Memberanzahl, Rollenänderungen, Timeouts, Kicks/Bans, Kanäle, Sprache, Nachrichten.",
+    lab("Log-Kanal", ch), h("label", { class: "f" }, "Was soll protokolliert werden?"), h("div", { class: "row" }, boxes.map(b => h("label", {}, b.cb, " " + b.label))),
+    h("div", { class: "row" }, btn("Aktivieren / Speichern", on), btn("Test-Nachricht", () => run("botlog test"), "sec"), btn("Status", () => run("botlog"), "sec"), btn("Ausschalten", () => run("botlog aus"), "bad")));
+}
+function tabForms() {
+  const name = h("input", { type: "text", placeholder: "Formular-Name, z. B. Server Team" }), ch = chSel(TEXTISH, "— Prüfkanal (hier landen die Bewerbungen) —");
+  const acc = roleSel(true), rev = roleSel(true), q = h("textarea", { placeholder: "Eine Frage pro Zeile (bis zu 20)" }), N = () => name.value.trim();
+  return card("📝 Bewerbungs-Formulare", "Beliebig viele Formulare pro Server: erstellen, bearbeiten, löschen. Jede Bewerbung erscheint mit allen Antworten und Infos im Prüfkanal – Team nimmt an oder lehnt mit Grund ab.",
+    lab("Formular", name, "Mit einem neuen Namen „Erstellen“; mit einem vorhandenen Namen alles andere."), lab("Prüfkanal", ch),
+    h("div", { class: "two" }, lab("Rollen bei Annahme", acc), lab("Prüf-Rollen", rev)), lab("Fragen", q),
+    h("div", { class: "row" },
+      btn("Erstellen", () => { if (need(N(), "Namen angeben.")) run(P.formCreate(N())); }),
+      btn("Prüfkanal setzen", () => { if (need(N() && ch.value, "Name und Prüfkanal wählen.")) run(P.formCmd(N(), `kanal <#${ch.value}>`)); }, "sec"),
+      btn("Annahme-Rollen", () => { const r = vals(acc); if (need(N() && r.length, "Name und Rollen wählen.")) run(P.formCmd(N(), "rollen " + r.map(x => `<@&${x}>`).join(" "))); }, "sec"),
+      btn("Prüf-Rollen", () => { const r = vals(rev); if (need(N() && r.length, "Name und Rollen wählen.")) run(P.formCmd(N(), "prüfrollen " + r.map(x => `<@&${x}>`).join(" "))); }, "sec"),
+      btn("Fragen speichern", () => { const l = q.value.split("\n").map(x => x.trim()).filter(Boolean); if (need(N() && l.length, "Name und Fragen angeben.")) run(P.formCmd(N(), "fragen setzen: " + l.join(" | "))); }, "sec")),
+    h("div", { class: "row" },
+      btn("Panel senden", () => { if (need(N(), "Namen angeben.")) run(P.formCmd(N(), "panel")); }),
+      btn("Export (CSV)", () => { if (need(N(), "Namen angeben.")) run(P.formCmd(N(), "export")); }, "sec"),
+      btn("Alle Formulare", () => run("bewerbung liste"), "sec"),
+      btn("Löschen", () => { if (need(N(), "Namen angeben.") && confirmBox("Formular wirklich löschen?")) run(`lösche bewerbung "${N().replace(/"/g, "'")}"`); }, "bad")));
+}
+function tabSystems() { return h("div", { class: "stack" }, tabSystemsBase(), tabBotLog(), tabForms()); }
 function tabSecurity() {
   const wl = roleSel(false, "— Rolle wählen —");
   return h("div", { class: "stack" },
-    card("🛡️ Anti-Nuke", "Schützt vor Massen-Löschen/-Bannen. Nur der Server-Inhaber darf ihn schalten (Discord-Regel von Jarvis).",
+    card("🛡️ Anti-Nuke", "Schützt vor Massen-Löschen/-Bannen. Nur der Server-Inhaber darf ihn schalten (Discord-Regel von C.O.R.E.).",
       h("p", {}, "Zurzeit: ", h("span", { class: S.guild.antinuke.enabled ? "ok" : "bad" }, S.guild.antinuke.enabled ? "AN" : "AUS")),
       h("div", { class: "row" }, btn("Einschalten", () => run(P.nuke(true))), btn("Ausschalten", () => run(P.nuke(false)), "sec"))),
     card("Whitelist-Rollen", "Mitglieder dieser Rollen dürfen trotz Anti-Nuke verwalten.",
@@ -457,8 +605,8 @@ function tabModeration() {
 /* ---------- Als Bot schreiben ---------- */
 const EMB = { fields: [] };
 function tabSend() {
-  const ch = chSel(TEXTISH.concat(VOICEISH), "— Kanal wählen —"), content = h("textarea", { placeholder: "Nachricht (bis 2000 Zeichen)" });
-  const eOn = h("input", { type: "checkbox" }), eTitle = h("input", { type: "text", placeholder: "Titel" }), eDesc = h("textarea", { placeholder: "Beschreibung (Markdown)" });
+  const ch = chSel(TEXTISH.concat(VOICEISH), "— Kanal wählen —"), content = h("textarea", { placeholder: "Nachricht (bis 2000 Zeichen)", maxlength: 2000 });
+  const eOn = h("input", { type: "checkbox" }), eTitle = h("input", { type: "text", placeholder: "Titel" }), eDesc = h("textarea", { placeholder: "Beschreibung (Markdown, bis 4000 Zeichen)", maxlength: 4000 });
   const eColor = h("input", { type: "color", value: "#5865f2" }), eFoot = h("input", { type: "text", placeholder: "Fußzeile" }), eAuth = h("input", { type: "text", placeholder: "Autor-Zeile" });
   const eThumb = h("input", { type: "url", placeholder: "Thumbnail-URL (https://…)" }), eImg = h("input", { type: "url", placeholder: "Bild-URL (https://…)" });
   const reply = h("input", { type: "text", placeholder: "Nachrichten-ID zum Antworten (optional)" }), pings = h("input", { type: "checkbox" });
@@ -508,13 +656,257 @@ function tabConsole() {
     if (file.files && file.files[0]) { if (file.files[0].size > 6 * 1024 * 1024) return toast("Datei max. 6 MB.", true); extra = { file: { name: file.files[0].name, data_base64: await fileToB64(file.files[0]) } }; }
     run(cmd.value.trim(), extra);
   };
-  return h("div", { class: "stack" }, card("⌨️ Befehls-Konsole", "Alles, was du in Discord mit /jarvis tippst, geht auch hier – inkl. Fragen an die KI und Dateien (PDF/Word/Excel erstellen oder umschreiben).",
+  return h("div", { class: "stack" }, card("⌨️ Befehls-Konsole", "Alles, was du in Discord mit /core tippst, geht auch hier – inkl. Fragen an die KI und Dateien (PDF/Word/Excel erstellen oder umschreiben).",
     lab("Befehl", cmd), lab("Datei anhängen (optional)", file), h("div", { class: "row" }, btn("Ausführen", go), btn("Hilfe", () => run("hilfe"), "sec"), btn("Status", () => run("status"), "sec"),
-      btn("Jarvis in meinen Call", () => run("join"), "sec"), btn("Call verlassen", () => run("leave"), "sec")),
-    h("div", { class: "hint" }, "„Jarvis in meinen Call“ klappt nur, wenn du gerade in einem Sprachkanal bist.")));
+      btn("C.O.R.E. in meinen Call", () => run("join"), "sec"), btn("Call verlassen", () => run("leave"), "sec")),
+    h("div", { class: "hint" }, "„C.O.R.E. in meinen Call“ klappt nur, wenn du gerade in einem Sprachkanal bist.")));
 }
-const TABS = [["overview", "📊 Übersicht", tabOverview], ["systems", "🧩 Systeme", tabSystems], ["security", "🛡️ Sicherheit", tabSecurity], ["templates", "💾 Vorlagen", tabTemplates],
-  ["server", "🛠️ Server", tabServer], ["moderation", "⚠️ Moderation", tabModeration], ["send", "✉️ Als Bot schreiben", tabSend], ["console", "⌨️ Konsole", tabConsole], ["legal", "📄 AGB & Datenschutz", tabLegal]];
+/* ---------- Erweiterung (core_modules.py): Daten + Bausteine ----------
+   Alles läuft über dieselben Textbefehle wie in Discord (/core …). Die Übersichtsdaten kommen read-only von /api/guilds/<id>/extra. */
+S.extra = null; S.extraBusy = false; S.stale = false;
+const XTABS = ["modules", "fun", "community", "automod", "wiki", "team", "feeds", "ki", "rules", "stats"];
+function loadExtra() {
+  if (S.extraBusy || (S.extra !== null && !S.stale) || !S.gid) return;
+  S.extraBusy = true; S.stale = false; const gid = S.gid;
+  api("/api/guilds/" + gid + "/extra").then(r => {
+    S.extraBusy = false; if (S.gid !== gid) return;
+    S.extra = r.ok ? r : { plugin: false, error: r.error };
+    if (XTABS.includes(S.tab)) render();
+  });
+}
+function xwrap(build) {
+  loadExtra();
+  const d = S.extra;
+  if (d === null) return card("⏳ lädt …", "Die Daten der Erweiterung werden geholt.");
+  if (!d.plugin) return card("Erweiterung nicht geladen", d.error || "Auf dem Bot fehlt die Datei core_modules.py (neben main.py). Mit ihr gibt es Spiele, Level, Wirtschaft, Umfragen, Automod, Statistik, Wiki, Team-Werkzeuge und mehr.");
+  return build(d);
+}
+const C_ = id => "<#" + id + ">", R_ = id => "<@&" + id + ">";
+const fmtTime = s => new Date(Number(s) * 1000).toLocaleString("de-DE", { dateStyle: "short", timeStyle: "short" });
+const roleName = id => (S.guild.roles.find(r => r.id === String(id)) || { name: "Rolle " + id }).name;
+const chanName = id => { const c = S.guild.channels.find(x => x.id === String(id)); return c ? "#" + c.name : "Kanal " + id; };
+const ON = v => h("span", { class: v ? "ok" : "bad" }, v ? "AN" : "AUS");
+
+function quick(title, desc, items) {   // Reihe von Knöpfen: [Beschriftung, Befehl, Stil, Bestätigungstext?]
+  return card(title, desc, h("div", { class: "row" }, items.map(i => btn(i[0], () => { if (i[3] && !confirmBox(i[3])) return; run(i[1]); }, i[2] || "sec"))));
+}
+function xform(title, desc, fields, buttons) {  // Eingabefelder + Knöpfe, die daraus einen Textbefehl bauen
+  const els = {};
+  const rows = fields.map(f => {
+    let el;
+    if (f.t === "ch") el = chSel(TEXTISH, f.empty || "— Kanal wählen —");
+    else if (f.t === "role") el = roleSel(false, f.empty || "— Rolle wählen —");
+    else if (f.t === "sel") el = h("select", {}, f.opts.map(o => h("option", { value: o[0] }, o[1])));
+    else if (f.t === "area") el = h("textarea", { placeholder: f.ph || "" });
+    else if (f.t === "num") el = h("input", { type: "number", placeholder: f.ph || "", value: f.v != null ? String(f.v) : null });
+    else el = h("input", { type: "text", placeholder: f.ph || "" });
+    els[f.k] = el; return lab(f.l, el, f.hint);
+  });
+  const val = () => { const o = {}; for (const k in els) o[k] = String(els[k].value || "").trim(); return o; };
+  const bs = buttons.map(b => btn(b.t, () => { const cmd = b.f(val()); if (cmd) { if (b.sure && !confirmBox(b.sure)) return; run(cmd); } }, b.c || ""));
+  return card(title, desc, rows.length ? h("div", { class: fields.length > 2 ? "two" : "" }, rows) : null, h("div", { class: "row" }, bs));
+}
+const pills = (arr, empty) => arr.length ? h("div", { class: "row" }, arr.map(x => h("span", { class: "pill" }, x))) : h("p", { class: "hint" }, empty || "Noch nichts da.");
+function bars(days, key, color) {
+  const max = Math.max(1, ...days.map(d => d[key]));
+  return h("div", { style: "display:flex;align-items:flex-end;gap:3px;height:70px" }, days.map(d =>
+    h("div", { title: d.day + ": " + d[key], style: "flex:1;min-width:6px;border-radius:3px 3px 0 0;background:" + color + ";height:" + Math.max(3, Math.round(70 * d[key] / max)) + "px" })));
+}
+const need2 = (v, msg) => { if (!v) { toast(msg, true); return false; } return true; };
+
+/* ---------- Tab: Module & Verwaltung ---------- */
+function tabModules() {
+  return xwrap(d => {
+    const rows = Object.entries(d.modules).map(([k, m]) => h("tr", {}, h("td", {}, h("b", {}, k)), h("td", { class: "hint" }, m.desc + (m.needs && m.needs.length ? " · braucht: " + m.needs.join(", ") : "")),
+      h("td", {}, ON(m.on)), h("td", {}, btn(m.on ? "Ausschalten" : "Einschalten", () => run("modul " + k + (m.on ? " aus" : " an")), "sm " + (m.on ? "sec" : "")))));
+    return h("div", { class: "stack" },
+      card("🧩 Module", "Jedes Modul lässt sich pro Server ein- und ausschalten. Ausgeschaltete Module reagieren auf nichts.", h("table", {}, rows)),
+      quick("🔎 Diagnose & Verwaltung", "Alle Ergebnisse erscheinen unten im Protokoll.", [["Selbstdiagnose", "selbstdiagnose"], ["Ressourcen", "ressourcen"], ["Fehlerbericht", "fehlerbericht"], ["Änderungsverlauf", "änderungsverlauf"], ["Sicherheitswert", "sicherheitswert"], ["Rechte-Scan", "rechte-scan"], ["Rechte-Test", "rechte-test"]]),
+      card("🌐 Öffentliches Dashboard", "Zeigt ohne Anmeldung nur Mitgliederzahl, Nachrichten der Woche und kommende Events – keine Namen, keine IDs. Abrufbar unter /api/public/" + S.gid + ".",
+        h("p", {}, "Zurzeit: ", ON(d.public_dashboard)), h("div", { class: "row" }, btn("An", () => run("öffentliches dashboard an")), btn("Aus", () => run("öffentliches dashboard aus"), "sec"))),
+      xform("⚖️ Konfiguration vergleichen", "Vergleicht die Einstellungen dieses Servers mit einem anderen, auf dem du auch Verwalter bist.", [{ k: "id", l: "Server-ID des anderen Servers", ph: "123456789012345678" }],
+        [{ t: "Vergleichen", f: v => need2(isId(v.id), "Server-ID eingeben.") && "konfig vergleichen " + v.id }]),
+      card("🐞 Letzte Fehler", "Nur im Arbeitsspeicher, nie auf der Festplatte.", (d.errors || []).length ? h("table", {}, d.errors.map(e => h("tr", {}, h("td", {}, e.code), h("td", {}, e.where), h("td", { class: "hint" }, e.error)))) : h("p", { class: "hint ok" }, "Keine Fehler seit dem letzten Start. ✅")));
+  });
+}
+
+/* ---------- Tab: Spaß & Wirtschaft & Level ---------- */
+function tabFun() {
+  return xwrap(d => h("div", { class: "stack" },
+    card("🎮 Spiele", "Die Spiele laufen mit Knöpfen direkt in Discord – am einfachsten mit /core-spiele. Hier siehst du, was aktiv ist.",
+      pills(d.games.map(g => g.name)), h("div", { class: "row" }, btn("Spiele-Liste", () => run("spiele"), "sec"), btn("Rangliste Siege", () => run("top siege"), "sec"), btn("Rangliste Münzen", () => run("top münzen"), "sec"), btn("Rangliste Level", () => run("top level"), "sec"))),
+    card("🏆 Top 10 (XP)", "Nutzer-IDs, weil die Webseite keine Namen aus Discord lädt.",
+      d.top.length ? h("table", {}, h("tr", {}, h("th", {}, "#"), h("th", {}, "Nutzer-ID"), h("th", {}, "Level"), h("th", {}, "XP"), h("th", {}, "Münzen")),
+        d.top.map((t, i) => h("tr", {}, h("td", {}, i + 1), h("td", { class: "hint" }, t.uid), h("td", {}, t.level), h("td", {}, t.xp), h("td", {}, t.coins)))) : h("p", { class: "hint" }, "Noch keine Aktivität.")),
+    card("🛒 Shop", "Eigene Belohnungen, die Mitglieder mit Münzen kaufen können (optional mit Rolle).",
+      d.shop.length ? h("table", {}, d.shop.map(i => h("tr", {}, h("td", {}, i.name), h("td", {}, i.price + " 🪙"), h("td", { class: "hint" }, i.role ? "Rolle: " + roleName(i.role) : "Gegenstand"),
+        h("td", {}, btn("Entfernen", () => run(`shop entfernen "${i.name}"`), "sm bad"))))) : h("p", { class: "hint" }, "Noch keine eigenen Artikel."),
+      h("div", { class: "row" }, btn("Shop anzeigen", () => run("shop"), "sec sm"))),
+    xform("➕ Shop-Artikel hinzufügen", "Rolle ist optional. Gleicher Name ersetzt den alten Artikel.", [{ k: "n", l: "Name", ph: "VIP-Rolle" }, { k: "p", l: "Preis in Münzen", t: "num", ph: "5000" }, { k: "r", l: "Rolle (optional)", t: "role", empty: "— keine Rolle —" }],
+      [{ t: "Hinzufügen", f: v => need2(v.n && Number(v.p) > 0, "Name und Preis angeben.") && `shop hinzufügen "${v.n.replace(/"/g, "'")}" ${Math.floor(Number(v.p))}` + (v.r ? " " + R_(v.r) : "") }]),
+    card("⭐ Level-System", "Level-Up-Text, Level-Rollen und XP-Multiplikatoren.",
+      h("p", { class: "hint" }, "Level-Up-Nachricht: " + (d.level.message || "Standard")), pills(Object.entries(d.level.roles).sort((a, b) => a[0] - b[0]).map(([l, r]) => "Level " + l + " → " + roleName(r)), "Keine Level-Rollen."),
+      pills(Object.entries(d.level.multipliers).map(([r, m]) => roleName(r) + " ×" + m), "Keine Multiplikatoren.")),
+    xform("💬 Level-Up-Nachricht & Kanal", "Platzhalter: {user} {name} {level} {server}", [{ k: "t", l: "Text", ph: "Glückwunsch {user}, Level {level}! 🎉" }, { k: "c", l: "Kanal für Level-Ups", t: "ch", empty: "— aktueller Kanal —" }],
+      [{ t: "Text speichern", f: v => need2(v.t, "Text eingeben.") && "level nachricht " + v.t }, { t: "Kanal speichern", c: "sec", f: v => "level kanal " + (v.c ? C_(v.c) : "") }]),
+    xform("🎖️ Level-Rolle", "Wer Level X erreicht, bekommt die Rolle automatisch.", [{ k: "l", l: "Ab Level", t: "num", ph: "5" }, { k: "r", l: "Rolle", t: "role" }],
+      [{ t: "Setzen", f: v => need2(Number(v.l) > 0 && v.r, "Level und Rolle wählen.") && `level rolle ${Math.floor(Number(v.l))} ${R_(v.r)}` }, { t: "Entfernen", c: "sec", f: v => need2(Number(v.l) > 0, "Level angeben.") && `level rolle entfernen ${Math.floor(Number(v.l))}` }]),
+    xform("⚡ XP-Multiplikator", "Mitglieder mit dieser Rolle bekommen mehr XP (Faktor 1–5), z. B. Booster oder VIPs.", [{ k: "r", l: "Rolle", t: "role" }, { k: "m", l: "Faktor", t: "num", ph: "2" }],
+      [{ t: "Setzen", f: v => need2(v.r && Number(v.m) >= 1, "Rolle und Faktor wählen.") && `xp multiplikator ${R_(v.r)} ${v.m}` }]),
+    card("💰 Münzregen & Saison", "Münzregen: gelegentlich fällt ein Beutel in aktiven Kanälen. Saison: setzt die Saison-Rangliste zurück (Münzen und Level bleiben).",
+      h("div", { class: "row" }, btn("Münzregen an", () => run("münzregen an")), btn("Münzregen aus", () => run("münzregen aus"), "sec"), btn("Saison beenden", () => { if (confirmBox("Saison wirklich beenden? Die Saison-Rangliste wird zurückgesetzt (Münzen und Level bleiben).")) run("saison beenden"); }, "bad"))),
+    xform("🎯 Server-Mission", "Gemeinsames Ziel: alle sammeln Nachrichten, bei Erfolg gibt es Münzen für die Beteiligten.", [{ k: "g", l: "Ziel (Nachrichten)", t: "num", ph: "1000" }, { k: "c", l: "Münzen pro Person", t: "num", ph: "200" }, { k: "t", l: "Titel", ph: "Wochenziel" }],
+      [{ t: "Mission starten", f: v => need2(Number(v.g) > 0 && Number(v.c) >= 0 && v.t, "Ziel, Münzen und Titel angeben.") && `mission starten ${Math.floor(Number(v.g))} ${Math.floor(Number(v.c))} ${v.t}` }, { t: "Stand", c: "sec", f: () => "mission" }])));
+}
+
+/* ---------- Tab: Community (Umfragen, Events, Vorschläge, Kanäle) ---------- */
+function tabCommunity() {
+  return xwrap(d => h("div", { class: "stack" },
+    card("🗳️ Offene Umfragen", "Umfragen erscheinen im gewählten „Kanal für Panels“ (oben) und laufen mit Knöpfen in Discord.",
+      d.polls.length ? h("table", {}, d.polls.map(p => h("tr", {}, h("td", {}, "#" + p.id), h("td", {}, p.question), h("td", { class: "hint" }, p.ends ? "endet " + fmtTime(p.ends) : "ohne Ende"), h("td", {}, btn("Beenden", () => run("umfrage beenden " + p.id), "sm sec"))))) : h("p", { class: "hint" }, "Keine offene Umfrage.")),
+    xform("➕ Umfrage starten", "2–5 Optionen, durch | getrennt. Leer lassen = Ja/Nein.", [{ k: "q", l: "Frage", ph: "Pizza oder Pasta?" }, { k: "o", l: "Optionen", ph: "Pizza | Pasta | Salat" }, { k: "d", l: "Dauer (optional)", ph: "2h, 1d, 30m" }],
+      [{ t: "Umfrage senden", f: v => need2(v.q, "Frage eingeben.") && "umfrage " + [v.q].concat(v.o ? v.o.split("|").map(s => s.trim()).filter(Boolean) : []).concat(v.d ? ["dauer " + v.d] : []).join(" | ") }]),
+    card("📅 Anstehende Events", "Mitglieder sagen per Knopf zu/ab; vor dem Start erinnert der Bot.",
+      d.events.length ? h("table", {}, d.events.map(e => h("tr", {}, h("td", {}, "#" + e.id), h("td", {}, e.title + (e.team ? " (Team)" : "")), h("td", { class: "hint" }, fmtTime(e.start)),
+        h("td", {}, btn("Teilnehmer", () => run("event teilnehmer " + e.id), "sm sec"), " ", btn("Löschen", () => { if (confirmBox("Event wirklich löschen?")) run("event löschen " + e.id); }, "sm bad"))))) : h("p", { class: "hint" }, "Keine anstehenden Events."),
+      h("div", { class: "row" }, btn("Kalender als .ics", () => run("events export"), "sec sm"), btn("Event-Statistik", () => run("eventstatistik"), "sec sm"))),
+    xform("➕ Event erstellen", "Datum z. B. 24.12. oder „morgen“, Uhrzeit 20:00. Wiederholung in Tagen ist optional.", [{ k: "t", l: "Titel", ph: "Spieleabend" }, { k: "w", l: "Wann", ph: "24.12. 20:00" }, { k: "r", l: "Wiederholen alle … Tage", t: "num", ph: "7" }, { k: "team", l: "Nur Team?", t: "sel", opts: [["", "Für alle"], ["team", "Team-Kalender"]] }],
+      [{ t: "Erstellen", f: v => need2(v.t && v.w, "Titel und Zeitpunkt angeben.") && `${v.team ? "team " : ""}event erstellen "${v.t.replace(/"/g, "'")}" ${v.w}` + (Number(v.r) > 0 ? " wiederkehrend " + Math.floor(Number(v.r)) : "") }]),
+    xform("📣 Kanäle für Automatik-Beiträge", "Wohin der Bot Geburtstage, Tagesplan, Rätsel, Tagesfrage, Berichte und Event-Hinweise schickt (leer + „aus“ schaltet ab).",
+      [{ k: "k", l: "Was", t: "sel", opts: [["geburtstag", "🎂 Geburtstage"], ["tagesplan", "📅 Tagesplan"], ["rätsel", "🧩 Tägliches Rätsel"], ["tagesfrage", "❓ Tagesfrage"], ["bericht", "📊 Berichte"], ["event", "📅 Event-Hinweise"], ["vorschlag", "💡 Vorschläge & Wünsche"]] }, { k: "c", l: "Kanal", t: "ch", empty: "— Kanal —" }],
+      [{ t: "Setzen", f: v => need2(v.c, "Kanal wählen.") && v.k + " kanal " + C_(v.c) }, { t: "Ausschalten", c: "sec", f: v => v.k === "vorschlag" ? (toast("Vorschlags-Kanal bleibt gesetzt – setze einen anderen.", true), null) : v.k + " kanal aus" }]),
+    xform("📜 Regel-Erinnerung", "Postet regelmäßig die Regeln (oder einen anderen Text) in einen Kanal.", [{ k: "c", l: "Kanal", t: "ch" }, { k: "h", l: "Alle … Stunden", t: "num", ph: "24" }, { k: "t", l: "Text", t: "area", ph: "Bitte lest die Regeln! 📜" }],
+      [{ t: "Speichern", f: v => need2(v.c && Number(v.h) >= 1 && v.t, "Kanal, Stunden und Text angeben.") && `regel-erinnerung ${C_(v.c)} alle ${Math.floor(Number(v.h))} stunden: ${v.t}` }, { t: "Ausschalten", c: "sec", f: () => "regel-erinnerung aus" }]),
+    quick("🎂 Weitere Listen", "Zeigt die Ergebnisse im Protokoll.", [["Geburtstage", "geburtstage"], ["Events", "events"], ["Team-Kalender", "team events"]])));
+}
+
+/* ---------- Tab: Automod & Sicherheit ---------- */
+function tabAutomod() {
+  return xwrap(d => {
+    const a = d.automod, s = d.security;
+    const rule = (key, name, label) => h("tr", {}, h("td", {}, label), h("td", {}, ON(a[key])), h("td", {}, btn(a[key] ? "Aus" : "An", () => run("automod " + name + (a[key] ? " aus" : " an")), "sm sec")));
+    return h("div", { class: "stack" },
+      card("🛡️ AutoMod", "Löscht Verstöße, verwarnt und gibt nach mehreren Verstößen einen Timeout. Team und Verwalter sind ausgenommen. Braucht den Message-Content-Intent.",
+        h("p", {}, "Gesamt: ", ON(a.on)), h("div", { class: "row" }, btn("Einschalten", () => run("automod an")), btn("Ausschalten", () => run("automod aus"), "sec"), btn("Status", () => run("automod status"), "sec")),
+        h("table", {}, rule("spam", "spam", "Spam (" + a.spam_count + " Nachrichten in " + a.spam_secs + " s)"), rule("links", "links", "Links" + (a.domains.length ? " (erlaubt: " + a.domains.join(", ") + ")" : "")), rule("invites", "einladungen", "Einladungslinks"),
+          rule("caps", "caps", "Großbuchstaben ab " + a.caps_pct + " %"), rule("mentions", "erwähnungen", "Massen-Erwähnungen ab " + a.mention_max), rule("words", "wörter", "Wortfilter (eigene Wörter: " + a.bad_words.length + ")")),
+        h("p", { class: "hint" }, "Timeout nach " + a.timeout_after + " Verstößen in 10 Minuten. Ignorierte Kanäle: " + (a.ignore_channels.map(chanName).join(", ") || "keine") + " · Ignorierte Rollen: " + (a.ignore_roles.map(roleName).join(", ") || "keine"))),
+      xform("🎚️ Schwellenwerte", "Alle Werte sind ganze Zahlen.", [{ k: "w", l: "Wert", t: "sel", opts: [["spam_count", "Spam: Nachrichten"], ["spam_secs", "Spam: Sekunden"], ["caps_pct", "Caps: Prozent"], ["mention_max", "Erwähnungen: Maximum"], ["timeout_after", "Timeout nach … Verstößen"]] }, { k: "n", l: "Neuer Wert", t: "num", ph: "5" }],
+        [{ t: "Setzen", f: v => need2(Number(v.n) >= 1, "Zahl eingeben.") && `automod wert ${v.w} ${Math.floor(Number(v.n))}` }]),
+      xform("🔗 Erlaubte Domains & Wörter", "Domains: durch Komma getrennt (ersetzt die Liste). Wörter einzeln.", [{ k: "d", l: "Erlaubte Domains", ph: "youtube.com, twitch.tv" }, { k: "w", l: "Verbotenes Wort", ph: "wort" }],
+        [{ t: "Domains setzen", f: v => need2(v.d, "Domains eingeben.") && "automod domains " + v.d }, { t: "Wort hinzufügen", c: "sec", f: v => need2(v.w, "Wort eingeben.") && "automod wort hinzufügen " + v.w }, { t: "Wort entfernen", c: "sec", f: v => need2(v.w, "Wort eingeben.") && "automod wort entfernen " + v.w }]),
+      xform("🙈 Ausnahmen", "Diese Kanäle/Rollen prüft AutoMod nicht.", [{ k: "c", l: "Kanal", t: "ch", empty: "— keiner —" }, { k: "r", l: "Rolle", t: "role", empty: "— keine —" }],
+        [{ t: "Ignorieren", f: v => need2(v.c || v.r, "Kanal oder Rolle wählen.") && "automod ignoriere " + (v.c ? C_(v.c) : "") + " " + (v.r ? R_(v.r) : "") }]),
+      card("🚨 Raid-Schutz & Sicherheit", "Raid-Schutz: " + (s.raid ? "AN" : "AUS") + " (ab " + s.raid_n + " Beitritten in " + s.raid_secs + " s, Aktion: " + s.raid_action + ") · Mindest-Kontoalter: " + (s.min_age_days || "aus") + " Tage · Verbotene Namensteile: " + (s.bad_nicks.join(", ") || "keine"),
+        h("div", { class: "row" }, btn("Raid-Schutz an", () => run("sicherheit raid an")), btn("Raid-Schutz aus", () => run("sicherheit raid aus"), "sec"), btn("Aktion: warnen", () => run("sicherheit raid aktion warnen"), "sec"), btn("Aktion: Timeout", () => run("sicherheit raid aktion timeout"), "sec"), btn("Status", () => run("sicherheit status"), "sec"))),
+      xform("⚙️ Sicherheits-Einstellungen", "Der Sicherheits-Kanal bekommt Raid-Alarme, Audit-Warnungen und AutoMod-Meldungen.", [{ k: "n", l: "Raid ab … Beitritten", t: "num", ph: "8" }, { k: "s", l: "… in Sekunden", t: "num", ph: "30" }, { k: "a", l: "Mindest-Kontoalter (Tage)", t: "num", ph: "7" }, { k: "nick", l: "Verbotener Namensteil", ph: "admin" }, { k: "c", l: "Sicherheits-Kanal", t: "ch" }],
+        [{ t: "Raid-Grenze", f: v => need2(Number(v.n) >= 2 && Number(v.s) >= 5, "Beitritte (≥2) und Sekunden (≥5).") && `sicherheit raid ${Math.floor(Number(v.n))} ${Math.floor(Number(v.s))}` }, { t: "Kontoalter", c: "sec", f: v => need2(v.a !== "", "Tage angeben (0 = aus).") && "sicherheit alter " + Math.floor(Number(v.a)) },
+          { t: "Namen verbieten", c: "sec", f: v => need2(v.nick, "Namensteil eingeben.") && "sicherheit nickname verbiete " + v.nick }, { t: "Namen erlauben", c: "sec", f: v => need2(v.nick, "Namensteil eingeben.") && "sicherheit nickname erlaube " + v.nick }, { t: "Kanal setzen", c: "sec", f: v => need2(v.c, "Kanal wählen.") && "sicherheit kanal " + C_(v.c) }]),
+      quick("🔐 Prüfungen", "Lesender Check deines Servers.", [["Sicherheitswert (0–100)", "sicherheitswert"], ["Rechte-Scan", "rechte-scan"], ["Rechte-Test (Bot)", "rechte-test"]]));
+  });
+}
+
+/* ---------- Tab: Wiki, eigene Befehle, Tutorial ---------- */
+function tabWiki() {
+  return xwrap(d => h("div", { class: "stack" },
+    card("📚 Server-Wiki", "Einträge beantworten Fragen (auch per KI: „wiki frage …“). Leeres Wiki = keine KI-Antwort.", pills(d.wiki, "Noch keine Einträge."),
+      h("div", { class: "row" }, btn("Liste anzeigen", () => run("wiki liste"), "sec sm"))),
+    xform("➕ Eintrag hinzufügen", "Gleiches Stichwort überschreibt den alten Eintrag.", [{ k: "k", l: "Stichwort", ph: "regeln" }, { k: "t", l: "Text", t: "area", ph: "Sei nett zu allen …" }],
+      [{ t: "Speichern", f: v => need2(v.k && v.t && !v.k.includes(":"), "Stichwort (ohne :) und Text angeben.") && `wiki hinzufügen ${v.k}: ${v.t}` }, { t: "Löschen", c: "bad", f: v => need2(v.k, "Stichwort eingeben.") && "wiki löschen " + v.k }]),
+    xform("🔎 Wiki durchsuchen / fragen", null, [{ k: "q", l: "Stichwort oder Frage", ph: "Wie bekomme ich Rollen?" }],
+      [{ t: "Nachschlagen", c: "sec", f: v => need2(v.q, "Eingabe fehlt.") && "wiki " + v.q }, { t: "KI fragen (nur Wiki-Wissen)", f: v => need2(v.q, "Frage eingeben.") && "wiki frage " + v.q }]),
+    card("⌨️ Eigene Befehle", "Mitglieder tippen z. B. „/core hi“ und bekommen deine Antwort. Platzhalter: {user} {server}", pills(d.commands, "Noch keine eigenen Befehle.")),
+    xform("➕ Eigenen Befehl anlegen", "Eingebaute Befehle haben immer Vorrang.", [{ k: "n", l: "Name (ein Wort)", ph: "ip" }, { k: "t", l: "Antwort", t: "area", ph: "Unsere Server-IP: …" }],
+      [{ t: "Anlegen", f: v => need2(v.n && !/\s/.test(v.n) && v.t, "Name (ein Wort) und Antwort angeben.") && `befehl erstellen ${v.n} ${v.t}` }, { t: "Löschen", c: "bad", f: v => need2(v.n, "Name eingeben.") && "befehl löschen " + v.n }]),
+    xform("🎓 Tutorial für Neue", "Schritte durch | getrennt. Mit „automatisch“ bekommen Neue es per DM.", [{ k: "s", l: "Schritte", t: "area", ph: "Willkommen! | Lies die Regeln | Hol dir Rollen" }],
+      [{ t: "Tutorial setzen", f: v => need2(v.s, "Schritte eingeben.") && "tutorial setzen " + v.s }, { t: "Automatisch an", c: "sec", f: () => "tutorial auto an" }, { t: "Automatisch aus", c: "sec", f: () => "tutorial auto aus" }, { t: "Vorschau", c: "sec", f: () => "tutorial" }])));
+}
+
+/* ---------- Tab: Team ---------- */
+function tabTeam() {
+  return xwrap(d => h("div", { class: "stack" },
+    card("👥 Team-Rollen", "Wer eine dieser Rollen hat, darf Aufgaben, Notizen, Fälle und Schichten nutzen.", pills(d.team_roles.map(roleName), "Noch keine Team-Rolle festgelegt.")),
+    xform("➕ Team-Rolle", null, [{ k: "r", l: "Rolle", t: "role" }], [{ t: "Hinzufügen", f: v => need2(v.r, "Rolle wählen.") && "team rolle " + R_(v.r) }, { t: "Entfernen", c: "sec", f: v => need2(v.r, "Rolle wählen.") && "team rolle entfernen " + R_(v.r) }]),
+    card("📋 Offene Aufgaben", null, d.tasks.length ? h("table", {}, d.tasks.map(t => h("tr", {}, h("td", {}, "#" + t.no), h("td", {}, t.text), h("td", { class: "hint" }, t.assignee ? "→ " + t.assignee : "frei"),
+      h("td", {}, btn("Erledigt", () => run("aufgabe fertig " + t.no), "sm"), " ", btn("Löschen", () => run("aufgabe löschen " + t.no), "sm bad"))))) : h("p", { class: "hint" }, "Keine offenen Aufgaben. 🎉")),
+    xform("➕ Aufgabe erstellen", "Mit „automatisch verteilen“ bekommt die Person mit den wenigsten offenen Aufgaben sie.", [{ k: "t", l: "Aufgabe", ph: "Regeln überarbeiten" }, { k: "b", l: "Bis (optional)", ph: "24.12." }, { k: "u", l: "Für Nutzer-ID (optional)", ph: "123456789012345678" }],
+      [{ t: "Erstellen", f: v => need2(v.t, "Aufgabe eingeben.") && "aufgabe erstellen " + v.t + (v.b ? " bis " + v.b : "") + (isId(v.u) ? " für <@" + v.u + ">" : "") }, { t: "Automatisch verteilen", c: "sec", f: v => need2(v.t, "Aufgabe eingeben.") && "aufgabe auto " + v.t + (v.b ? " bis " + v.b : "") }]),
+    xform("🎖️ Team-Rang & Schicht", null, [{ k: "u", l: "Nutzer-ID", ph: "123456789012345678" }, { k: "rang", l: "Rang", ph: "Moderator" }, { k: "tag", l: "Schicht-Tag", t: "sel", opts: [["mo", "Montag"], ["di", "Dienstag"], ["mi", "Mittwoch"], ["do", "Donnerstag"], ["fr", "Freitag"], ["sa", "Samstag"], ["so", "Sonntag"]] }, { k: "zeit", l: "Zeit (von-bis)", ph: "18-22" }],
+      [{ t: "Rang setzen", f: v => need2(isId(v.u) && v.rang, "Nutzer-ID und Rang angeben.") && `teamrang <@${v.u}> ${v.rang}` }, { t: "Meine Schicht eintragen", c: "sec", f: v => need2(/^\d{1,2}\s*-\s*\d{1,2}$/.test(v.zeit), "Zeit wie 18-22 angeben.") && `schicht ${v.tag} ${v.zeit}` }]),
+    quick("📊 Übersichten", "Ergebnisse im Protokoll.", [["Team-Übersicht", "team übersicht"], ["Schichtplan", "schichtplan"], ["Team-Ränge", "team ränge"], ["Notizen", "notizen"], ["Aufgaben", "aufgaben"], ["Fälle", "fälle"]]),
+    xform("📝 Notiz / Fall", "Notizen und Fälle sehen nur Team-Mitglieder.", [{ k: "n", l: "Notiz", ph: "Hat um Hilfe gebeten" }, { k: "u", l: "Fall: Nutzer-ID", ph: "123456789012345678" }, { k: "g", l: "Fall: Grund", ph: "Spam im Chat" }],
+      [{ t: "Notiz speichern", f: v => need2(v.n, "Notiz eingeben.") && "notiz hinzufügen " + v.n }, { t: "Fall eröffnen", c: "sec", f: v => need2(isId(v.u) && v.g, "Nutzer-ID und Grund angeben.") && `fall erstellen <@${v.u}> ${v.g}` }])));
+}
+
+/* ---------- Tab: Feeds & Überwachung ---------- */
+function tabFeeds() {
+  return xwrap(d => h("div", { class: "stack" },
+    card("📡 Feeds", "Neue Beiträge landen automatisch im Kanal (RSS, GitHub-Releases, YouTube).",
+      d.feeds.length ? h("table", {}, d.feeds.map(f => h("tr", {}, h("td", {}, "#" + f.id), h("td", {}, f.kind), h("td", { class: "hint" }, chanName(f.channel)), h("td", {}, btn("Löschen", () => run("feed löschen " + f.id), "sm bad"))))) : h("p", { class: "hint" }, "Keine Feeds.")),
+    xform("➕ Feed hinzufügen", "YouTube braucht die Kanal-ID (UC…), GitHub „besitzer/repository“.", [{ k: "t", l: "Typ", t: "sel", opts: [["rss", "RSS/Atom"], ["github", "GitHub-Releases"], ["github-commits", "GitHub-Commits"], ["youtube", "YouTube"]] }, { k: "z", l: "Adresse / Ziel", ph: "https://… oder besitzer/repo" }, { k: "c", l: "Kanal", t: "ch" }],
+      [{ t: "Hinzufügen", f: v => need2(v.z && v.c, "Ziel und Kanal angeben.") && `feed hinzufügen ${v.t} ${v.z} ${C_(v.c)}` }]),
+    card("🖥️ Statusüberwachung", "Meldet, wenn eine Seite nicht mehr erreichbar ist – und wenn sie wieder da ist.",
+      d.monitors.length ? h("table", {}, d.monitors.map(m => h("tr", {}, h("td", {}, "#" + m.id), h("td", {}, m.url), h("td", {}, m.state === "up" ? "🟢" : (m.state === "down" ? "🔴" : "⚪")), h("td", {}, btn("Löschen", () => run("überwachung löschen " + m.id), "sm bad"))))) : h("p", { class: "hint" }, "Keine Überwachung.")),
+    xform("➕ Seite überwachen", "Nur öffentliche http(s)-Adressen – interne Adressen sind aus Sicherheitsgründen gesperrt.", [{ k: "u", l: "Adresse", ph: "https://meine-seite.de" }, { k: "c", l: "Meldungs-Kanal", t: "ch" }],
+      [{ t: "Überwachen", f: v => need2(/^https?:\/\//i.test(v.u) && v.c, "https://… und Kanal angeben.") && `überwache ${v.u} ${C_(v.c)}` }]),
+    xform("⛏️ Minecraft-Server prüfen", null, [{ k: "s", l: "Serveradresse", ph: "play.example.net" }], [{ t: "Status abfragen", f: v => need2(v.s, "Adresse eingeben.") && "minecraft " + v.s }])));
+}
+
+/* ---------- Tab: KI-Werkzeuge ---------- */
+function tabKi() {
+  return xwrap(d => h("div", { class: "stack" },
+    card("🤖 Server-Stil der KI", "Die KI antwortet auf diesem Server in diesem Ton. Mitglieder können sich privat einen eigenen Charakter wählen (/core ki charakter …). Aktuell: " + d.style,
+      h("div", { class: "row" }, d.styles.map(s => btn(s, () => run("ki stil " + s), "sm " + (s === d.style ? "" : "sec"))))),
+    xform("✍️ Eigener Stil", "Beschreibe in einem Satz, wie die KI sprechen soll.", [{ k: "t", l: "Beschreibung", ph: "Sprich wie ein freundlicher Pirat" }], [{ t: "Eigenen Stil setzen", f: v => need2(v.t, "Beschreibung eingeben.") && "ki stil eigener: " + v.t }]),
+    xform("🧰 KI-Werkzeug", "Die Eingabe geht nur an die KI und wird nicht gespeichert.", [{ k: "w", l: "Werkzeug", t: "sel", opts: [["erkläre", "Erklären (für Laien)"], ["ideen", "Ideen sammeln"], ["code", "Code prüfen"], ["verbessere", "Text verbessern"], ["konflikt", "Konflikt schlichten"], ["admin", "Admin-Tipps zum Server"], ["kategorisiere", "Anfrage kategorisieren"], ["willkommen", "Willkommenstext"], ["rollenspiel", "Rollenspiel (Figur: Text)"]] }, { k: "t", l: "Eingabe", t: "area", ph: "Worum geht es?" }],
+      [{ t: "Ausführen", f: v => need2(v.t, "Eingabe fehlt.") && `ki ${v.w} ${v.t}` }]),
+    xform("📝 Chat zusammenfassen", "Liest die letzten Nachrichten des gewählten Kanals (oben) und fasst sie zusammen. Es wird nichts gespeichert.", [{ k: "n", l: "Wie viele Nachrichten (max. 100)", t: "num", v: 30 }],
+      [{ t: "Zusammenfassen", f: v => "fasse " + Math.max(5, Math.min(100, Math.floor(Number(v.n) || 30))) + " nachrichten zusammen" }]),
+    card("⚙️ KI-Zusatzfunktionen", "Quiz-Fragen von der KI erzeugen lassen und Tages-/Monatsberichte mit KI-Text.",
+      h("div", { class: "row" }, btn("KI-Quiz an", () => run("ki quiz an")), btn("KI-Quiz aus", () => run("ki quiz aus"), "sec"), btn("KI-Bericht an", () => run("ki bericht an")), btn("KI-Bericht aus", () => run("ki bericht aus"), "sec"), btn("Stile anzeigen", () => run("ki stile"), "sec")))));
+}
+
+/* ---------- Tab: Wenn-Dann-Regeln ---------- */
+function tabRules() {
+  const trig = { join: "Mitglied tritt bei", leave: "Mitglied geht", role_add: "Rolle vergeben" };
+  const act = { message: "Nachricht senden", role: "Rolle geben", dm: "Privatnachricht" };
+  return xwrap(d => h("div", { class: "stack" },
+    card("⚙️ Aktive Regeln", "Bis zu 20 Regeln pro Server. Platzhalter in Texten: {user} {name} {server}",
+      d.rules.length ? h("table", {}, d.rules.map(r => h("tr", {}, h("td", {}, "#" + r.id), h("td", {}, "Wenn: " + (trig[r.trigger] || r.trigger)), h("td", {}, "Dann: " + (act[r.action] || r.action)), h("td", {}, btn("Löschen", () => run("regel löschen " + r.id), "sm bad"))))) : h("p", { class: "hint" }, "Noch keine Regeln.")),
+    xform("➕ Neue Regel", "Beispiel: Wenn ein Mitglied beitritt → Nachricht in #willkommen.", [{ k: "w", l: "Wenn …", t: "sel", opts: [["mitglied beitritt", "Mitglied tritt bei"], ["mitglied geht", "Mitglied geht"], ["rolle", "Rolle wird vergeben (unten wählen)"]] }, { k: "rw", l: "… diese Rolle (nur bei „Rolle wird vergeben“)", t: "role", empty: "— keine —" },
+      { k: "a", l: "Dann …", t: "sel", opts: [["nachricht", "Nachricht in Kanal senden"], ["rolle", "Rolle geben"], ["dm", "Privatnachricht (DM)"]] }, { k: "c", l: "Kanal (bei Nachricht)", t: "ch", empty: "— keiner —" }, { k: "ra", l: "Rolle (bei „Rolle geben“)", t: "role", empty: "— keine —" }, { k: "t", l: "Text", t: "area", ph: "Willkommen {user} auf {server}!" }],
+      [{
+        t: "Regel anlegen", f: v => {
+          if (v.w === "rolle" && !v.rw) return toast("Wähle die Rolle, auf die reagiert werden soll.", true), null;
+          const when = v.w === "rolle" ? `rolle ${R_(v.rw)} vergeben` : v.w;
+          let then;
+          if (v.a === "nachricht") { if (!v.c || !v.t) return toast("Kanal und Text angeben.", true), null; then = `nachricht ${C_(v.c)}: ${v.t}`; }
+          else if (v.a === "rolle") { if (!v.ra) return toast("Rolle wählen.", true), null; then = `rolle ${R_(v.ra)} geben`; }
+          else { if (!v.t) return toast("Text angeben.", true), null; then = "dm: " + v.t; }
+          return `regel erstellen wenn ${when} dann ${then}`;
+        }
+      }])));
+}
+
+/* ---------- Tab: Statistik ---------- */
+function tabStats() {
+  return xwrap(d => {
+    const days = d.stats.days, sum = k => days.reduce((a, x) => a + x[k], 0);
+    return h("div", { class: "stack" },
+      card("📈 Letzte 14 Tage", "Es werden nur Zahlen gezählt – nie der Inhalt von Nachrichten.",
+        h("div", { class: "two" }, h("div", {}, h("label", { class: "f" }, "Nachrichten (" + sum("msgs") + ")"), bars(days, "msgs", "var(--acc)")), h("div", {}, h("label", { class: "f" }, "Beitritte (" + sum("joins") + ") · Austritte (" + sum("leaves") + ")"), bars(days, "joins", "var(--ok)"))),
+        h("div", { class: "hint" }, days.length ? days[0].day + " → " + days[days.length - 1].day : "Noch keine Daten.")),
+      quick("📊 Auswertungen im Protokoll", "Heatmap, Kanäle, Mitglieder-Wachstum, Wochenvergleich, Befehle, Berichte.", [["Heatmap", "statistik heatmap"], ["Aktivität", "statistik aktivität"], ["Kanäle", "statistik kanäle"], ["Mitglieder", "statistik mitglieder"], ["Wochenvergleich", "statistik wochenvergleich"], ["Befehle", "statistik befehle"], ["Tagesbericht", "tagesbericht"], ["Monatsbericht", "monatsbericht"], ["Server-Info", "serverinfo"]]),
+      xform("👤 Nutzer nachschlagen", "Nutzer-ID aus Discord (Rechtsklick → ID kopieren).", [{ k: "u", l: "Nutzer-ID", ph: "123456789012345678" }],
+        [{ t: "Statistik", f: v => need2(isId(v.u), "Gültige Nutzer-ID eingeben.") && `nutzer-statistik <@${v.u}>` }, { t: "Info", c: "sec", f: v => need2(isId(v.u), "Gültige Nutzer-ID eingeben.") && `userinfo <@${v.u}>` }, { t: "Level", c: "sec", f: v => need2(isId(v.u), "Gültige Nutzer-ID eingeben.") && `level <@${v.u}>` }]));
+  });
+}
+
+const TABS = [["overview", "📊 Übersicht", tabOverview], ["systems", "🧩 Systeme", tabSystems], ["security", "🛡️ Sicherheit", tabSecurity],
+  ["automod", "🚨 Automod & Schutz", tabAutomod], ["community", "🗳️ Community & Events", tabCommunity], ["fun", "🎮 Spaß, Level & Shop", tabFun], ["wiki", "📚 Wiki & Befehle", tabWiki],
+  ["team", "👥 Team", tabTeam], ["feeds", "📡 Feeds & Status", tabFeeds], ["ki", "🤖 KI-Werkzeuge", tabKi], ["rules", "⚙️ Wenn-Dann-Regeln", tabRules], ["stats", "📈 Statistik", tabStats], ["modules", "🧩 Module & Diagnose", tabModules],
+  ["templates", "💾 Vorlagen", tabTemplates], ["server", "🛠️ Server", tabServer], ["moderation", "⚠️ Moderation", tabModeration], ["send", "✉️ Als Bot schreiben", tabSend], ["console", "⌨️ Konsole", tabConsole],
+  ["legal", "📄 AGB & Datenschutz", tabLegal]];
 
 /* ---------- Ausgabe-Protokoll ---------- */
 function renderMessages(msgs) {
@@ -531,8 +923,239 @@ function renderLog() {
 }
 
 /* ---------- Seiten ---------- */
+async function backendRequest(path, options) {
+  options = options || {};
+  if (!API) return { ok: false, error: "Das sichere Website-Backend ist noch nicht verbunden." };
+  const headers = { "Content-Type": "application/json" };
+  if (options.token) headers.Authorization = "Bearer " + options.token;
+  try {
+    const response = await fetch(API + path, {
+      method: options.method || "GET",
+      headers,
+      body: options.body ? JSON.stringify(options.body) : undefined,
+      cache: "no-store"
+    });
+    const data = (response.headers.get("content-type") || "").includes("application/json") ? await response.json() : {};
+    if (!response.ok) return { ok: false, status: response.status, error: data.error || "Die Anfrage ist fehlgeschlagen." };
+    return data;
+  } catch (error) {
+    return { ok: false, error: "Website-Backend nicht erreichbar." };
+  }
+}
+function applySiteConfig(config) {
+  S.siteConfig = Object.assign({}, DEFAULT_PUBLIC_CONFIG, config || {});
+  const brand = document.getElementById("site-brand");
+  if (brand) brand.replaceChildren(document.createTextNode(S.siteConfig.brandName + " "), h("b", {}, "Dashboard"));
+  document.documentElement.style.setProperty("--acc", S.siteConfig.accentColor || DEFAULT_PUBLIC_CONFIG.accentColor);
+  document.body.style.background = THEME_BACKGROUNDS[S.siteConfig.backgroundTheme] || THEME_BACKGROUNDS.midnight;
+  document.body.style.backgroundAttachment = "fixed";
+  document.title = S.siteConfig.brandName + " Dashboard";
+}
+async function refreshPublicData() {
+  if (!API) {
+    S.publicStatus = null;
+    S.publicUpdatedAt = null;
+    return false;
+  }
+  const [configResult, statusResult] = await Promise.all([
+    backendRequest("/public/config"),
+    backendRequest("/public/status")
+  ]);
+  if (configResult.ok && configResult.config) applySiteConfig(configResult.config);
+  if (statusResult.ok && Array.isArray(statusResult.bots)) {
+    S.publicStatus = statusResult.bots;
+    S.publicUpdatedAt = statusResult.updated_at || null;
+  } else {
+    S.publicStatus = null;
+    S.publicUpdatedAt = null;
+  }
+  if (!S.token) render();
+  return Boolean(statusResult.ok);
+}
+function statusCard(bot) {
+  const row = BOT_ROWS.find(item => item.id === bot.id) || { name: bot.name, icon: "🤖" };
+  const state = API ? (bot.state || "unknown") : "unknown";
+  const labels = { online: "ONLINE", offline: "OFFLINE", setup_needed: "Einrichtung offen", unknown: "Noch nicht verfügbar" };
+  let updated = "Noch keine Meldung";
+  if (bot.updated_at) {
+    const date = new Date(bot.updated_at);
+    if (!Number.isNaN(date.getTime())) updated = "Zuletzt gemeldet " + date.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
+  } else if (state === "setup_needed") updated = "Heartbeat noch nicht eingerichtet";
+  return h("article", { class: "status-card", "data-state": state },
+    h("div", { class: "status-card-top" },
+      h("span", { class: "status-symbol", "aria-hidden": "true" }, row.icon),
+      h("span", { class: "status-pill" }, h("span", { class: "status-dot", "aria-hidden": "true" }), labels[state] || "Wird geprüft")),
+    h("h3", {}, row.name),
+    h("p", { class: "status-meta" }, updated));
+}
+function statusSection() {
+  const bots = S.publicStatus || [];
+  const byId = new Map(bots.map(bot => [bot.id, bot]));
+  const cards = BOT_ROWS.map(row => statusCard(byId.get(row.id) || { id: row.id, name: row.name, state: "unknown" }));
+  const updated = S.publicUpdatedAt ? new Date(S.publicUpdatedAt) : null;
+  const updateText = updated && !Number.isNaN(updated.getTime())
+    ? "Prüfzeit " + updated.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" })
+    : (API ? "Warte auf Statusdaten" : "Status-Backend noch nicht verbunden");
+  return h("section", { class: "home-section", id: "bot-status" },
+    h("div", { class: "home-section-head" },
+      h("div", {}, h("h2", {}, "Bot-Status"), h("p", {}, "Vier Dienste, eine klare Übersicht.")),
+      h("div", {}, h("span", { class: "hint", id: "status-updated" }, updateText), " ",
+        h("button", { class: "status-refresh", type: "button", onclick: async event => {
+          const button = event.currentTarget;
+          button.disabled = true;
+          await refreshPublicData();
+          button.disabled = false;
+        } }, "Aktualisieren"))),
+    !API ? h("p", { class: "hint" }, "Die Live-Anzeige erscheint, sobald das HTTPS-Backend eingerichtet ist.") : null,
+    h("div", { class: "status-grid", "aria-live": "polite" }, cards));
+}
+function teamHeader(title, close) {
+  return h("div", { class: "team-panel-head" },
+    h("h2", { id: "team-title" }, title),
+    btn("Schließen", close, "sec sm"));
+}
+function openTeamPanel() {
+  const root = document.getElementById("team-root");
+  const panel = h("section", { class: "team-panel", role: "dialog", "aria-modal": "true", "aria-labelledby": "team-title" });
+  const close = () => { S.teamToken = null; root.replaceChildren(); };
+  const backdrop = h("div", { class: "team-backdrop", onclick: event => { if (event.target === backdrop) close(); } }, panel);
+  root.replaceChildren(backdrop);
+  if (!API) {
+    panel.replaceChildren(teamHeader("🔒 TEAM", close),
+      h("p", { class: "team-error" }, "Das sichere Backend ist noch nicht eingerichtet. Ein Passwort wird hier bewusst nicht abgefragt oder gespeichert."));
+    return;
+  }
+  if (S.teamToken) loadTeamEditor(panel, close);
+  else renderTeamLogin(panel, close);
+}
+function renderTeamLogin(panel, close, message) {
+  const username = h("input", { type: "text", name: "username", autocomplete: "username", required: true, maxlength: "80" });
+  const password = h("input", { type: "password", name: "password", autocomplete: "current-password", required: true, maxlength: "200" });
+  const error = h("p", { class: "team-error", role: "alert" }, message || "");
+  const form = h("form", { onsubmit: async event => {
+    event.preventDefault();
+    const submit = form.querySelector('button[type="submit"]');
+    submit.disabled = true;
+    error.textContent = "";
+    const result = await backendRequest("/team/login", { method: "POST", body: { username: username.value, password: password.value } });
+    password.value = "";
+    if (!result.ok || !result.token) {
+      error.textContent = result.error || "Anmeldung fehlgeschlagen.";
+      submit.disabled = false;
+      return;
+    }
+    S.teamToken = result.token;
+    await loadTeamEditor(panel, close);
+  } },
+    h("label", { class: "f" }, "Benutzername", username),
+    h("label", { class: "f" }, "Passwort", password),
+    error,
+    h("div", { class: "btn-row" }, h("button", { class: "btn", type: "submit" }, "Anmelden")));
+  panel.replaceChildren(teamHeader("🔒 TEAM", close),
+    h("p", { class: "hint" }, "Nur autorisierte Team-Mitglieder können Website-Einstellungen ändern."),
+    form);
+}
+async function loadTeamEditor(panel, close) {
+  const result = await backendRequest("/team/config", { token: S.teamToken });
+  if (!result.ok || !result.config) {
+    S.teamToken = null;
+    renderTeamLogin(panel, close, result.error || "Anmeldung abgelaufen. Bitte erneut anmelden.");
+    return;
+  }
+  renderTeamEditor(panel, close, result.config);
+}
+function renderTeamEditor(panel, close, config) {
+  const brandName = h("input", { type: "text", maxlength: "48", value: config.brandName });
+  const headline = h("input", { type: "text", maxlength: "100", value: config.headline });
+  const description = h("textarea", { maxlength: "500" }); description.value = config.description;
+  const inviteLabel = h("input", { type: "text", maxlength: "40", value: config.inviteLabel });
+  const inviteUrl = h("input", { type: "url", maxlength: "500", value: config.inviteUrl });
+  const accentColor = h("input", { type: "color", value: config.accentColor });
+  const background = h("select", {});
+  [["midnight", "Mitternacht"], ["ocean", "Ozean"], ["sunset", "Abendrot"], ["forest", "Wald"]].forEach(([value, label]) =>
+    background.append(h("option", { value, selected: value === config.backgroundTheme }, label)));
+  const siteOnline = h("select", {});
+  siteOnline.append(
+    h("option", { value: "online" }, "Website online"),
+    h("option", { value: "maintenance" }, "Wartungsmodus (Inhalte offline)")
+  );
+  siteOnline.value = config.siteOnline ? "online" : "maintenance";
+  const showBots = h("input", { type: "checkbox", checked: config.showBots });
+  const showFeatures = h("input", { type: "checkbox", checked: config.showFeatures });
+  const features = h("textarea", { maxlength: "1000", placeholder: "Eine Funktion pro Zeile" });
+  features.value = (config.features || []).join("\n");
+  const buttonFields = Array.from({ length: 4 }, (_, index) => {
+    const saved = (config.buttons || [])[index] || {};
+    const label = h("input", { type: "text", maxlength: "40", placeholder: "Knopftext" });
+    const url = h("input", { type: "url", maxlength: "500", placeholder: "https://…" });
+    label.value = saved.label || "";
+    url.value = saved.url || "";
+    return { label, url };
+  });
+  const extraButtons = h("fieldset", {}, h("legend", {}, "Zusatzknöpfe"));
+  buttonFields.forEach((field, index) => {
+    extraButtons.append(h("div", { class: "team-panel-grid" },
+      h("label", { class: "f" }, "Knopf " + (index + 1), field.label),
+      h("label", { class: "f" }, "HTTPS-Link", field.url)));
+  });
+  const error = h("p", { class: "team-error", role: "alert" });
+  const save = h("button", { class: "btn", type: "submit" }, "Änderungen speichern");
+  const form = h("form", { onsubmit: async event => {
+    event.preventDefault();
+    save.disabled = true;
+    error.textContent = "";
+    const buttons = buttonFields
+      .map(field => ({ label: field.label.value.trim(), url: field.url.value.trim() }))
+      .filter(field => field.label || field.url);
+    const body = Object.assign({}, config, {
+      brandName: brandName.value,
+      headline: headline.value,
+      description: description.value,
+      inviteLabel: inviteLabel.value,
+      inviteUrl: inviteUrl.value,
+      accentColor: accentColor.value,
+      backgroundTheme: background.value,
+      siteOnline: siteOnline.value === "online",
+      showBots: showBots.checked,
+      showFeatures: showFeatures.checked,
+      features: features.value.split(/\r?\n/).map(line => line.trim()).filter(Boolean),
+      buttons
+    });
+    const result = await backendRequest("/team/config", { method: "POST", token: S.teamToken, body });
+    if (!result.ok) {
+      error.textContent = result.error || "Speichern fehlgeschlagen.";
+      save.disabled = false;
+      return;
+    }
+    applySiteConfig(result.config);
+    await refreshPublicData();
+    toast("Website-Einstellungen gespeichert.");
+    renderTeamEditor(panel, close, result.config);
+  } },
+    h("div", { class: "team-panel-grid" },
+      h("label", { class: "f" }, "Website-Name", brandName),
+      h("label", { class: "f" }, "Hauptüberschrift", headline),
+      h("label", { class: "f" }, "Einladungs-Knopf", inviteLabel),
+      h("label", { class: "f" }, "Einladungslink (HTTPS)", inviteUrl)),
+    h("label", { class: "f" }, "Beschreibung", description),
+    extraButtons,
+    h("fieldset", {},
+      h("legend", {}, "Darstellung und Bereiche"),
+      h("div", { class: "team-panel-grid" },
+        h("label", { class: "f" }, "Akzentfarbe", accentColor),
+        h("label", { class: "f" }, "Hintergrund", background),
+        h("label", { class: "f" }, "Website-Status", siteOnline)),
+      h("label", { class: "check-row" }, showBots, "Bot-Status anzeigen"),
+      h("label", { class: "check-row" }, showFeatures, "Funktionsbereich anzeigen")),
+    h("label", { class: "f" }, "Funktionsliste (eine Zeile pro Eintrag)", features),
+    error,
+    h("div", { class: "btn-row" }, save, btn("Abmelden", () => { S.teamToken = null; renderTeamLogin(panel, close); }, "sec")));
+  panel.replaceChildren(teamHeader("🔒 TEAM · Website bearbeiten", close),
+    h("p", { class: "hint" }, "Du kannst Texte, Farben, Hintergrund-Vorlage, Einladungslinks und sichtbare Bereiche bearbeiten. Hier wird kein beliebiger Code ausgeführt. Der Wartungsmodus blendet Inhalte aus, schaltet aber GitHub Pages selbst nicht ab."),
+    form);
+}
 async function openGuild(id) {
-  S.gid = id; S.guild = null; S.templates = null; render();
+  S.gid = id; S.guild = null; S.templates = null; S.extra = null; S.stale = false; render();
   const r = await api("/api/guilds/" + id);
   if (!r.ok) { toast(r.error || "Server nicht ladbar", true); S.gid = null; render(); return; }
   S.guild = r; const act = S.activity && S.activity.channelId;
@@ -540,25 +1163,41 @@ async function openGuild(id) {
   render();
 }
 function pageLogin() {
+  const config = S.siteConfig || DEFAULT_PUBLIC_CONFIG;
+  const cid = S.clientId, canLogin = !HOSTED_WITHOUT_API && !!cid;
+  const buttons = [{ label: config.inviteLabel, url: config.inviteUrl, primary: true }].concat(config.buttons || []);
+  const featureCards = (config.features || []).map((feature, index) =>
+    h("article", { class: "feature-card" },
+      h("strong", {}, ["🧩", "🛡️", "✨", "🎙️", "⚙️", "📚"][index % 6] + " " + feature),
+      h("span", {}, "Ein Baustein der C.O.R.E.-Werkzeuge für deinen Discord-Server.")));
   return h("div", { class: "stack" },
-    h("div", { class: "center" }, h("p", { class: "big" }, "C.O.R.E. Dashboard"),
-      h("p", { class: "hint" }, "Lade C.O.R.E. auf deinen Discord-Server ein, um Funktionen wie Tickets, Sicherheit, Support und Vorlagen zu nutzen."),
-      h("p", {}, h("a", {
-        class: "btn",
-        href: "https://discord.com/oauth2/authorize?client_id=1560019510499483799&permissions=8&integration_type=0&scope=bot",
-        target: "_blank",
-        rel: "noopener noreferrer"
-      }, "Bot Einladen")),
-      h("p", { class: "hint" }, "Der Einladungslink fordert Administratorrechte an und öffnet Discord in einem neuen Tab.")
-    )
-  );
+    h("div", { class: "public-home" },
+      !config.siteOnline ? h("div", { class: "maintenance-note", role: "status" }, "Die Website befindet sich gerade im Wartungsmodus. Die Statusübersicht bleibt verfügbar.") : null,
+      h("section", { class: "home-hero" },
+        h("span", { class: "home-kicker" }, "🤖 Discord · Community-Werkzeuge"),
+        h("h1", {}, config.headline),
+        h("p", {}, config.description),
+        config.siteOnline ? h("div", { class: "home-actions" }, buttons.map(button => {
+          let url = "";
+          try { const parsed = new URL(button.url); if (parsed.protocol === "https:") url = parsed.href; } catch (_) {}
+          return url ? h("a", { class: button.primary ? "btn" : "btn sec", href: url, target: "_blank", rel: "noopener noreferrer" }, button.label) : null;
+        })) : null),
+      config.showBots ? statusSection() : null,
+      config.showFeatures ? h("section", { class: "home-section" },
+        h("div", { class: "home-section-head" }, h("div", {}, h("h2", {}, "Was C.O.R.E. mitbringt"), h("p", {}, "Werkzeuge für den Alltag deiner Community."))),
+        h("div", { class: "feature-grid" }, featureCards)) : null),
+    h("section", { class: "card center" },
+      h("p", { class: "big" }, "C.O.R.E. Dashboard"),
+      h("p", { class: "hint" }, "Melde dich mit Discord an, um Servereinstellungen, neue Module und Werkzeuge zu verwalten."),
+      canLogin ? btn("Mit Discord anmelden", ev => beginLogin(ev.currentTarget)) : null,
+      !canLogin ? h("p", { class: "hint" }, "Die Dashboard-Anmeldung wird nach dem Eintragen der Cloudflare-Worker-URL in CONFIG.API_BASE verfügbar.") : null,
+      cid ? h("p", {}, h("a", { href: userInstallUrl(cid), target: "_blank", rel: "noopener noreferrer" }, "Bot zu meinem Account hinzufügen (für Aktivitäten in Calls)")) : null,
+      h("p", {}, h("a", { href: pageUrl("befehle.html") }, "📖 Alle Befehle & Dokumentation"))));
 }
-function discordImagesAllowed() {
-  return sessionStorage.getItem("core-consent-discord-images") === "yes";
-}
-function discordImage(url, alt, label, compact) {
+function discordImagesAllowed() { return ssGet("core-consent-discord-images") === "yes"; }
+function discordImage(url, alt, label, compact) {   // Bilder von Discord erst nach Zustimmung laden (Datenschutz-Banner)
   if (discordImagesAllowed()) return h("img", { src: url, alt, loading: "lazy", referrerpolicy: "no-referrer" });
-  return h("span", { class: compact ? "chip-avatar" : "ph", "aria-label": label }, label.slice(0, 2).toUpperCase());
+  return h("span", { class: compact ? "chip-avatar" : "ph", "aria-label": label }, String(label || "?").slice(0, 2).toUpperCase());
 }
 function pageGuilds() {
   if (!S.guilds.length) return h("div", { class: "center" }, h("p", { class: "big" }, "Keine Server gefunden"), h("p", { class: "hint" }, "Du brauchst auf einem Server „Server verwalten“ oder Administrator."));
@@ -585,19 +1224,19 @@ function render(custom) {
   app.replaceChildren(typeof custom === "string" ? h("div", { class: "center" }, custom) : (!S.token ? pageLogin() : (S.gid ? pageGuild() : pageGuilds())));
   renderLog();
 }
-function initializeConsent() {
+function initializeConsent() {   // Datenschutz-Banner: Bilder von Discord bleiben blockiert, bis man zustimmt (gilt nur für diese Sitzung)
   const banner = document.getElementById("consent-banner");
   const options = document.getElementById("consent-options");
   const checkbox = document.getElementById("consent-discord-images");
   const saveButton = document.getElementById("consent-save");
   const saveChoice = allowImages => {
-    sessionStorage.setItem("core-consent-choice", "saved");
-    sessionStorage.setItem("core-consent-discord-images", allowImages ? "yes" : "no");
+    ssSet("core-consent-choice", "saved");
+    ssSet("core-consent-discord-images", allowImages ? "yes" : "no");
     banner.hidden = true;
     render();
   };
   checkbox.checked = discordImagesAllowed();
-  banner.hidden = sessionStorage.getItem("core-consent-choice") === "saved";
+  banner.hidden = ssGet("core-consent-choice") === "saved";
   document.getElementById("consent-essential").addEventListener("click", () => saveChoice(false));
   document.getElementById("consent-customize").addEventListener("click", () => {
     options.hidden = false;
@@ -605,15 +1244,23 @@ function initializeConsent() {
   });
   saveButton.addEventListener("click", () => saveChoice(checkbox.checked));
   document.getElementById("open-consent").addEventListener("click", () => { banner.hidden = false; });
+  const teamButton = document.getElementById("open-team-panel");
+  if (teamButton) teamButton.addEventListener("click", openTeamPanel);
 }
 async function boot() {
-  S.clientId = CONFIG.CLIENT_ID;
+  if (!IN_ACTIVITY) initializeConsent();
+  S.clientId = CONFIG.CLIENT_ID || "";
+  if (IN_ACTIVITY || !S.clientId) {   // nur wenn nötig beim Bot nachfragen (Aktivität oder keine Client-ID eingetragen) – sonst gibt es vor dem Klick auf „Mit Discord anmelden“ keine Verbindung zum Bot
+    render("lädt …");
+    const cfg = await api("/api/config", { noAuth: true }); S.cfg = cfg; S.clientId = S.clientId || cfg.client_id || "";
+  }
   if (IN_ACTIVITY) { render("Verbinde mit Discord …"); return activityBoot(); }
   takeTokenFromHash();
-  if (S.token) { await afterLogin(); } else render();
-  initializeConsent();
+  if (S.token) { render("lädt …"); await afterLogin(); } else render();
+  await refreshPublicData();
+  window.setInterval(refreshPublicData, 30_000);
 }
-window.JarvisUI = { P, md, authUrl, inviteUrl, takeTokenFromHash, run, api, S, h, TABS, openGuild, afterLogin, boot, MiniSDK };
+window.CoreUI = { P, md, authUrl, inviteUrl, takeTokenFromHash, run, api, S, h, TABS, openGuild, afterLogin, boot, MiniSDK, beginLogin, discordImage, initializeConsent };
 boot();
 </script>
 </body>
