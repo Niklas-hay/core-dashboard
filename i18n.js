@@ -319,6 +319,7 @@
     ["Dokumentation", "Documentation", "Documentation", "文档"],
     ["🏠 Startseite & Dashboard", "🏠 Home & dashboard", "🏠 Accueil et tableau de bord", "🏠 首页与控制面板"],
     ["📖 Befehle", "📖 Commands", "📖 Commandes", "📖 命令"],
+    ["Discord-Nutzungsbedingungen", "Discord Terms of Service", "Conditions d’utilisation de Discord", "Discord 服务条款"],
     ["Startseite", "Homepage", "Accueil", "首页"],
     ["Schreibe in Discord /core hilfe oder /core-hilfe – du bekommst die Befehlsliste als Nachricht im Chat.", "In Discord, type {{0}} or {{1}} to receive the command list as a chat message.", "Saisissez {{0}} ou {{1}} dans Discord pour recevoir la liste des commandes dans le chat.", "在 Discord 中输入 {{0}} 或 {{1}}，即可在聊天中收到命令列表。"],
     ["Probiere eine Frage: /core wie spät ist es oder /core erkläre mir Slowmode.", "Try a question: {{0}} or {{1}}.", "Essayez une question : {{0}} ou {{1}}.", "试着提问：{{0}} 或 {{1}}。"],
