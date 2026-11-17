@@ -87,6 +87,7 @@
 
       <h2>12. Cookies und Browser-Speicher</h2>
       <p>Die Dashboard-Seite setzt selbst keine Tracking- oder Werbe-Cookies. Für den OAuth-Schutz wird vorübergehend ein CSRF-Statuswert in sessionStorage abgelegt; das Zugriffstoken selbst bleibt im Arbeitsspeicher. Auch der kurzlebige Team-Zugangsschlüssel bleibt nur im Arbeitsspeicher und wird beim Schließen oder Neuladen der Seite verworfen. Die Entscheidung, ob Discord-Profil- und Serverbilder geladen werden dürfen, sowie die Auswahl „Nur notwendige“ wird für die aktuelle Browser-Sitzung in sessionStorage gemerkt. Diese Werte werden beim Schließen des jeweiligen Browser-Tabs gelöscht.</p>
+      <p>Die von dir gewählte Seitensprache wird unter dem Schlüssel <code>core-dashboard-language</code> in localStorage dieses Browsers gespeichert, damit sie beim nächsten Besuch wiederhergestellt werden kann. Dabei wird kein Konto- oder sonstiges personenbezogenes Profil erstellt.</p>
       <p>Das ist derzeit kein serverseitiges HttpOnly-Session-Cookie: Solange ein Zugriffstoken aktiv im Browser-Arbeitsspeicher liegt, kann es grundsätzlich von anderem JavaScript derselben Seite ausgelesen werden. Ein HttpOnly-Cookie erfordert einen passenden Backend-OAuth-Code-Flow und einen korrekt konfigurierten, erreichbaren Backend-Host. Bis dahin wird der Login bei fehlender Backend-Adresse vor dem Weiterleiten gestoppt.</p>
       <p>Discord kann eigene Cookies oder vergleichbare Technologien verwenden, sobald du nach einem Klick zur Anmeldung auf die Discord-Seite wechselst. Für diese Verarbeitung gelten Discords eigene Datenschutzinformationen. Die C.O.R.E.-Seite erhält keinen Zugriff auf Discord-Cookies.</p>
 
@@ -103,5 +104,6 @@
       <p class="notice"><strong>Wichtiger Hinweis:</strong> Diese Erklärung beschreibt die im vorliegenden Bot-Code erkennbaren Funktionen und Anbieter. Sie ist keine Rechtsberatung und garantiert keine vollständige Rechtskonformität. Vor Veröffentlichung müssen insbesondere die aktuelle Hosting-Konfiguration, Verträge mit Anik und weiteren Dienstleistern, deren tatsächliche Protokoll- und Löschfristen sowie die Rechtsgrundlagen geprüft werden. Ändern sich Anbieter oder Einstellungen, muss diese Erklärung angepasst werden.</p>
     </article>
   </main>
+  <script src="i18n.js"></script>
 </body>
 </html>

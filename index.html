@@ -111,6 +111,10 @@ header nav.top a:hover{background:var(--panel2)}
 .team-panel .check-row{display:flex;gap:10px;align-items:center;margin:8px 0}
 .team-panel .btn-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .team-error{color:var(--bad);font-size:13px}
+.login-panel{position:relative;overflow:hidden;max-width:760px;margin:12px auto;padding:clamp(30px,6vw,62px);border-color:rgba(125,137,255,.35);background:linear-gradient(145deg,rgba(32,39,78,.96),rgba(17,21,39,.96));box-shadow:0 24px 80px rgba(0,0,0,.32),0 0 70px rgba(88,101,242,.12)}
+.login-panel:before{content:"";position:absolute;width:280px;height:280px;right:-110px;top:-150px;border-radius:50%;background:rgba(88,101,242,.18);filter:blur(8px);pointer-events:none}
+.login-panel>*{position:relative}.login-mark{display:grid;place-items:center;width:58px;height:58px;margin:0 auto 18px;border:1px solid rgba(125,137,255,.42);border-radius:18px;background:linear-gradient(145deg,rgba(88,101,242,.32),rgba(30,35,64,.85));font-size:28px;box-shadow:0 10px 30px rgba(88,101,242,.22)}
+.login-panel .big{font-size:clamp(25px,4vw,34px);letter-spacing:-.03em}.login-panel .hint{max-width:580px;margin:10px auto 16px;line-height:1.7}.login-panel .btn{padding:11px 20px;box-shadow:0 8px 25px rgba(88,101,242,.24)}
 @media(max-width:760px){.layout{grid-template-columns:1fr}nav.tabs{flex-direction:row;overflow:auto;position:static}.two{grid-template-columns:1fr}}
 @media(max-width:760px){.status-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.site-footer{margin-top:32px}.footer-row{align-items:flex-start;flex-direction:column}.consent-banner{right:10px;bottom:10px;width:calc(100vw - 20px)}.status-grid,.team-panel-grid{grid-template-columns:1fr}}
@@ -1186,7 +1190,8 @@ function pageLogin() {
       config.showFeatures ? h("section", { class: "home-section" },
         h("div", { class: "home-section-head" }, h("div", {}, h("h2", {}, "Was C.O.R.E. mitbringt"), h("p", {}, "Werkzeuge für den Alltag deiner Community."))),
         h("div", { class: "feature-grid" }, featureCards)) : null),
-    h("section", { class: "card center" },
+    h("section", { class: "card center login-panel" },
+      h("div", { class: "login-mark", "aria-hidden": "true" }, "✦"),
       h("p", { class: "big" }, "C.O.R.E. Dashboard"),
       h("p", { class: "hint" }, "Melde dich mit Discord an, um Servereinstellungen, neue Module und Werkzeuge zu verwalten."),
       canLogin ? btn("Mit Discord anmelden", ev => beginLogin(ev.currentTarget)) : null,
@@ -1263,5 +1268,6 @@ async function boot() {
 window.CoreUI = { P, md, authUrl, inviteUrl, takeTokenFromHash, run, api, S, h, TABS, openGuild, afterLogin, boot, MiniSDK, beginLogin, discordImage, initializeConsent };
 boot();
 </script>
+<script src="i18n.js"></script>
 </body>
 </html>
