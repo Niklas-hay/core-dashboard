@@ -1026,7 +1026,7 @@ function openTeamPanel() {
   root.replaceChildren(backdrop);
   if (!API) {
     panel.replaceChildren(teamHeader("🔒 TEAM", close),
-      h("p", { class: "team-error" }, "Das sichere Backend ist noch nicht eingerichtet. Ein Passwort wird hier bewusst nicht abgefragt oder gespeichert."));
+      h("p", { class: "team-error" }, "Das Panel ist zurzeit nicht verfügbar. Bei Fragen melde dich bitte beim Support."));
     return;
   }
   if (S.teamToken) loadTeamEditor(panel, close);
@@ -1195,7 +1195,7 @@ function pageLogin() {
       h("p", { class: "big" }, "C.O.R.E. Dashboard"),
       h("p", { class: "hint" }, "Melde dich mit Discord an, um Servereinstellungen, neue Module und Werkzeuge zu verwalten."),
       canLogin ? btn("Mit Discord anmelden", ev => beginLogin(ev.currentTarget)) : null,
-      !canLogin ? h("p", { class: "hint" }, "Die Dashboard-Anmeldung wird nach dem Eintragen der Cloudflare-Worker-URL in CONFIG.API_BASE verfügbar.") : null,
+      !canLogin ? h("p", { class: "hint" }, "Das Panel ist zurzeit nicht verfügbar. Bei Fragen melde dich bitte beim Support.") : null,
       cid ? h("p", {}, h("a", { href: userInstallUrl(cid), target: "_blank", rel: "noopener noreferrer" }, "Bot zu meinem Account hinzufügen (für Aktivitäten in Calls)")) : null,
       h("p", {}, h("a", { href: pageUrl("befehle.html") }, "📖 Alle Befehle & Dokumentation"))));
 }
